@@ -123,10 +123,17 @@ public class ModifyShaderOffset : MonoBehaviour
     public Material TileSet;
 
     private List<GameObject> Tiles = new List<GameObject>();
+    private List<LineRenderer> LineRenderers = new List<LineRenderer>();
 
     public Vector2 TileSpacing = new Vector2(1, 1);
 
     public bool WithBlur = false;
+
+    [SerializeField]
+    private bool _ForceRegen = false;
+
+    [SerializeField]
+    private LineRenderer _LineRenderer;
 
     public SodukoBoard TestBoard;
     void Start()
@@ -136,6 +143,8 @@ public class ModifyShaderOffset : MonoBehaviour
         TestBoard = new SodukoBoard();
         TestBoard.InitBoard();
         TestBoard.SerializeBoard("./test.sboard");
+
+        
     }
 
     public int GetValueAt(int x, int y)
@@ -159,7 +168,13 @@ public class ModifyShaderOffset : MonoBehaviour
             Destroy(Tiles[i]);
         }
 
+        for(int i = LineRenderers.Count - 1; i >= 0; i--)
+        {
+            Destroy(LineRenderers[i].gameObject);
+        }
+
         Tiles.Clear();
+        LineRenderers.Clear();
     }
     MaterialPropertyBlock testBlock;
 
@@ -176,6 +191,7 @@ public class ModifyShaderOffset : MonoBehaviour
 
     void Regenerate()
     {
+        // Generate board
         for (int x = 0; x < 9; x++)
         {
             for (int y = 0; y < 9; y++)
@@ -205,15 +221,85 @@ public class ModifyShaderOffset : MonoBehaviour
                 mesh.uv = new Vector2[] { new Vector2(0f, 0f) + tileOffset, new Vector2(th, 0f) + tileOffset, new Vector2(0f, th) + tileOffset, new Vector2(th, th) + tileOffset };
                 mesh.triangles = new int[] { 0, 1, 2, 1, 3, 2 };
                 mf.mesh = mesh;
-                tile.transform.position = tileOffset * 4f;
+                tile.transform.position = (tileOffset + TileSpacing) * _MultiplicationOffset;
 
                 Tiles.Add(tile);
             }
         }
 
-        if(WithBlur)
-            SetRandomBlur();
+        // Place lines
+        DrawGridDividers();
     }
+
+    /// <summary>
+    /// Clones a valid line renderer and draws lines between sodoku squares.
+    /// </summary>
+    private void DrawGridDividers()
+    {
+        if(_LineRenderer == null)
+        {
+            return;
+        }
+
+        // Create 4 unique line renderers for the board dividers.
+        // These are cloned after the LineRenderer template provided by the prefab.
+        for(int i = 0; i < 4; i++)
+        {
+            LineRenderer newLineRenderer = Instantiate(_LineRenderer);
+            LineRenderers.Add(newLineRenderer);
+
+            SodukoGriidSpot a = null, b = null;
+            // blergh
+            switch(i)
+            {
+                case 0:
+                    a = GetGridSpot(0, 3);
+                    b = GetGridSpot(8, 3);
+                    LineRenderers[i].SetPosition(0, (a.transform.position - Vector3.right + (Vector3.down / 1.8f)));
+                    LineRenderers[i].SetPosition(1, (b.transform.position + Vector3.right + (Vector3.down / 1.8f)));
+                    break;
+                case 1:
+                    a = GetGridSpot(0, 6);
+                    b = GetGridSpot(8, 6);
+                    LineRenderers[i].SetPosition(0, (a.transform.position - Vector3.right + (Vector3.down / 1.8f)));
+                    LineRenderers[i].SetPosition(1, (b.transform.position + Vector3.right + (Vector3.down / 1.8f)));
+                    break;
+                case 2:
+                    a = GetGridSpot(3, 0);
+                    b = GetGridSpot(3, 8);
+
+                    LineRenderers[i].SetPosition(0, (a.transform.position) + (Vector3.left / 1.7f) - Vector3.up);
+                    LineRenderers[i].SetPosition(1, (b.transform.position) + (Vector3.left / 1.7f) + Vector3.up);
+                    break;
+                case 3:
+                    a = GetGridSpot(6, 0);
+                    b = GetGridSpot(6, 8);
+
+                    LineRenderers[i].SetPosition(0, (a.transform.position) + (Vector3.left / 1.7f) - Vector3.up);
+                    LineRenderers[i].SetPosition(1, (b.transform.position) + (Vector3.left / 1.7f) + Vector3.up);
+                    break;
+            }
+        }
+
+
+    }
+
+    private SodukoGriidSpot GetGridSpot(int x, int y)
+    {
+        SodukoGriidSpot foundGridSpot = null;
+        Tiles.Find(tiles =>
+        {
+            if((foundGridSpot = tiles.GetComponent<SodukoGriidSpot>()) != null)
+            {
+                if (foundGridSpot.GridSpot.x == x && foundGridSpot.GridSpot.y == y) return foundGridSpot;
+            }
+            return false;
+        });
+        return foundGridSpot; 
+    }
+
+    [SerializeField]
+    float _MultiplicationOffset = 4f;
 
     private Material lastMaterial;
     private bool WasBlur = false;
@@ -221,7 +307,16 @@ public class ModifyShaderOffset : MonoBehaviour
 
     private void Update()
     {
-        if(TileSet != lastMaterial)
+        if(_ForceRegen)
+        {
+            _ForceRegen = true;
+            ClearList();
+            Regenerate();
+            _ForceRegen = false;
+            return;
+        }
+        /*
+        if (TileSet != lastMaterial)
         {
             Debug.Log($"Tiles changed, regenerating...");
             ClearList();
@@ -233,6 +328,7 @@ public class ModifyShaderOffset : MonoBehaviour
             ClearList();
             Regenerate();
         }
+        */
 
         lastMaterial = TileSet;
         WasBlur = WithBlur;
