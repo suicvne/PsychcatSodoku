@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using IgnoreSolutions.Sodoku;
 using SudokuLib;
+using TMPro;
 using UnityEngine;
 using static SudokuLib.Model.Cell;
 
@@ -237,6 +238,22 @@ public class ModifyShaderOffset : MonoBehaviour
 
                 // Set transform position 
                 tile.transform.position = (tileOffset + TileSpacing) * _MultiplicationOffset;
+
+                // TMP Child
+                GameObject tmpParent = new GameObject("TMP");
+                tmpParent.transform.parent = tile.transform;
+                tmpParent.AddComponent<MeshRenderer>();
+                TMP_Text text = tmpParent.AddComponent<TextMeshPro>();
+
+                text.enableAutoSizing = true;
+                text.fontSizeMin = 8f;
+                text.alignment = TextAlignmentOptions.Center;
+                text.margin = new Vector4(10, 2, 10, 2);
+                text.text = $"{gridSpotProperties.DebugValue}";
+
+                tmpParent.transform.localPosition = Vector3.forward;
+                tmpParent.transform.rotation = Quaternion.Euler(0, 180, 0);
+
 
                 // Add our tile to our managed tiles list.
                 Tiles.Add(tile);
