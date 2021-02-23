@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SudokuLib;
 using SudokuLib.Model;
 using UnityEngine;
+using System.Linq;
 
 namespace IgnoreSolutions.Sodoku
 {
@@ -51,6 +52,7 @@ namespace IgnoreSolutions.Sodoku
         [SerializeField]
         Texture _BoardImage;
 
+        [Header("SUDOKULIB")]
         [Header("Stats")]
         [SerializeField] bool _BoardHasValues;
         [SerializeField] bool _BoardGenerated;
@@ -61,6 +63,12 @@ namespace IgnoreSolutions.Sodoku
 
         public SudokuBoard GetSudokuBoard() => b;
         public Texture GetTilesetTexture() => _BoardImage;
+
+        public Cell GetCell(int x, int y)
+        {
+            Cell foundCell = cells.FirstOrDefault(c => (c.Position.Row == x && c.Position.Column == y));
+            return foundCell;
+        }
 
         private void OnValidate()
         {

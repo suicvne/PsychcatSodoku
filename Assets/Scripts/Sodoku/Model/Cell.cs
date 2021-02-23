@@ -11,6 +11,8 @@ namespace SudokuLib.Model
     [DataContract]
     public class Cell
     {
+        [HideInInspector] public string name;
+
         /// <summary>
         /// Row-Column number based position data structure.
         /// </summary>
@@ -43,11 +45,22 @@ namespace SudokuLib.Model
 
         [SerializeField] int _Value, _Index, _GroupNo;
         [SerializeField] RCPosition _Position;
+        
 
         /// <summary>
         /// Cell value.
         /// </summary>
-        public int Value { get => _Value; internal set => _Value = value; }
+        public int Value
+        {
+            get
+            {
+                return _Value;
+            }
+            internal set
+            {
+                _Value = value; name = $"({_Position.Row}, {_Position.Column}) = {value}";
+            }
+        }
 
         /// <summary>
         /// Cell index in which the cell is located in the single-dimensional list.
@@ -77,6 +90,8 @@ namespace SudokuLib.Model
             _Index = index;
             _GroupNo = groupNo;
             _Position = position;
+
+            name = $"({position.Row}, {position.Column}) = {value}";
         }
     }
 }

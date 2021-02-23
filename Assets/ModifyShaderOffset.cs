@@ -136,8 +136,7 @@ public class ModifyShaderOffset : MonoBehaviour
     {
         if(_CurrentLevelData != null)
         {
-            SudokuBoard b = _CurrentLevelData.GetSudokuBoard();
-            return b.GetCell(new RCPosition(x+1, y+1)).Value;
+            return _CurrentLevelData.GetCell(x+1, y+1).Value;
         }
 
         return -2;
@@ -211,7 +210,7 @@ public class ModifyShaderOffset : MonoBehaviour
                 // Adding MeshFilter and MeshRenderer for 3D Rendering
                 MeshFilter mf = tile.AddComponent<MeshFilter>();
                 MeshRenderer mr = tile.AddComponent<MeshRenderer>();
-                tile.name = string.Format("tile_x{0}_y{1}", x, y);
+                tile.name = string.Format("tile_x{0}_y{1}", x+1, y+1);
 
                 // ASSIGNING THE LEVEL TEXTURE
                 mr.material = TileSet;
