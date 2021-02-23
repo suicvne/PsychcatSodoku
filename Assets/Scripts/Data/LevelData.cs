@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using SudokuLib;
 using UnityEngine;
 
 namespace IgnoreSolutions.Sodoku
@@ -50,11 +51,21 @@ namespace IgnoreSolutions.Sodoku
         [SerializeField]
         int[] _Solution;
 
+        SudokuBoard b;
+
         void OnLoad()
         {
             if (_Solution == null || _Solution.Length <= 0)
             {
                 _Solution = new int[TotalGridSize];
+                b = new SudokuBoard();
+
+                int ind = 0;
+                foreach(var c in b.Cells)
+                {
+                    _Solution[ind] = c.Value;
+                    ind++;
+                }
             }
         }
 
