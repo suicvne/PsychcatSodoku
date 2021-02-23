@@ -2,7 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using IgnoreSolutions.Sodoku;
+using SudokuLib;
 using UnityEngine;
+using static SudokuLib.Model.Cell;
 
 [Serializable]
 public class SodukoBoard
@@ -109,57 +112,55 @@ public class SodukoBoard
 
 public class ModifyShaderOffset : MonoBehaviour
 {
-    //[Range(1, 3)]
-    //public int X = 1;
-
-    //[Range(1, 3)]
-    //public int Y = 1;
-    //private Renderer thisRenderer;
-
-    //[SerializeField]
-    //private string Debug = "";
-    
-
     public Material TileSet;
+    public Vector2 TileSpacing = new Vector2(1, 1);
+    public bool WithBlur = false;
+
+    [SerializeField] LevelData _CurrentLevelData;
+    [SerializeField] private bool _ForceRegen = false;
+    [SerializeField] private LineRenderer _LineRenderer;
+    [SerializeField] float _MultiplicationOffset = 4f;
 
     private List<GameObject> Tiles = new List<GameObject>();
     private List<LineRenderer> LineRenderers = new List<LineRenderer>();
 
-    public Vector2 TileSpacing = new Vector2(1, 1);
+    private Material lastMaterial;
+    private bool WasBlur = false;
+    private bool done = false;
 
-    public bool WithBlur = false;
+    private MaterialPropertyBlock testBlock;
 
-    [SerializeField]
-    private bool _ForceRegen = false;
-
-    [SerializeField]
-    private LineRenderer _LineRenderer;
-
-    public SodukoBoard TestBoard;
-    void Start()
-    {
-        Regenerate();
-
-        TestBoard = new SodukoBoard();
-        TestBoard.InitBoard();
-        TestBoard.SerializeBoard("./test.sboard");
-
-        
-    }
+    public int GetValueAt(Vector2Int spot) => GetValueAt(spot.x, spot.y);
 
     public int GetValueAt(int x, int y)
     {
-        if(TestBoard != null)
+        if(_CurrentLevelData != null)
         {
-            return TestBoard.Board[x, y];
+            SudokuBoard b = _CurrentLevelData.GetSudokuBoard();
+            return b.GetCell(new RCPosition(x+1, y+1)).Value;
         }
 
         return -2;
     }
 
-    public int GetValueAt(Vector2Int spot) => GetValueAt(spot.x, spot.y);
+    private SodukoGriidSpot GetGridSpot(int x, int y)
+    {
+        SodukoGriidSpot foundGridSpot = null;
+        Tiles.Find(tiles =>
+        {
+            if ((foundGridSpot = tiles.GetComponent<SodukoGriidSpot>()) != null)
+            {
+                if (foundGridSpot.GridSpot.x == x && foundGridSpot.GridSpot.y == y) return foundGridSpot;
+            }
+            return false;
+        });
+        return foundGridSpot;
+    }
 
-
+    void Start()
+    {
+        Regenerate();
+    }
 
     void ClearList()
     {
@@ -176,7 +177,6 @@ public class ModifyShaderOffset : MonoBehaviour
         Tiles.Clear();
         LineRenderers.Clear();
     }
-    MaterialPropertyBlock testBlock;
 
     void SetRandomBlur()
     {
@@ -196,33 +196,50 @@ public class ModifyShaderOffset : MonoBehaviour
         {
             for (int y = 0; y < 9; y++)
             {
+                // Create new tile gameobject
                 GameObject tile = new GameObject();
-                tile.transform.parent = transform;
+                tile.transform.parent = transform; // Set parent to our transform
 
+                // Adding Grid Spot Properties
                 SodukoGriidSpot gridSpotProperties = tile.AddComponent<SodukoGriidSpot>();
                 gridSpotProperties.GridSpot = new Vector2Int(x, y);
                 gridSpotProperties.parent = this;
 
+                // "Debug Value" For now. This will have to be changed later.
                 gridSpotProperties.DebugValue = GetValueAt(x, y);
 
+                // Adding MeshFilter and MeshRenderer for 3D Rendering
                 MeshFilter mf = tile.AddComponent<MeshFilter>();
                 MeshRenderer mr = tile.AddComponent<MeshRenderer>();
                 tile.name = string.Format("tile_x{0}_y{1}", x, y);
+
+                // ASSIGNING THE LEVEL TEXTURE
                 mr.material = TileSet;
+                mr.sharedMaterial.SetTexture("_Tilemap", this._CurrentLevelData.GetTilesetTexture());
+
+                // Creating mesh data.
+                // TODO: Cache this somewhere.
                 Mesh mesh = new Mesh();
                 mesh.vertices = new Vector3[] { new Vector3(-0.5f, -0.5f, 0f), new Vector3(+0.5f, -0.5f, 0f), new Vector3(-0.5f, +0.5f, 0f), new Vector3(+0.5f, +0.5f, 0f) };
                 mesh.normals = new Vector3[] { new Vector3(0f, 0f, 1f), new Vector3(0f, 0f, 1f), new Vector3(0f, 0f, 1f), new Vector3(0f, 0f, 1f) };
-                float th = 1f / 3f;
-                float tileScale = 1 / 3f;
 
+                
+                float th = 1f / 3f; // Tile Height
+                float tileScale = 1 / 3f; // Tile Scale
+
+                // Add mesh collider component & set the shared mesh to the mesh data we've created.
                 tile.AddComponent<MeshCollider>().sharedMesh = mesh;
 
+                // Set the mesh UV offset for image tiling.
                 Vector2 tileOffset = new Vector2((float)x, (float)y) * tileScale;
                 mesh.uv = new Vector2[] { new Vector2(0f, 0f) + tileOffset, new Vector2(th, 0f) + tileOffset, new Vector2(0f, th) + tileOffset, new Vector2(th, th) + tileOffset };
                 mesh.triangles = new int[] { 0, 1, 2, 1, 3, 2 };
                 mf.mesh = mesh;
+
+                // Set transform position 
                 tile.transform.position = (tileOffset + TileSpacing) * _MultiplicationOffset;
 
+                // Add our tile to our managed tiles list.
                 Tiles.Add(tile);
             }
         }
@@ -280,30 +297,7 @@ public class ModifyShaderOffset : MonoBehaviour
                     break;
             }
         }
-
-
     }
-
-    private SodukoGriidSpot GetGridSpot(int x, int y)
-    {
-        SodukoGriidSpot foundGridSpot = null;
-        Tiles.Find(tiles =>
-        {
-            if((foundGridSpot = tiles.GetComponent<SodukoGriidSpot>()) != null)
-            {
-                if (foundGridSpot.GridSpot.x == x && foundGridSpot.GridSpot.y == y) return foundGridSpot;
-            }
-            return false;
-        });
-        return foundGridSpot; 
-    }
-
-    [SerializeField]
-    float _MultiplicationOffset = 4f;
-
-    private Material lastMaterial;
-    private bool WasBlur = false;
-    private bool done = false;
 
     private void Update()
     {

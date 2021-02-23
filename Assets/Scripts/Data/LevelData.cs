@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using SudokuLib;
+using SudokuLib.Model;
 using UnityEngine;
 
 namespace IgnoreSolutions.Sodoku
@@ -45,51 +46,57 @@ namespace IgnoreSolutions.Sodoku
         /// </summary>
         public static int TotalGridSize = (GridSize * GridSize * GridSize * GridSize);
 
+        [SerializeField] Cell[] cells;
+
         [SerializeField]
         Texture _BoardImage;
 
-        [SerializeField]
-        int[] _Solution;
+        [Header("Stats")]
+        [SerializeField] bool _BoardHasValues;
+        [SerializeField] bool _BoardGenerated;
+        [Header("Toggles")]
+        [SerializeField] bool _ForceGenerate;
 
         SudokuBoard b;
 
-        void OnLoad()
+        public SudokuBoard GetSudokuBoard() => b;
+        public Texture GetTilesetTexture() => _BoardImage;
+
+        private void OnValidate()
         {
-            if (_Solution == null || _Solution.Length <= 0)
+            if (_ForceGenerate)
             {
-                _Solution = new int[TotalGridSize];
+                _ForceGenerate = false;
                 b = new SudokuBoard();
 
-                int ind = 0;
-                foreach(var c in b.Cells)
-                {
-                    _Solution[ind] = c.Value;
-                    ind++;
-                }
+                if (b == null || b.Solver == null) throw new Exception(" Could not creeate board. Board or solver were null.");
+                b.Solver.SolveThePuzzle(UseRandomGenerator: true);
+
+                cells = new Cell[b.Cells.Count];
+                b.Cells.CopyTo(cells);
             }
+
+            _BoardGenerated = (b != null);
+            _BoardHasValues = HasAllValues();
+
+            
         }
 
-        void ComputeSolutions()
+        private bool HasAllValues()
         {
-            List<SolutionStep> solutionSteps = new List<SolutionStep>();
+            if (b == null) return false;
 
-            for (int i = 0; i < _Solution.Length; i++)
+            bool hasAllValues = true;
+            foreach (var c in b.Cells)
             {
-                // Get coordinate on grid.
-                int _x, _y;
-                _x = i % GridWidth;
-                _y = i / GridWidth;
-
-                // 
-                float logIndex = Mathf.Log(_Solution[i], 2) + 1;
-
-                if (logIndex == Mathf.Floor(logIndex) && _Solution[i] == 0)
+                if (c.Value == -1)
                 {
-                    solutionSteps.Add(new SolutionStep(_x, _y, logIndex));
+                    hasAllValues = false;
+                    break;
                 }
             }
 
-
+            return hasAllValues;
         }
     }
 }

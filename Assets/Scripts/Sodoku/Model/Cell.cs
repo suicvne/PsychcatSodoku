@@ -1,24 +1,33 @@
-﻿namespace SudokuLib.Model
+﻿using System;
+using System.Runtime.Serialization;
+using UnityEngine;
+
+namespace SudokuLib.Model
 {
     /// <summary>
     /// Game board cell 
     /// </summary>
+    [Serializable]
+    [DataContract]
     public class Cell
     {
         /// <summary>
         /// Row-Column number based position data structure.
         /// </summary>
+        [Serializable]
         public struct RCPosition
         {
+            [SerializeField] int _Row, _Column;
+
             /// <summary>
             /// Row number
             /// </summary>
-            public int Row { get; internal set; }
+            public int Row { get => _Row; internal set => _Row = value; }
 
             /// <summary>
             /// Columns number
             /// </summary>
-            public int Column { get; internal set; }
+            public int Column { get => _Column; internal set => _Column = value; }
 
             /// <summary>
             /// Initialize a new instance of the Row-Column based Position with given parameters.
@@ -27,30 +36,33 @@
             /// <param name="column"></param>
             public RCPosition(int row, int column)
             {
-                Row = row;
-                Column = column;
+                _Row = row;
+                _Column = column;
             }
         }
+
+        [SerializeField] int _Value, _Index, _GroupNo;
+        [SerializeField] RCPosition _Position;
 
         /// <summary>
         /// Cell value.
         /// </summary>
-        public int Value { get; internal set; }
+        public int Value { get => _Value; internal set => _Value = value; }
 
         /// <summary>
         /// Cell index in which the cell is located in the single-dimensional list.
         /// </summary>
-        public int Index { get; }
+        public int Index { get => _Index; }
 
         /// <summary>
         /// Group number in which the cell is located.
         /// </summary>
-        public int GroupNo { get; }
+        public int GroupNo { get => _GroupNo; }
 
         /// <summary>
         /// Row-Column number based position of the cell.
         /// </summary>
-        public RCPosition Position { get; }
+        public RCPosition Position { get => _Position; }
 
         /// <summary>
         /// Initialize a new instance of the Cell with given parameters.
@@ -62,9 +74,9 @@
         public Cell(int value, int index, int groupNo, RCPosition position)
         {
             Value = value;
-            Index = index;
-            GroupNo = groupNo;
-            Position = position;
+            _Index = index;
+            _GroupNo = groupNo;
+            _Position = position;
         }
     }
 }
