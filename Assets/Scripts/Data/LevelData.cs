@@ -26,6 +26,10 @@ namespace IgnoreSolutions.Sodoku
     [CreateAssetMenu()]
     public class LevelData : ScriptableObject
     {
+        const int EASY_FILLED_SQUARES = 49;
+        const int MEDIUM_FILLED_SQUARES = 39;
+        const int HARD_FILLED_SQUARES = 20;
+
         /// <summary>
         /// This is both the number of sub grids AND
         /// the size of the subgrids.
@@ -58,6 +62,8 @@ namespace IgnoreSolutions.Sodoku
         [SerializeField] bool _BoardGenerated;
         [Header("Toggles")]
         [SerializeField] bool _ForceGenerate;
+        [Header("Difficulty Arrays")]
+        [SerializeField] short[] _Easy = new short[TotalGridSize], _Medium = new short[TotalGridSize], _Hard = new short[TotalGridSize];
 
         SudokuBoard b;
 
@@ -68,6 +74,25 @@ namespace IgnoreSolutions.Sodoku
         {
             Cell foundCell = cells.FirstOrDefault(c => (c.Position.Row == x && c.Position.Column == y));
             return foundCell;
+        }
+
+        public Cell GetCellValueByDifficulty(int x, int y, int difficulty)
+        {
+            Cell c = GetCell(x, y);
+            switch(difficulty)
+            {
+                case 0:
+                    if (_Easy[c.Index] != 0) return c;
+                    break;
+                case 1:
+                    if (_Medium[c.Index] != 0) return c;
+                    break;
+                case 2:
+                    if (_Hard[c.Index] != 0) return c;
+                    break;
+            }
+
+            return null;
         }
 
         private void OnValidate()
@@ -82,12 +107,68 @@ namespace IgnoreSolutions.Sodoku
 
                 cells = new Cell[b.Cells.Count];
                 b.Cells.CopyTo(cells);
+
+                GenerateAllDifficulties();
             }
 
             _BoardGenerated = (b != null);
             _BoardHasValues = HasAllValues();
+        }
 
-            
+        private Cell GetCellByIndex(int index)
+        {
+            return cells[index];
+        }
+
+        private Cell TestGetRandomInGroup(int groupNo)
+        {
+            Cell[] ranInGroup = cells.Where(x => x.GroupNo == groupNo).ToArray();
+            int ran_index = UnityEngine.Random.Range(0, ranInGroup.Length);
+
+            return ranInGroup[ran_index];
+        }
+
+        private void GenerateAllDifficulties()
+        {
+            short eSqures = EASY_FILLED_SQUARES;
+            short mSquares = MEDIUM_FILLED_SQUARES;
+            short hSqures = HARD_FILLED_SQUARES;
+
+            int grBias = 1;
+            while(eSqures > 0)
+            {
+                Cell c = TestGetRandomInGroup(grBias);
+                if(_Easy[c.Index] == 0 && c.GroupNo == grBias)
+                {
+                    _Easy[c.Index] = 1; // Revealed
+                    grBias++;
+                    if (grBias > 9) grBias = 0;
+                    eSqures--;
+                }
+            }
+
+            //for(short i = 0; i < TotalGridSize; i++)
+            //{
+            //    if(eSqures > 0)
+            //    {
+            //        if (UnityEngine.Random.Range(0, TotalGridSize) < 10 && eSqures > 0)
+            //        {
+            //            _Easy[i] = 1;
+            //            eSqures--;
+            //        }
+            //        else _Easy[i] = 0;
+            //    }
+
+            //    if(mSquares > 0)
+            //    {
+
+            //    }
+
+            //    if(hSqures > 0)
+            //    {
+
+            //    }
+            //}
         }
 
         private bool HasAllValues()

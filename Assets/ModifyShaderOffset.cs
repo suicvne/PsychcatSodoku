@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using IgnoreSolutions.Sodoku;
 using SudokuLib;
+using SudokuLib.Model;
 using TMPro;
 using UnityEngine;
 using static SudokuLib.Model.Cell;
@@ -113,10 +114,18 @@ public class SodukoBoard
 
 public class ModifyShaderOffset : MonoBehaviour
 {
+    public enum PlayDifficulty
+    {
+        EASY,
+        MEDIUM,
+        HARD
+    }
+
     public Material TileSet;
     public Vector2 TileSpacing = new Vector2(1, 1);
     public bool WithBlur = false;
 
+    [SerializeField] PlayDifficulty _PlayDifficulty = PlayDifficulty.EASY;
     [SerializeField] LevelData _CurrentLevelData;
     [SerializeField] private bool _ForceRegen = false;
     [SerializeField] private LineRenderer _LineRenderer;
@@ -141,6 +150,18 @@ public class ModifyShaderOffset : MonoBehaviour
         }
 
         return -2;
+    }
+
+    public Cell GetCellAt(int x, int y)
+    {
+        if (_CurrentLevelData != null) return _CurrentLevelData.GetCell(x + 1, y + 1);
+        return null;
+    }
+
+    public bool IsCellRevealedForCurrentDifficulty(int x, int y)
+    {
+        if (_CurrentLevelData != null) return _CurrentLevelData.GetCellValueByDifficulty(x + 1, y + 1, (int)_PlayDifficulty) != null;
+        return false;
     }
 
     private SodukoGriidSpot GetGridSpot(int x, int y)
@@ -206,7 +227,14 @@ public class ModifyShaderOffset : MonoBehaviour
                 gridSpotProperties.parent = this;
 
                 // "Debug Value" For now. This will have to be changed later.
-                gridSpotProperties.DebugValue = GetValueAt(x, y);
+                Cell sudokuCell = GetCellAt(x, y);
+                bool _revealed = IsCellRevealedForCurrentDifficulty(x, y);
+                gridSpotProperties.DebugValue = sudokuCell.Value;
+                gridSpotProperties._SquareSolution = gridSpotProperties.DebugValue;
+                gridSpotProperties._LevelIndex = sudokuCell.Index;
+                gridSpotProperties._SquareGroupNo = sudokuCell.GroupNo;
+                gridSpotProperties._SquareFilledValue = _revealed ? sudokuCell.Value : -1;
+
 
                 // Adding MeshFilter and MeshRenderer for 3D Rendering
                 MeshFilter mf = tile.AddComponent<MeshFilter>();
@@ -249,10 +277,12 @@ public class ModifyShaderOffset : MonoBehaviour
                 text.fontSizeMin = 8f;
                 text.alignment = TextAlignmentOptions.Center;
                 text.margin = new Vector4(10, 2, 10, 2);
-                text.text = $"{gridSpotProperties.DebugValue}";
 
                 tmpParent.transform.localPosition = Vector3.forward;
                 tmpParent.transform.rotation = Quaternion.Euler(0, 180, 0);
+
+                if (gridSpotProperties._SquareFilledValue == -1) text.text = "";
+                else text.text = $"{gridSpotProperties.DebugValue}";
 
 
                 // Add our tile to our managed tiles list.

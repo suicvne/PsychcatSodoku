@@ -8,9 +8,11 @@ public class SodukoGriidSpot : MonoBehaviour
     internal ModifyShaderOffset parent;
 
     public int DebugValue = -1;
+    public int _SquareSolution = -1;
+    public int _SquareFilledValue = -1;
 
-    public int UserValue = -1;
-    public int NoteValue = -1;
+    public int _LevelIndex = -1;
+    public int _SquareGroupNo = -1;
 
     public void OnMouseDown()
     {
