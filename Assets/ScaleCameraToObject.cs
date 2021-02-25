@@ -44,12 +44,12 @@ public class ScaleCameraToObject : MonoBehaviour
             }
             else if (Screen.width > Screen.height) // w > h. Landscape aspect.
             {
-                Debug.Log($"10");
-                camera.orthographicSize = 10;
+                Debug.Log($"7");
+                camera.orthographicSize = 6;
             }
             else // w == h. Dunno yet.
             {
-                Debug.Log($"Idk");
+                Debug.Log($"Idk (11)");
                 camera.orthographicSize = 11;
             }
         }
