@@ -95,6 +95,16 @@ namespace IgnoreSolutions.Sodoku
             return null;
         }
 
+        private void ZeroOutDifficulties()
+        {
+            for(int i = 0; i < TotalGridSize; i++)
+            {
+                _Easy[i] = 0;
+                _Medium[i] = 0;
+                _Hard[i] = 0;
+            }
+        }
+
         private void OnValidate()
         {
             if (_ForceGenerate)
@@ -108,6 +118,7 @@ namespace IgnoreSolutions.Sodoku
                 cells = new Cell[b.Cells.Count];
                 b.Cells.CopyTo(cells);
 
+                ZeroOutDifficulties();
                 GenerateAllDifficulties();
             }
 
@@ -125,50 +136,57 @@ namespace IgnoreSolutions.Sodoku
             Cell[] ranInGroup = cells.Where(x => x.GroupNo == groupNo).ToArray();
             int ran_index = UnityEngine.Random.Range(0, ranInGroup.Length);
 
-            return ranInGroup[ran_index];
+            if (ranInGroup.Length == 0)
+            {
+                Debug.Log($"Could not get with group No {groupNo}.");
+                return null;
+            }
+            if (ran_index == ranInGroup.Length) ran_index = ranInGroup.Length - 1;
+
+            Cell c = null;
+            try
+            {
+                c = ranInGroup[ran_index];
+            }
+            catch(Exception ex)
+            {
+                Debug.Log($"{ran_index} Length: {ranInGroup.Length}; {ex.Message}");
+            }
+
+            return c;
+
+        }
+
+        private void GenerateForDifficulty(ref short[] difficultyArray, int squaresLeft, int diff)
+        {
+            int grBias = 1;
+            int iterations = 0;
+            while(squaresLeft > 0)
+            {
+                Cell c = TestGetRandomInGroup(grBias);
+                if (difficultyArray[c.Index] == 0 && c.GroupNo == grBias)
+                {
+                    difficultyArray[c.Index] = 1; // Revealed
+                    grBias++;
+                    squaresLeft = squaresLeft - 1;
+                    if (grBias > 9) grBias = 1;
+
+                }
+                iterations++;
+
+                if (iterations == 400)
+                {
+                    Debug.LogError($"Took more than 400 iterations to generate the solutions for {diff}. Left: {squaresLeft}");
+                    break;
+                }
+            }
         }
 
         private void GenerateAllDifficulties()
         {
-            short eSqures = EASY_FILLED_SQUARES;
-            short mSquares = MEDIUM_FILLED_SQUARES;
-            short hSqures = HARD_FILLED_SQUARES;
-
-            int grBias = 1;
-            while(eSqures > 0)
-            {
-                Cell c = TestGetRandomInGroup(grBias);
-                if(_Easy[c.Index] == 0 && c.GroupNo == grBias)
-                {
-                    _Easy[c.Index] = 1; // Revealed
-                    grBias++;
-                    if (grBias > 9) grBias = 0;
-                    eSqures--;
-                }
-            }
-
-            //for(short i = 0; i < TotalGridSize; i++)
-            //{
-            //    if(eSqures > 0)
-            //    {
-            //        if (UnityEngine.Random.Range(0, TotalGridSize) < 10 && eSqures > 0)
-            //        {
-            //            _Easy[i] = 1;
-            //            eSqures--;
-            //        }
-            //        else _Easy[i] = 0;
-            //    }
-
-            //    if(mSquares > 0)
-            //    {
-
-            //    }
-
-            //    if(hSqures > 0)
-            //    {
-
-            //    }
-            //}
+            GenerateForDifficulty(ref _Easy, EASY_FILLED_SQUARES, 0);
+            GenerateForDifficulty(ref _Medium, MEDIUM_FILLED_SQUARES, 1);
+            GenerateForDifficulty(ref _Hard, HARD_FILLED_SQUARES, 2);
         }
 
         private bool HasAllValues()
