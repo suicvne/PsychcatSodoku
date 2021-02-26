@@ -255,6 +255,7 @@ MonoBehaviour:
   TileSet: {fileID: 0}
   TileSpacing: {x: 1, y: 1}
   WithBlur: 0
+  _PlayDifficulty: 0
   _CurrentLevelData: {fileID: 0}
   _ForceRegen: 0
   _LineRenderer: {fileID: 0}
@@ -594,6 +595,7 @@ MonoBehaviour:
   TileSet: {fileID: 2100000, guid: 37d6811b97165450384d528558e3ec72, type: 2}
   TileSpacing: {x: 0, y: 0}
   WithBlur: 0
+  _PlayDifficulty: 0
   _CurrentLevelData: {fileID: 11400000, guid: 0497166185464465c9a5152efb34e385, type: 2}
   _ForceRegen: 0
   _LineRenderer: {fileID: 179031417}

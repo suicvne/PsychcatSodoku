@@ -242,8 +242,21 @@ public class ModifyShaderOffset : MonoBehaviour
                 tile.name = string.Format("tile_x{0}_y{1}", x+1, y+1);
 
                 // ASSIGNING THE LEVEL TEXTURE
+                if (testBlock == null) testBlock = new MaterialPropertyBlock();
                 mr.material = TileSet;
                 mr.sharedMaterial.SetTexture("_Tilemap", this._CurrentLevelData.GetTilesetTexture());
+                mr.sharedMaterial.SetTexture("_MainTex", this._CurrentLevelData.GetTilesetTexture());
+                if (!_revealed)
+                {
+                    testBlock.SetInt("_Blur", 1);
+                    mr.SetPropertyBlock(testBlock);
+                }
+                else
+                {
+                    testBlock.SetInt("_Blur", 0);
+                    mr.SetPropertyBlock(testBlock);
+                }
+
 
                 // Creating mesh data.
                 // TODO: Cache this somewhere.

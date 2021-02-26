@@ -37,6 +37,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BlurBranchSubGraph_027eac91777a4ab2b897d8bee20c3ba1_Texture2Da6424cb5d90641a2aaad34d00c51640a_1304045950:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BlurBranchSubGraph_20660f4f3bb04f61a370e73c5eac48c2_Texture2Da6424cb5d90641a2aaad34d00c51640a_1304045950:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BlurBranchSubGraph_9cd22bb1b18342309cc2a6f932a3df02_Texture2Da6424cb5d90641a2aaad34d00c51640a_1304045950:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -80,6 +92,8 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _Blend: 0
+    - _Blur: 1
+    - _BlurAmount: 7.88
     - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.5

@@ -73,11 +73,11 @@ half4 frag (v2f i) : COLOR
     float fI=0;
     for (int j = 0; j < 3; j++) {
     	fI++;
-    	coef*=0.32;
-    	texcol += tex2D(_MainTex, float2(i.uv.x, i.uv.y - fI * _BlurAmount)) * coef;
-    	texcol += tex2D(_MainTex, float2(i.uv.x - fI * _BlurAmount, i.uv.y)) * coef;
-    	texcol += tex2D(_MainTex, float2(i.uv.x + fI * _BlurAmount, i.uv.y)) * coef;
-    	texcol += tex2D(_MainTex, float2(i.uv.x, i.uv.y + fI * _BlurAmount)) * coef;
+    	coef*=0.24;
+    	texcol += tex2D(_MainTex, float2(i.uv.x, i.uv.y + (-fI * _BlurAmount))) * coef;
+    	texcol += tex2D(_MainTex, float2(i.uv.x + (fI * _BlurAmount), i.uv.y)) * coef;
+    	texcol += tex2D(_MainTex, float2(i.uv.x + (-fI * _BlurAmount), i.uv.y)) * coef;
+    	texcol += tex2D(_MainTex, float2(i.uv.x, i.uv.y + (fI * _BlurAmount))) * coef;
     	
     	remaining-=4*coef;
     }
