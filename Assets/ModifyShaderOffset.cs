@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using IgnoreSolutions.PsychSodoku;
 using IgnoreSolutions.Sodoku;
 using SudokuLib;
 using SudokuLib.Model;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static SudokuLib.Model.Cell;
 
 [Serializable]
@@ -112,6 +114,7 @@ public class SodukoBoard
     }
 }
 
+[ExecuteInEditMode]
 public class ModifyShaderOffset : MonoBehaviour
 {
     public enum PlayDifficulty
@@ -124,6 +127,12 @@ public class ModifyShaderOffset : MonoBehaviour
     public Material TileSet;
     public Vector2 TileSpacing = new Vector2(1, 1);
     public bool WithBlur = false;
+    public bool IsGenerated = false;
+    public bool DestroyOnDisable = false;
+
+    [Header("References")]
+    [SerializeField] NumberToSpriteLookup _NumberToSpriteLookup;
+    
 
     [SerializeField] PlayDifficulty _PlayDifficulty = PlayDifficulty.EASY;
     [SerializeField] LevelData _CurrentLevelData;
@@ -178,25 +187,52 @@ public class ModifyShaderOffset : MonoBehaviour
         return foundGridSpot;
     }
 
-    void Start()
+    private void OnEnable()
     {
-        Regenerate();
+        ClearList(false);
+        if(Application.isPlaying)
+        {
+            Regenerate();
+        }
+        //Regenerate();
     }
 
-    void ClearList()
+    private void OnDisable()
     {
+        //if(DestroyOnDisable && IsGenerated)
+        //{
+        //    IsGenerated = false;
+        //    ClearList(false);
+        //}
+    }
+
+    void Start()
+    {
+    }
+
+    void ClearList(bool doNextDelayed)
+    {
+        if (Tiles.Count <= 0 || LineRenderers.Count <= 0 && transform.childCount > 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+                DestroyImmediate(transform.GetChild(i).gameObject);
+        }
+        if (Tiles.Count <= 0 || LineRenderers.Count <= 0 && transform.childCount == 0) return;
+
         for (int i = Tiles.Count - 1; i >= 0; i--)
         {
-            Destroy(Tiles[i]);
+            DestroyImmediate(Tiles[i]);
         }
 
         for(int i = LineRenderers.Count - 1; i >= 0; i--)
         {
-            Destroy(LineRenderers[i].gameObject);
+            DestroyImmediate(LineRenderers[i].gameObject);
         }
 
         Tiles.Clear();
         LineRenderers.Clear();
+
+        //if(doNextDelayed) Invoke(nameof(Regenerate), .1f);
     }
 
     void SetRandomBlur()
@@ -242,21 +278,23 @@ public class ModifyShaderOffset : MonoBehaviour
                 tile.name = string.Format("tile_x{0}_y{1}", x+1, y+1);
 
                 // ASSIGNING THE LEVEL TEXTURE
-                if (testBlock == null) testBlock = new MaterialPropertyBlock();
+                testBlock = new MaterialPropertyBlock();
                 mr.material = TileSet;
                 mr.sharedMaterial.SetTexture("_Tilemap", this._CurrentLevelData.GetTilesetTexture());
                 mr.sharedMaterial.SetTexture("_MainTex", this._CurrentLevelData.GetTilesetTexture());
-                if (!_revealed)
+                //if (!_revealed)
+                if(gridSpotProperties._SquareFilledValue == -1)
                 {
-                    testBlock.SetInt("_Blur", 1);
+                    testBlock.SetFloat("_Blur", 1);
+                    testBlock.SetFloat("_BlurAmount", .02f);
                     mr.SetPropertyBlock(testBlock);
                 }
                 else
                 {
-                    testBlock.SetInt("_Blur", 0);
+                    testBlock.SetFloat("_Blur", 0);
+                    testBlock.SetFloat("_BlurAmount", 0);
                     mr.SetPropertyBlock(testBlock);
                 }
-
 
                 // Creating mesh data.
                 // TODO: Cache this somewhere.
@@ -283,23 +321,32 @@ public class ModifyShaderOffset : MonoBehaviour
                 // TMP Child
                 GameObject tmpParent = new GameObject("TMP");
                 tmpParent.transform.parent = tile.transform;
-                tmpParent.AddComponent<MeshRenderer>();
-                TMP_Text text = tmpParent.AddComponent<TextMeshPro>();
-
-                text.enableAutoSizing = true;
-                text.fontSizeMin = 8f;
-                text.alignment = TextAlignmentOptions.Center;
-                text.margin = new Vector4(10, 2, 10, 2);
-
-                tmpParent.transform.localPosition = Vector3.forward;
-                tmpParent.transform.rotation = Quaternion.Euler(0, 180, 0);
-
-                if (gridSpotProperties._SquareFilledValue == -1) text.text = "";
-                else text.text = $"{gridSpotProperties.DebugValue}";
+                SpriteRenderer spr = tmpParent.AddComponent<SpriteRenderer>();
+                spr.transform.localPosition = Vector3.zero;
+                spr.transform.localScale = Vector3.one * .15f;
+                spr.flipX = true;
+                if (gridSpotProperties._SquareFilledValue != -1) spr.sprite = _NumberToSpriteLookup.GetSpriteByNumber((short)gridSpotProperties._SquareFilledValue);
 
 
-                // Add our tile to our managed tiles list.
+                //tmpParent.AddComponent<MeshRenderer>();
+                //TMP_Text text = tmpParent.AddComponent<TextMeshPro>();
+
+                    //text.enableAutoSizing = true;
+                    //text.fontSizeMin = 8f;
+                    //text.alignment = TextAlignmentOptions.Center;
+                    //text.margin = new Vector4(10, 2, 10, 2);
+
+                    //tmpParent.transform.localPosition = Vector3.forward;
+                    //tmpParent.transform.rotation = Quaternion.Euler(0, 180, 0);
+
+                    //if (gridSpotProperties._SquareFilledValue == -1) text.text = "";
+                    //else text.text = $"{gridSpotProperties.DebugValue}";
+
+
+                    // Add our tile to our managed tiles list.
                 Tiles.Add(tile);
+
+                IsGenerated = true;
             }
         }
 
@@ -363,7 +410,7 @@ public class ModifyShaderOffset : MonoBehaviour
         if(_ForceRegen)
         {
             _ForceRegen = true;
-            ClearList();
+            ClearList(false);
             Regenerate();
             _ForceRegen = false;
             return;

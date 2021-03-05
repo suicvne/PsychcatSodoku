@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
+[ExecuteInEditMode]
 public class ScaleCameraToObject : MonoBehaviour
 {
     public void Awake()
@@ -32,6 +33,11 @@ public class ScaleCameraToObject : MonoBehaviour
         ResolutionChanged();
     }
 
+    public void IncrementOrthoSize(float amount)
+    {
+        Camera.main.orthographicSize = Camera.main.orthographicSize + amount;
+    }
+
     public void ResolutionChanged()
     {
         var camera = Camera.main;
@@ -40,7 +46,7 @@ public class ScaleCameraToObject : MonoBehaviour
             if (Screen.width < Screen.height) // w < h. Portrait aspect.
             {
                 Debug.Log($"13");
-                camera.orthographicSize = 13;
+                camera.orthographicSize = 12;
             }
             else if (Screen.width > Screen.height) // w > h. Landscape aspect.
             {

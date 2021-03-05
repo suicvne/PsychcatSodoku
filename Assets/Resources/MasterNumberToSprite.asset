@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d014a9d2f19d4e89b22f322233df15d, type: 3}
+  m_Name: MasterNumberToSprite
+  m_EditorClassIdentifier: 
+  NumberToSpriteTable:
+  - _Number: 1
+    _Sprite: {fileID: 7845811425280525347, guid: 78fa842e5cd81434e96be34216caef22,
+      type: 3}
+  - _Number: 2
+    _Sprite: {fileID: 2034771412533621593, guid: 78fa842e5cd81434e96be34216caef22,
+      type: 3}
+  - _Number: 3
+    _Sprite: {fileID: -4547073493219678070, guid: 78fa842e5cd81434e96be34216caef22,
+      type: 3}
+  - _Number: 4
+    _Sprite: {fileID: 301224227487364027, guid: 78fa842e5cd81434e96be34216caef22,
+      type: 3}
+  - _Number: 5
+    _Sprite: {fileID: -991865843360984157, guid: 78fa842e5cd81434e96be34216caef22,
+      type: 3}
+  - _Number: 6
+    _Sprite: {fileID: -7477058898258172274, guid: 78fa842e5cd81434e96be34216caef22,
+      type: 3}
+  - _Number: 7
+    _Sprite: {fileID: 8379274610186978495, guid: 78fa842e5cd81434e96be34216caef22,
+      type: 3}
+  - _Number: 8
+    _Sprite: {fileID: -9158957165627173028, guid: 78fa842e5cd81434e96be34216caef22,
+      type: 3}
+  - _Number: 9
+    _Sprite: {fileID: -4520284781897136485, guid: 78fa842e5cd81434e96be34216caef22,
+      type: 3}
