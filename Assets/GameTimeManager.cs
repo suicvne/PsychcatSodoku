@@ -17,7 +17,7 @@ namespace IgnoreSolutions.PsychSodoku
 
         public void ResetTimer()
         {
-            StartTime = 0;
+            StartTime = DateTime.Now.Ticks;
         }
 
         public TimeSpan GetPlayTime()

@@ -186,6 +186,26 @@ public class ModifyShaderOffset : MonoBehaviour
         _ForceRegen = true;
     }
 
+    public void Begin_AnimateShowGameUI()
+    {
+        _AnimationPending = true;
+        StartCoroutine(AnimateShowGameUI());
+    }
+
+    IEnumerator AnimateShowGameUI()
+    {
+        for(float f = 0f; f <= 1.0f; f += 2 * Time.fixedDeltaTime)
+        {
+            _GameUI.alpha = f;
+            yield return _FixedUpdate;
+        }
+
+        _GameUI.alpha = 1.0f;
+
+        yield return _WaitBetweenAnimations;
+        _AnimationPending = false;
+    }
+
     public void TestAnimation()
     {
         if (_AnimationPending == false)
@@ -525,8 +545,8 @@ public class ModifyShaderOffset : MonoBehaviour
         for (int i = Tiles.Count - 1; i >= 0; i--)
         {
             if (Application.isPlaying)
-                Destroy(Tiles[i]);
-            else DestroyImmediate(Tiles[i]);
+                Destroy(Tiles[i].gameObject);
+            else DestroyImmediate(Tiles[i].gameObject);
         }
 
         for(int i = LineRenderers.Count - 1; i >= 0; i--)
