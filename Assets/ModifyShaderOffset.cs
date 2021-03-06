@@ -125,9 +125,14 @@ public class ModifyShaderOffset : MonoBehaviour
         HARD
     }
 
-    [Header("Selection")]
+    [Header("Game Properties")]
+    [SerializeField] public bool _EnterAsPossibleNumber = false;
+    [SerializeField] PlayDifficulty _PlayDifficulty = PlayDifficulty.EASY; // The difficulty that we want to use. This corresponds to how much of the board is shown/hidden.
+    [SerializeField] LevelData _CurrentLevelData; // The current level data that we're basing the render off of.
     [SerializeField] int _SelectedIndex = -1;
     [SerializeField] Transform _SelectedTransform;
+
+    [Header("Selection")]
     [SerializeField] Image _SelectionBorder; // Selection border to be moved around as tiles are tapped.
     [SerializeField] Image _AnimationDummy;
     [SerializeField] float _SelectionMovementSpeed = .75f;
@@ -144,8 +149,6 @@ public class ModifyShaderOffset : MonoBehaviour
     [SerializeField] CongratulationsScreenController _CongratulationsScreen;
     [SerializeField] CanvasGroup _GameUI;
     [SerializeField] NumberToSpriteLookup _NumberToSpriteLookup; // Number -> Sprite lookup for the board.
-    [SerializeField] PlayDifficulty _PlayDifficulty = PlayDifficulty.EASY; // The difficulty that we want to use. This corresponds to how much of the board is shown/hidden.
-    [SerializeField] LevelData _CurrentLevelData; // The current level data that we're basing the render off of.
     [SerializeField] private bool _ForceRegen = false; // Should we force regenerate? This is mostly for the editor's sake
     [SerializeField] private LineRenderer _LineRenderer; // ???? Template LineRenderer?
     [SerializeField] float _MultiplicationOffset = 4f; // ?
@@ -180,6 +183,11 @@ public class ModifyShaderOffset : MonoBehaviour
     private WaitForSeconds _WaitBetweenAnimations = new WaitForSeconds(.25f);
 
     private Vector3 _NumberOrigin;
+
+    public void SetPossibleNumbersMode(bool enterAsPossibleNumbers)
+    {
+        _EnterAsPossibleNumber = enterAsPossibleNumbers;
+    }
 
     public void RegenerateBoard()
     {
@@ -233,14 +241,26 @@ public class ModifyShaderOffset : MonoBehaviour
         MeshRenderer mr = gridSpot.gameObject.GetComponent<MeshRenderer>();
         SpriteRenderer sr = gridSpot.transform.GetChild(0).GetComponent<SpriteRenderer>();
 
-        if (newValue == gridSpot._SquareFilledValue) return;
+        if (_EnterAsPossibleNumber)
+        {
+            if(newValue == 0)
+            {
+                gridSpot.ClearPossibleNumbers();
+                gridSpot.UpdatePossibleNumbers();
+                return;
+            }
+            gridSpot.AddPossibleNumber(newValue);
+            gridSpot.UpdatePossibleNumbers();
+        }
+        else
+        {
+            if (newValue == gridSpot._SquareFilledValue) return;
 
-        _AnimationPending = true;
-        Tiles[_SelectedIndex]._SquareFilledValue = newValue;
+            _AnimationPending = true;
+            Tiles[_SelectedIndex]._SquareFilledValue = newValue;
 
-        StartCoroutine(AnimateNumberUpdate(gridSpot, mr, sr, newValue));
-
-        //UpdateFilledNumberAtSelectedIndex(newValue);
+            StartCoroutine(AnimateNumberUpdate(gridSpot, mr, sr, newValue));
+        }
     }
 
     void PreTestCompleteAnimation()
@@ -688,23 +708,21 @@ public class ModifyShaderOffset : MonoBehaviour
                 spr.flipX = true;
                 if (gridSpotProperties._SquareFilledValue != -1) spr.sprite = _NumberToSpriteLookup.GetSpriteByNumber((short)gridSpotProperties._SquareFilledValue);
 
+                // Possible Numbers
+                GameObject possibleNumbers = new GameObject("PossibleNumbers");
+                possibleNumbers.transform.parent = tile.transform;
+                TMP_Text possibleNumbersText = possibleNumbers.AddComponent<TextMeshPro>();
 
-                //tmpParent.AddComponent<MeshRenderer>();
-                //TMP_Text text = tmpParent.AddComponent<TextMeshPro>();
+                possibleNumbersText.transform.localScale = new Vector3(1f, .8f, 1f);
+                //possibleNumbersText.enableAutoSizing = true;
+                possibleNumbersText.fontSize = 4f;
+                possibleNumbersText.alignment = TextAlignmentOptions.Center;
+                possibleNumbersText.transform.localPosition = Vector3.forward;
+                possibleNumbersText.transform.rotation = Quaternion.Euler(0, 180, 0);
 
-                    //text.enableAutoSizing = true;
-                    //text.fontSizeMin = 8f;
-                    //text.alignment = TextAlignmentOptions.Center;
-                    //text.margin = new Vector4(10, 2, 10, 2);
+                gridSpotProperties.SetTMP(possibleNumbersText);
+                gridSpotProperties.UpdatePossibleNumbers();
 
-                    //tmpParent.transform.localPosition = Vector3.forward;
-                    //tmpParent.transform.rotation = Quaternion.Euler(0, 180, 0);
-
-                    //if (gridSpotProperties._SquareFilledValue == -1) text.text = "";
-                    //else text.text = $"{gridSpotProperties.DebugValue}";
-
-
-                    // Add our tile to our managed tiles list.
                 Tiles.Add(gridSpotProperties);
 
                 IsGenerated = true;
