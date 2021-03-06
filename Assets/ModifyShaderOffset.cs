@@ -8,6 +8,7 @@ using SudokuLib;
 using SudokuLib.Model;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using static SudokuLib.Model.Cell;
 
@@ -130,6 +131,7 @@ public class ModifyShaderOffset : MonoBehaviour
     [SerializeField] Image _SelectionBorder; // Selection border to be moved around as tiles are tapped.
     [SerializeField] Image _AnimationDummy;
     [SerializeField] float _SelectionMovementSpeed = .75f;
+
     [Header("Tileset Generation")]
     public Material TileSet; // The material to use for the individual tiles. This is not the material used for the number sprites which are separate. 
     public Vector2 TileSpacing = new Vector2(1, 1); // ?
@@ -139,12 +141,18 @@ public class ModifyShaderOffset : MonoBehaviour
     public bool TestCompleteAnimation = false;
 
     [Header("References")]
+    [SerializeField] CongratulationsScreenController _CongratulationsScreen;
+    [SerializeField] CanvasGroup _GameUI;
     [SerializeField] NumberToSpriteLookup _NumberToSpriteLookup; // Number -> Sprite lookup for the board.
     [SerializeField] PlayDifficulty _PlayDifficulty = PlayDifficulty.EASY; // The difficulty that we want to use. This corresponds to how much of the board is shown/hidden.
     [SerializeField] LevelData _CurrentLevelData; // The current level data that we're basing the render off of.
     [SerializeField] private bool _ForceRegen = false; // Should we force regenerate? This is mostly for the editor's sake
     [SerializeField] private LineRenderer _LineRenderer; // ???? Template LineRenderer?
     [SerializeField] float _MultiplicationOffset = 4f; // ?
+
+    [Header("Events")]
+    [SerializeField] UnityEvent _OnBoardGenerated;
+    [SerializeField] UnityEvent _OnBoardFullyComplete;
 
     private List<SodukoGriidSpot> Tiles = new List<SodukoGriidSpot>(); // A list of all the tiles that this script manages.
     private List<LineRenderer> LineRenderers = new List<LineRenderer>(); // A list of the LineRenderers that this script manages.
@@ -172,6 +180,11 @@ public class ModifyShaderOffset : MonoBehaviour
     private WaitForSeconds _WaitBetweenAnimations = new WaitForSeconds(.25f);
 
     private Vector3 _NumberOrigin;
+
+    public void RegenerateBoard()
+    {
+        _ForceRegen = true;
+    }
 
     public void TestAnimation()
     {
@@ -232,6 +245,17 @@ public class ModifyShaderOffset : MonoBehaviour
     {
         _AnimationPending = true;
 
+        _SelectionBorder.transform.position = Vector2.left * (-Screen.width * 2);
+
+        for(float f = 0f; f < 1.0f; f += (_SelectionMovementSpeed * 2) * Time.fixedDeltaTime)
+        {
+            _GameUI.alpha = 1.0f - f;
+        }
+
+        _GameUI.alpha = 0f;
+        yield return _TimeBetweenSweep;
+
+
         for(int i = 0; i < Tiles.Count; i += 9)
         {
             for (float f = 0; f < 1.0f; f += (_SelectionMovementSpeed * 2) * Time.fixedDeltaTime)
@@ -243,10 +267,6 @@ public class ModifyShaderOffset : MonoBehaviour
                     child.localScale = Vector3.Lerp(childOriginScale, Vector3.zero, f);
                 }
                 yield return _FixedUpdate;
-                yield return _FixedUpdate;
-                //yield return _TimeBetweenSweep;
-                //yield return _TimeBetweenSweep;
-                //child.localScale = Vector3.zero;
             }
             
             
@@ -262,16 +282,14 @@ public class ModifyShaderOffset : MonoBehaviour
                     Transform child = Tiles[i + b].transform;
                     Vector3 childOriginScale = child.localScale;
                     child.localScale = Vector3.Lerp(childOriginScale, Vector3.one, f);
-                    //yield return null;
                 }
                 yield return _FixedUpdate;
-                //yield return _TimeBetweenSweep;
-                //child.localScale = Vector3.zero;
             }
-            //yield return null;
         }
 
         _AnimationPending = false;
+
+        _OnBoardFullyComplete?.Invoke();
     }
 
     IEnumerator AnimateHideImagesForGroup(int groupNo)
@@ -496,13 +514,19 @@ public class ModifyShaderOffset : MonoBehaviour
         if (Tiles.Count <= 0 || LineRenderers.Count <= 0 && transform.childCount > 0)
         {
             for (int i = 0; i < transform.childCount; i++)
-                DestroyImmediate(transform.GetChild(i).gameObject);
+            {
+                if (Application.isPlaying)
+                    Destroy(transform.GetChild(i).gameObject);
+                else DestroyImmediate(transform.GetChild(i).gameObject);
+            }
         }
         if (Tiles.Count <= 0 || LineRenderers.Count <= 0 && transform.childCount == 0) return;
 
         for (int i = Tiles.Count - 1; i >= 0; i--)
         {
-            DestroyImmediate(Tiles[i]);
+            if (Application.isPlaying)
+                Destroy(Tiles[i]);
+            else DestroyImmediate(Tiles[i]);
         }
 
         for(int i = LineRenderers.Count - 1; i >= 0; i--)
@@ -621,7 +645,10 @@ public class ModifyShaderOffset : MonoBehaviour
                 float tileScale = 1 / 3f; // Tile Scale
 
                 // Add mesh collider component & set the shared mesh to the mesh data we've created.
-                tile.AddComponent<MeshCollider>().sharedMesh = mesh;
+                BoxCollider _collider = tile.AddComponent<BoxCollider>();
+                //MeshCollider _collider = tile.AddComponent<MeshCollider>();
+                //_collider.sharedMesh = mesh;
+                //_collider.convex = true;
 
                 // Set the mesh UV offset for image tiling.
                 Vector2 tileOffset = new Vector2((float)x, (float)y) * tileScale;
@@ -666,6 +693,15 @@ public class ModifyShaderOffset : MonoBehaviour
 
         // Place lines
         DrawGridDividers();
+
+        if(_CongratulationsScreen != null)
+        {
+            Texture2D tileSetTexture = (Texture2D)_CurrentLevelData.GetTilesetTexture();
+            Sprite spr = Sprite.Create(tileSetTexture, new Rect(0, 0, tileSetTexture.width, tileSetTexture.height), Vector2.one * .5f);
+            _CongratulationsScreen.SetBoardImage(spr);
+        }
+
+        _OnBoardGenerated?.Invoke();
     }
 
     /// <summary>
