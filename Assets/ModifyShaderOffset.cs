@@ -173,6 +173,17 @@ public class ModifyShaderOffset : MonoBehaviour
 
     private Vector3 _NumberOrigin;
 
+    public void TestAnimation()
+    {
+        if (_AnimationPending == false)
+        {
+            TestCompleteAnimation = true;
+            PreTestCompleteAnimation();
+            StartCoroutine(AnimateBoardCompleted());
+            TestCompleteAnimation = false;
+        }
+    }
+
     public void SetNumberOriginForAnimation(Transform origin)
     {
         _NumberOrigin = origin.position;
@@ -214,7 +225,7 @@ public class ModifyShaderOffset : MonoBehaviour
         }
     }
 
-    WaitForSeconds _TimeBetweenSweep = new WaitForSeconds(.165f);
+    WaitForSeconds _TimeBetweenSweep = new WaitForSeconds(.05f);
 
     IEnumerator AnimateBoardCompleted()
     {
@@ -230,7 +241,10 @@ public class ModifyShaderOffset : MonoBehaviour
                     Vector3 childOriginScale = child.localScale;
                     child.localScale = Vector3.Lerp(childOriginScale, Vector3.zero, f);
                 }
-                yield return _TimeBetweenSweep;
+                yield return null;
+                yield return null;
+                //yield return _TimeBetweenSweep;
+                //yield return _TimeBetweenSweep;
                 //child.localScale = Vector3.zero;
             }
             
@@ -247,13 +261,13 @@ public class ModifyShaderOffset : MonoBehaviour
                     Transform child = Tiles[i + b].transform;
                     Vector3 childOriginScale = child.localScale;
                     child.localScale = Vector3.Lerp(childOriginScale, Vector3.one, f);
+                    //yield return null;
                 }
-                yield return _TimeBetweenSweep;
+                yield return null;
+                //yield return _TimeBetweenSweep;
                 //child.localScale = Vector3.zero;
             }
-
-
-            yield return null;
+            //yield return null;
         }
 
         _AnimationPending = false;
