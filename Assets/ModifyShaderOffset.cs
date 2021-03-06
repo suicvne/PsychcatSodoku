@@ -124,30 +124,201 @@ public class ModifyShaderOffset : MonoBehaviour
         HARD
     }
 
-    public Material TileSet;
-    public Vector2 TileSpacing = new Vector2(1, 1);
-    public bool WithBlur = false;
-    public bool IsGenerated = false;
-    public bool DestroyOnDisable = false;
+    [Header("Selection")]
+    [SerializeField] int _SelectedIndex = -1;
+    [SerializeField] Image _SelectionBorder; // Selection border to be moved around as tiles are tapped.
+    [SerializeField] Image _AnimationDummy;
+    [SerializeField] float _SelectionMovementSpeed = .75f;
+    [Header("Tileset Generation")]
+    public Material TileSet; // The material to use for the individual tiles. This is not the material used for the number sprites which are separate. 
+    public Vector2 TileSpacing = new Vector2(1, 1); // ?
+    public bool WithBlur = false; // TODO: Remove This?
+    public bool IsGenerated = false; // Is the board fully generated?
+    public bool DestroyOnDisable = false; // Should we destroy the board when OnDisable ?
 
     [Header("References")]
-    [SerializeField] NumberToSpriteLookup _NumberToSpriteLookup;
-    
+    [SerializeField] NumberToSpriteLookup _NumberToSpriteLookup; // Number -> Sprite lookup for the board.
+    [SerializeField] PlayDifficulty _PlayDifficulty = PlayDifficulty.EASY; // The difficulty that we want to use. This corresponds to how much of the board is shown/hidden.
+    [SerializeField] LevelData _CurrentLevelData; // The current level data that we're basing the render off of.
+    [SerializeField] private bool _ForceRegen = false; // Should we force regenerate? This is mostly for the editor's sake
+    [SerializeField] private LineRenderer _LineRenderer; // ???? Template LineRenderer?
+    [SerializeField] float _MultiplicationOffset = 4f; // ?
 
-    [SerializeField] PlayDifficulty _PlayDifficulty = PlayDifficulty.EASY;
-    [SerializeField] LevelData _CurrentLevelData;
-    [SerializeField] private bool _ForceRegen = false;
-    [SerializeField] private LineRenderer _LineRenderer;
-    [SerializeField] float _MultiplicationOffset = 4f;
+    private List<SodukoGriidSpot> Tiles = new List<SodukoGriidSpot>(); // A list of all the tiles that this script manages.
+    private List<LineRenderer> LineRenderers = new List<LineRenderer>(); // A list of the LineRenderers that this script manages.
 
-    private List<GameObject> Tiles = new List<GameObject>();
-    private List<LineRenderer> LineRenderers = new List<LineRenderer>();
+    private Material lastMaterial; // Hm?
+    private bool WasBlur = false; // TODO: Remove this?
+    private bool done = false; // Keep this
 
-    private Material lastMaterial;
-    private bool WasBlur = false;
-    private bool done = false;
-
+    /// <summary>
+    /// The property block we use to assign
+    /// tiling, blur or no blur, and more information.
+    /// </summary>
     private MaterialPropertyBlock testBlock;
+
+    /// <summary>
+    /// Is an animation pending that should prevent
+    /// us from starting the animation coroutine again?
+    /// </summary>
+    private bool _AnimationPending = false;
+
+    /// <summary>
+    /// How long should the Animation wait for after it's done
+    /// before we allow input again?
+    /// </summary>
+    private WaitForSeconds _WaitBetweenAnimations = new WaitForSeconds(.25f);
+
+    private Vector3 _NumberOrigin;
+
+    public void SetNumberOriginForAnimation(Transform origin)
+    {
+        _NumberOrigin = origin.position;
+    }
+
+    public void SetNumberForSelectedIndex(int newValue)
+    {
+        if (_AnimationPending) return; 
+        if (_SelectedIndex == -1) return;
+
+        newValue = Mathf.Clamp(newValue, 0, 10); // TODO: Valid range?
+
+        SodukoGriidSpot gridSpot = Tiles[_SelectedIndex];
+        MeshRenderer mr = gridSpot.gameObject.GetComponent<MeshRenderer>();
+        SpriteRenderer sr = gridSpot.transform.GetChild(0).GetComponent<SpriteRenderer>();
+
+        if (newValue == gridSpot._SquareFilledValue) return;
+
+        _AnimationPending = true;
+        Tiles[_SelectedIndex]._SquareFilledValue = newValue;
+
+        StartCoroutine(AnimateNumberUpdate(gridSpot, mr, sr, newValue));
+
+        //UpdateFilledNumberAtSelectedIndex(newValue);
+    }
+
+    IEnumerator AnimateHideImagesForGroup(int groupNo)
+    {
+        _AnimationPending = true;
+
+        var grouped = Tiles.FindAll(x => x._SquareGroupNo == groupNo);
+        for(int i = 0; i < grouped.Count; i++)
+        {
+            Transform child = grouped[i].transform.GetChild(0);
+            Vector3 childOriginScale = child.localScale;
+
+            for(float f = 0; f < 1.0f; f += _SelectionMovementSpeed * Time.deltaTime)
+            {
+                child.localScale = Vector3.Lerp(childOriginScale, Vector3.zero, f);
+                yield return null;
+            }
+
+            yield return null;
+        }
+
+        yield return _WaitBetweenAnimations;
+        _AnimationPending = false;
+    }
+
+    bool CheckGroupForCompletion(int groupNo)
+    {
+        var grouped = Tiles.FindAll(x => x._SquareGroupNo == groupNo);
+        bool full = true;
+
+        for(int i = 0; i < grouped.Count; i++)
+        {
+            if (grouped[i]._SquareFilledValue != grouped[i]._SquareSolution)
+            {
+                full = false;
+                break;
+            }
+        }
+
+        return full;
+    }
+
+    IEnumerator AnimateNumberUpdate(SodukoGriidSpot gridSpot, MeshRenderer mr, SpriteRenderer sr, int newValue)
+    {
+        // 0. Set dummy origin
+        Vector3 dummyOrigin = _AnimationDummy.transform.position;
+        Vector3 dummyScaleOrigin = _AnimationDummy.transform.localScale;
+        Vector3 targetScale = Vector3.one * 2.5f;
+        
+        // 1. Set Animation dummy Sprite to the proper Number -> Sprite lookup.
+        _AnimationDummy.sprite = _NumberToSpriteLookup.GetSpriteByNumber((short)newValue);
+
+        // 2. Set Animation dummy transform to the NumberOrigin.
+        _AnimationDummy.transform.position = _NumberOrigin;
+        _AnimationDummy.transform.localScale = targetScale;
+
+        // 3. Move Animation dummy to the grid spot.
+        Vector3 finalPos = Camera.main.WorldToScreenPoint(gridSpot.transform.position);
+        
+        for(float f = 0; f <= 1.0f; f += (_SelectionMovementSpeed * 1.5f) * Time.deltaTime)
+        {
+            _AnimationDummy.transform.position = Vector3.Lerp(_NumberOrigin, finalPos, f);
+            _AnimationDummy.transform.localScale = Vector3.Lerp(targetScale, dummyScaleOrigin, f);
+            yield return null;
+        }
+        _AnimationDummy.transform.position = finalPos;
+        _AnimationDummy.transform.localScale = dummyScaleOrigin;
+
+        // 4. Set the proper bits
+        UpdateFilledNumberAtSelectedIndex(newValue);
+
+        // 5. Hide the animation dummy
+        _AnimationDummy.transform.position = dummyOrigin;
+
+
+        yield return null;
+        yield return _WaitBetweenAnimations;
+        
+        if(CheckGroupForCompletion(gridSpot._SquareGroupNo))
+        {
+            yield return AnimateHideImagesForGroup(gridSpot._SquareGroupNo);
+        }
+
+        _AnimationPending = false;
+    }
+
+    /// <summary>
+    /// Updates the tile at the selected position
+    /// with a new filled value.
+    ///
+    /// Verifies that if the number matches the solution, that we
+    /// remove the blur. 
+    /// </summary>
+    /// <param name="newValue"></param>
+    public void UpdateFilledNumberAtSelectedIndex(int newValue)
+    {
+        SodukoGriidSpot gridSpot = Tiles[_SelectedIndex];
+        MeshRenderer mr = gridSpot.gameObject.GetComponent<MeshRenderer>();
+        SpriteRenderer sr = gridSpot.transform.GetChild(0).GetComponent<SpriteRenderer>();
+
+        if (newValue == 0) //erase
+        {
+            sr.sprite = null;
+            testBlock.SetFloat("_Blur", 1);
+            testBlock.SetFloat("_BlurAmount", .02f);
+            mr.SetPropertyBlock(testBlock);
+        }
+        else if(gridSpot._SquareFilledValue == gridSpot._SquareSolution)
+        {
+            // Lose the blur...
+            sr.sprite = _NumberToSpriteLookup.GetSpriteByNumber((short)newValue);
+            testBlock.SetFloat("_Blur", 0);
+            testBlock.SetFloat("_BlurAmount", .0f);
+            mr.SetPropertyBlock(testBlock);
+        }
+        else
+        {
+            // Maintain blur.
+            sr.sprite = _NumberToSpriteLookup.GetSpriteByNumber((short)newValue);
+            testBlock.SetFloat("_Blur", 1);
+            testBlock.SetFloat("_BlurAmount", .02f);
+            mr.SetPropertyBlock(testBlock);
+        }
+    }
 
     public int GetValueAt(Vector2Int spot) => GetValueAt(spot.x, spot.y);
 
@@ -206,9 +377,6 @@ public class ModifyShaderOffset : MonoBehaviour
         //}
     }
 
-    void Start()
-    {
-    }
 
     void ClearList(bool doNextDelayed)
     {
@@ -246,6 +414,33 @@ public class ModifyShaderOffset : MonoBehaviour
         }
     }
 
+    void SetSelectionLocationToTappedSpot(SodukoGriidSpot gridSpot)
+    {
+        if (_SelectionBorder != null && !_AnimationPending)
+        {
+            _AnimationPending = true;
+            _SelectedIndex = gridSpot._LevelIndex;
+            // TODO: Cache the camera for later so we don't repeatedly call "FindObjectOfType<Camera>" every time someone taps a square.
+            StartCoroutine(_AnimateSpotChange(_SelectionBorder.transform,
+                _SelectionBorder.transform.position,
+                Camera.main.WorldToScreenPoint(gridSpot.transform.position))
+            );
+        }
+    }
+
+    IEnumerator _AnimateSpotChange(Transform target, Vector3 oldPos, Vector3 newPos)
+    {
+        for(float f = 0; f <= 1.0f; f += _SelectionMovementSpeed * Time.deltaTime)
+        {
+            target.position = Vector3.Lerp(oldPos, newPos, f);
+            yield return null;
+        }
+
+        target.position = newPos;
+        yield return _WaitBetweenAnimations;
+        _AnimationPending = false;
+    }
+
     void Regenerate()
     {
         // Generate board
@@ -270,6 +465,11 @@ public class ModifyShaderOffset : MonoBehaviour
                 gridSpotProperties._LevelIndex = sudokuCell.Index;
                 gridSpotProperties._SquareGroupNo = sudokuCell.GroupNo;
                 gridSpotProperties._SquareFilledValue = _revealed ? sudokuCell.Value : -1;
+                gridSpotProperties._OnGridSpotTapped = new UnityEngine.Events.UnityEvent<SodukoGriidSpot>();
+                gridSpotProperties._OnGridSpotTapped?.AddListener((_gridSpot) =>
+                {
+                    SetSelectionLocationToTappedSpot(_gridSpot);
+                });
 
 
                 // Adding MeshFilter and MeshRenderer for 3D Rendering
@@ -344,7 +544,7 @@ public class ModifyShaderOffset : MonoBehaviour
 
 
                     // Add our tile to our managed tiles list.
-                Tiles.Add(tile);
+                Tiles.Add(gridSpotProperties);
 
                 IsGenerated = true;
             }

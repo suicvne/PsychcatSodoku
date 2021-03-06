@@ -40,3 +40,5 @@ MonoBehaviour:
   - _Number: 9
     _Sprite: {fileID: -4520284781897136485, guid: 78fa842e5cd81434e96be34216caef22,
       type: 3}
+  - _Number: 0
+    _Sprite: {fileID: 21300000, guid: 336c3ea613ff94a32b52318365784ab3, type: 3}
