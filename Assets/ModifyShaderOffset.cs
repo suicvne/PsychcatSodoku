@@ -126,6 +126,7 @@ public class ModifyShaderOffset : MonoBehaviour
 
     [Header("Selection")]
     [SerializeField] int _SelectedIndex = -1;
+    [SerializeField] Transform _SelectedTransform;
     [SerializeField] Image _SelectionBorder; // Selection border to be moved around as tiles are tapped.
     [SerializeField] Image _AnimationDummy;
     [SerializeField] float _SelectionMovementSpeed = .75f;
@@ -135,6 +136,7 @@ public class ModifyShaderOffset : MonoBehaviour
     public bool WithBlur = false; // TODO: Remove This?
     public bool IsGenerated = false; // Is the board fully generated?
     public bool DestroyOnDisable = false; // Should we destroy the board when OnDisable ?
+    public bool TestCompleteAnimation = false;
 
     [Header("References")]
     [SerializeField] NumberToSpriteLookup _NumberToSpriteLookup; // Number -> Sprite lookup for the board.
@@ -197,6 +199,66 @@ public class ModifyShaderOffset : MonoBehaviour
         //UpdateFilledNumberAtSelectedIndex(newValue);
     }
 
+    void PreTestCompleteAnimation()
+    {
+        for(int i = 0; i < Tiles.Count; i++)
+        {
+            Transform child = Tiles[i].transform.GetChild(0);
+
+            MeshRenderer mr = Tiles[i].GetComponent<MeshRenderer>();
+            testBlock.SetFloat("_Blur", 0);
+            mr.SetPropertyBlock(testBlock);
+             
+            SpriteRenderer img = child.GetComponent<SpriteRenderer>();
+            img.sprite = _NumberToSpriteLookup.GetSpriteByNumber((short)Tiles[i]._SquareSolution);
+        }
+    }
+
+    WaitForSeconds _TimeBetweenSweep = new WaitForSeconds(.165f);
+
+    IEnumerator AnimateBoardCompleted()
+    {
+        _AnimationPending = true;
+
+        for(int i = 0; i < Tiles.Count; i += 9)
+        {
+            for (float f = 0; f < 1.0f; f += (_SelectionMovementSpeed * 2) * Time.deltaTime)
+            {
+                for (int b = 0; b < 9; b++)
+                {
+                    Transform child = Tiles[i + b].transform.GetChild(0);
+                    Vector3 childOriginScale = child.localScale;
+                    child.localScale = Vector3.Lerp(childOriginScale, Vector3.zero, f);
+                }
+                yield return _TimeBetweenSweep;
+                //child.localScale = Vector3.zero;
+            }
+            
+            
+            yield return null;
+        }
+
+        for (int i = 0; i < Tiles.Count; i += 9)
+        {
+            for (float f = 0; f < 1.0f; f += (_SelectionMovementSpeed * 2) * Time.deltaTime)
+            {
+                for (int b = 0; b < 9; b++)
+                {
+                    Transform child = Tiles[i + b].transform;
+                    Vector3 childOriginScale = child.localScale;
+                    child.localScale = Vector3.Lerp(childOriginScale, Vector3.one, f);
+                }
+                yield return _TimeBetweenSweep;
+                //child.localScale = Vector3.zero;
+            }
+
+
+            yield return null;
+        }
+
+        _AnimationPending = false;
+    }
+
     IEnumerator AnimateHideImagesForGroup(int groupNo)
     {
         _AnimationPending = true;
@@ -212,12 +274,43 @@ public class ModifyShaderOffset : MonoBehaviour
                 child.localScale = Vector3.Lerp(childOriginScale, Vector3.zero, f);
                 yield return null;
             }
+            child.localScale = Vector3.zero;
+
+            yield return null;
+        }
+
+        for (int i = 0; i < grouped.Count; i++)
+        {
+            Transform child = grouped[i].transform;
+            Vector3 childOriginScale = child.localScale;
+
+            for (float f = 0; f < 1.0f; f += _SelectionMovementSpeed * Time.deltaTime)
+            {
+                child.localScale = Vector3.Lerp(childOriginScale, Vector3.one, f);
+                yield return null;
+            }
+            child.localScale = Vector3.one;
 
             yield return null;
         }
 
         yield return _WaitBetweenAnimations;
         _AnimationPending = false;
+    }
+
+    bool CheckFullBoardForCompletion()
+    {
+        bool full = true;
+        for(int i = 0; i < Tiles.Count; i++)
+        {
+            if(Tiles[i]._SquareFilledValue != Tiles[i]._SquareSolution)
+            {
+                full = false;
+                break;
+            }
+        }
+
+        return full;
     }
 
     bool CheckGroupForCompletion(int groupNo)
@@ -272,8 +365,13 @@ public class ModifyShaderOffset : MonoBehaviour
 
         yield return null;
         yield return _WaitBetweenAnimations;
-        
-        if(CheckGroupForCompletion(gridSpot._SquareGroupNo))
+
+
+        if(CheckFullBoardForCompletion())
+        {
+            yield return AnimateBoardCompleted();
+        }
+        else if(CheckGroupForCompletion(gridSpot._SquareGroupNo))
         {
             yield return AnimateHideImagesForGroup(gridSpot._SquareGroupNo);
         }
@@ -420,6 +518,7 @@ public class ModifyShaderOffset : MonoBehaviour
         {
             _AnimationPending = true;
             _SelectedIndex = gridSpot._LevelIndex;
+            _SelectedTransform = gridSpot.transform;
             // TODO: Cache the camera for later so we don't repeatedly call "FindObjectOfType<Camera>" every time someone taps a square.
             StartCoroutine(_AnimateSpotChange(_SelectionBorder.transform,
                 _SelectionBorder.transform.position,
@@ -634,20 +733,13 @@ public class ModifyShaderOffset : MonoBehaviour
         WasBlur = WithBlur;
     }
 
-    //private void Update()
-    //{
-    //    if (thisRenderer == null) thisRenderer = GetComponent<Renderer>();
-
-    //    thisRenderer.material.mainTextureOffset = new Vector2(1f / (X * 3), 1f / (Y * 3));
-
-    //    Debug = $"Input: {X}, {Y}\n{1f / (X * 3)}, {1f / (Y * 3)}\nResult: {thisRenderer.material.mainTextureOffset}";
-    //    //Debug.Log($"Texture Offset (Input: ({X}, {Y})): {1f / (X * 3)}, {1f / (Y * 3)}; {thisRenderer.material.mainTextureOffset}");
-    //}
-
-    //private void OnValidate()
-    //{
-    //    //thisRenderer = GetComponent<Renderer>();
-
-    //    //thisRenderer.material.mainTextureOffset = new Vector2(1 / (X), 1 / (Y));
-    //}
+    private void OnValidate()
+    {
+        if(Application.isPlaying && TestCompleteAnimation && !_AnimationPending)
+        {
+            PreTestCompleteAnimation();
+            StartCoroutine(AnimateBoardCompleted());
+            TestCompleteAnimation = false;
+        }
+    }
 }
