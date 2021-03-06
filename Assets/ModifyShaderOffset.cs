@@ -226,6 +226,7 @@ public class ModifyShaderOffset : MonoBehaviour
     }
 
     WaitForSeconds _TimeBetweenSweep = new WaitForSeconds(.05f);
+    WaitForFixedUpdate _FixedUpdate = new WaitForFixedUpdate();
 
     IEnumerator AnimateBoardCompleted()
     {
@@ -233,7 +234,7 @@ public class ModifyShaderOffset : MonoBehaviour
 
         for(int i = 0; i < Tiles.Count; i += 9)
         {
-            for (float f = 0; f < 1.0f; f += (_SelectionMovementSpeed * 2) * Time.deltaTime)
+            for (float f = 0; f < 1.0f; f += (_SelectionMovementSpeed * 2) * Time.fixedDeltaTime)
             {
                 for (int b = 0; b < 9; b++)
                 {
@@ -241,20 +242,20 @@ public class ModifyShaderOffset : MonoBehaviour
                     Vector3 childOriginScale = child.localScale;
                     child.localScale = Vector3.Lerp(childOriginScale, Vector3.zero, f);
                 }
-                yield return null;
-                yield return null;
+                yield return _FixedUpdate;
+                yield return _FixedUpdate;
                 //yield return _TimeBetweenSweep;
                 //yield return _TimeBetweenSweep;
                 //child.localScale = Vector3.zero;
             }
             
             
-            yield return null;
+            yield return _FixedUpdate;
         }
 
         for (int i = 0; i < Tiles.Count; i += 9)
         {
-            for (float f = 0; f < 1.0f; f += (_SelectionMovementSpeed * 2) * Time.deltaTime)
+            for (float f = 0; f < 1.0f; f += (_SelectionMovementSpeed * 2) * Time.fixedDeltaTime)
             {
                 for (int b = 0; b < 9; b++)
                 {
@@ -263,7 +264,7 @@ public class ModifyShaderOffset : MonoBehaviour
                     child.localScale = Vector3.Lerp(childOriginScale, Vector3.one, f);
                     //yield return null;
                 }
-                yield return null;
+                yield return _FixedUpdate;
                 //yield return _TimeBetweenSweep;
                 //child.localScale = Vector3.zero;
             }
@@ -385,10 +386,10 @@ public class ModifyShaderOffset : MonoBehaviour
         {
             yield return AnimateBoardCompleted();
         }
-        else if(CheckGroupForCompletion(gridSpot._SquareGroupNo))
-        {
-            yield return AnimateHideImagesForGroup(gridSpot._SquareGroupNo);
-        }
+        //else if(CheckGroupForCompletion(gridSpot._SquareGroupNo))
+        //{
+        //    yield return AnimateHideImagesForGroup(gridSpot._SquareGroupNo);
+        //}
 
         _AnimationPending = false;
     }
