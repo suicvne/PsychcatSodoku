@@ -7,6 +7,8 @@ namespace IgnoreSolutions.PsychSodoku
     [System.Serializable]
     public struct RectTransformProperties
     {
+        public string name;
+        public Vector2 _ReferenceAspectRatio;
         public Vector2 _SizeDelta;
         public Vector2 _AnchoredPosition;
         public Vector2 _AnchorMin;
@@ -28,6 +30,9 @@ namespace IgnoreSolutions.PsychSodoku
 
         private void LateUpdate()
         {
+            int r = DetectResolutionChange.gcd(Screen.width, Screen.height);
+            _Properties.name = _Properties._ReferenceAspectRatio.ToString();
+            _Properties._ReferenceAspectRatio = new Vector2(Screen.width / r, Screen.height / r);
             _Properties._SizeDelta = _ThisRectTransform.sizeDelta;
             _Properties._AnchoredPosition = _ThisRectTransform.anchoredPosition;
             _Properties._AnchorMin = _ThisRectTransform.anchorMin;

@@ -9,6 +9,7 @@ namespace IgnoreSolutions.PsychSodoku
     public class TestSafeArea : MonoBehaviour
     {
         RectTransform _ThisTransform;
+        [SerializeField] Vector2 _ScreenSafeSize;
 
         private void OnEnable()
         {
@@ -16,6 +17,7 @@ namespace IgnoreSolutions.PsychSodoku
 
             Debug.Log($"Screen Safe Area: {Screen.safeArea.ToString()}");
             _ThisTransform.sizeDelta = Screen.safeArea.size;
+            _ScreenSafeSize = Screen.safeArea.size;
             //_ThisTransform.transform.position = Vector3.zero;
         }
 

@@ -24,6 +24,8 @@ namespace IgnoreSolutions.PsychSodoku
         [SerializeField] RectTransformProperties _Portrait;
         [SerializeField] RectTransformProperties _Landscape;
 
+        [SerializeField] List<RectTransformProperties> _PropertiesByAspectRatio = new List<RectTransformProperties>();
+
         RectTransform _ThisRectTransform;
         TestGatherRectTransProps _TestGatherProps;
         Camera _camera;
@@ -62,7 +64,41 @@ namespace IgnoreSolutions.PsychSodoku
                 {
                     _Portrait = _TestGatherProps._Properties;
                 }
+
+                int r = DetectResolutionChange.gcd(Screen.width, Screen.height);
+                Vector2 arc = new Vector2(Screen.width / r, Screen.height / r);
+                int i = -1;
+                if((i = GetRectTransformIndexByAspect(arc)) == -1)
+                {
+                    _PropertiesByAspectRatio.Add(_TestGatherProps._Properties);
+                }
+                else
+                {
+                    _PropertiesByAspectRatio[i] = _TestGatherProps._Properties;
+                }
             }
+        }
+
+        RectTransformProperties? GetRectTransformPropertiesByAspectRatio(Vector2 arc)
+        {
+            var returnProperties = _PropertiesByAspectRatio.Find(x => x._ReferenceAspectRatio == arc);
+
+            Debug.Log($"[GetByAspectRatio] {_PropertiesByAspectRatio}");
+            return returnProperties;
+        }
+
+        int GetRectTransformIndexByAspect(Vector2 arc)
+        {
+            int returnVal = -1;
+            for(int i = 0; i < _PropertiesByAspectRatio.Count; i++)
+            {
+                if(_PropertiesByAspectRatio[i]._ReferenceAspectRatio == arc)
+                {
+                    return i;
+                }
+            }
+
+            return returnVal;
         }
 
         public void ResolutionChanged()
@@ -91,9 +127,18 @@ namespace IgnoreSolutions.PsychSodoku
 
                 if (ShouldWork == false) return;
                 //EnableForOrientation(_CurrentOrientation);
-                RectTransformProperties orientationProps = _CurrentOrientation == Orientation.Landscape ? _Landscape : _Portrait;
 
-                if(_PropsToCopy.HasFlag(PropertiesToCopy.SizeDelta)) _ThisRectTransform.sizeDelta = orientationProps._SizeDelta;
+                RectTransformProperties orientationProps = _CurrentOrientation == Orientation.Landscape ? _Landscape : _Portrait;
+                int i = -1;
+                int r = DetectResolutionChange.gcd(Screen.width, Screen.height);
+                Vector2 _arc = new Vector2(Screen.width / r, Screen.height / r);
+                if((i = GetRectTransformIndexByAspect(_arc)) != -1)
+                {
+                    orientationProps = _PropertiesByAspectRatio[i];
+                    orientationProps.name = _arc.ToString();
+                }
+
+                if (_PropsToCopy.HasFlag(PropertiesToCopy.SizeDelta)) _ThisRectTransform.sizeDelta = orientationProps._SizeDelta;
                 if(_PropsToCopy.HasFlag(PropertiesToCopy.AnchoredPosition)) _ThisRectTransform.anchoredPosition = orientationProps._AnchoredPosition;
                 if(_PropsToCopy.HasFlag(PropertiesToCopy.AnchorMin)) _ThisRectTransform.anchorMin = orientationProps._AnchorMin;
                 if (_PropsToCopy.HasFlag(PropertiesToCopy.AnchorMax)) _ThisRectTransform.anchorMax = orientationProps._AnchorMax;

@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 36344096}
   - component: {fileID: 36344095}
   m_Layer: 5
-  m_Name: TestAnimation
+  m_Name: TestCompletedAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,10 +256,10 @@ RectTransform:
   m_Father: {fileID: 1159034468}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1253, y: 67.6}
-  m_SizeDelta: {x: 174.1, y: 101.7}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -294.95, y: 50.85}
+  m_SizeDelta: {x: 174.1001, y: 101.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &36344092
 MonoBehaviour:
@@ -372,15 +372,20 @@ MonoBehaviour:
   TestFillMode: 0
   _CurrentOrientation: 1
   _Portrait:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
     _SizeDelta: {x: 174.1, y: 101.7}
     _AnchoredPosition: {x: 556.9, y: 67.6}
     _AnchorMin: {x: 0, y: 0}
     _AnchorMax: {x: 0, y: 0}
   _Landscape:
-    _SizeDelta: {x: 174.1, y: 101.7}
-    _AnchoredPosition: {x: 1253, y: 67.6}
-    _AnchorMin: {x: 0, y: 0}
-    _AnchorMax: {x: 0, y: 0}
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
+    _SizeDelta: {x: 174.1001, y: 101.7}
+    _AnchoredPosition: {x: -294.95, y: 50.85}
+    _AnchorMin: {x: 1, y: 0}
+    _AnchorMax: {x: 1, y: 0}
+  _PropertiesByAspectRatio: []
 --- !u!114 &36344096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,10 +399,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    _SizeDelta: {x: 174.1, y: 101.7}
-    _AnchoredPosition: {x: 1253, y: 67.6}
-    _AnchorMin: {x: 0, y: 0}
-    _AnchorMax: {x: 0, y: 0}
+    name: (667.0, 375.0)
+    _ReferenceAspectRatio: {x: 683, y: 512}
+    _SizeDelta: {x: 174.1001, y: 101.7}
+    _AnchoredPosition: {x: -294.95, y: 50.85}
+    _AnchorMin: {x: 1, y: 0}
+    _AnchorMax: {x: 1, y: 0}
 --- !u!1 &55875007
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,6 +1281,7 @@ GameObject:
   - component: {fileID: 234419784}
   - component: {fileID: 234419786}
   - component: {fileID: 234419787}
+  - component: {fileID: 234419788}
   m_Layer: 0
   m_Name: GridMaster
   m_TagString: Untagged
@@ -1412,6 +1420,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _GameBoard: {fileID: 234419784}
+--- !u!114 &234419788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234419783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eff0c4dc5a7d34a8f88397df5ddc4e06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnResolutionChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 234419784}
+        m_TargetAssemblyTypeName: ModifyShaderOffset, Assembly-CSharp
+        m_MethodName: ResetSelectionBorderPosition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _CurrentOrientation: 1
+  _CurrentAspectRatio: {x: 1, y: 1}
 --- !u!1 &241998369
 GameObject:
   m_ObjectHideFlags: 0
@@ -3789,7 +3826,7 @@ GameObject:
   - component: {fileID: 878801321}
   - component: {fileID: 878801320}
   m_Layer: 5
-  m_Name: Grid
+  m_Name: NumbersInputGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3865,15 +3902,20 @@ MonoBehaviour:
   TestFillMode: 0
   _CurrentOrientation: 1
   _Portrait:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
     _SizeDelta: {x: -133.40001, y: -13.499985}
     _AnchoredPosition: {x: 66.69999, y: -6.7500076}
     _AnchorMin: {x: 0, y: 0}
     _AnchorMax: {x: 1, y: 1}
   _Landscape:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
     _SizeDelta: {x: -20, y: 0}
     _AnchoredPosition: {x: 10, y: 0}
     _AnchorMin: {x: 0, y: 0}
     _AnchorMax: {x: 1, y: 1}
+  _PropertiesByAspectRatio: []
 --- !u!114 &878801321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3887,8 +3929,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    _SizeDelta: {x: -133.40001, y: -13.499985}
-    _AnchoredPosition: {x: 66.69998, y: -6.75}
+    name: (667.0, 375.0)
+    _ReferenceAspectRatio: {x: 683, y: 512}
+    _SizeDelta: {x: -20, y: 0}
+    _AnchoredPosition: {x: 10, y: 0}
     _AnchorMin: {x: 0, y: 0}
     _AnchorMax: {x: 1, y: 1}
 --- !u!1 &882414217
@@ -4128,8 +4172,11 @@ GameObject:
   - component: {fileID: 1008399850}
   - component: {fileID: 1008399853}
   - component: {fileID: 1008399852}
+  - component: {fileID: 1008399855}
+  - component: {fileID: 1008399854}
+  - component: {fileID: 1008399851}
   m_Layer: 5
-  m_Name: SafeArea
+  m_Name: (683.0, 512.0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4150,11 +4197,24 @@ RectTransform:
   m_Father: {fileID: 868483918}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 1334}
+  m_SizeDelta: {x: -200, y: -160}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1008399851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008399849}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c48d5e9d97c894f48953cb97a93507d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ScreenSafeSize: {x: 468, y: 977}
 --- !u!114 &1008399852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4193,6 +4253,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1008399849}
   m_CullTransparentMesh: 1
+--- !u!114 &1008399854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008399849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e1c3efb00cd9418c9958c747887d64a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _PropsToCopy: 7
+  ShouldWork: 1
+  TestFillMode: 0
+  _CurrentOrientation: 1
+  _Portrait:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
+    _SizeDelta: {x: -60, y: -33}
+    _AnchoredPosition: {x: 0, y: -13.5}
+    _AnchorMin: {x: 0, y: 0}
+    _AnchorMax: {x: 1, y: 1}
+  _Landscape:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
+    _SizeDelta: {x: -200, y: -160}
+    _AnchoredPosition: {x: 0, y: 0}
+    _AnchorMin: {x: 0, y: 0}
+    _AnchorMax: {x: 1, y: 1}
+  _PropertiesByAspectRatio: []
+--- !u!114 &1008399855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008399849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c277f8ec5340d40598865f4a501731c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Properties:
+    name: (667.0, 375.0)
+    _ReferenceAspectRatio: {x: 683, y: 512}
+    _SizeDelta: {x: -200, y: -160}
+    _AnchoredPosition: {x: 0, y: 0}
+    _AnchorMin: {x: 0, y: 0}
+    _AnchorMax: {x: 1, y: 1}
 --- !u!1 &1008838703
 GameObject:
   m_ObjectHideFlags: 0
@@ -4454,10 +4564,10 @@ RectTransform:
   m_Father: {fileID: 242268867}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 275, y: -90}
-  m_SizeDelta: {x: 490, y: 120}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1052603172
 MonoBehaviour:
@@ -5005,10 +5115,10 @@ RectTransform:
   - {fileID: 1272374969}
   - {fileID: 131986070}
   - {fileID: 36344091}
+  - {fileID: 1356726844}
   - {fileID: 1854026530}
   - {fileID: 1351717383}
   - {fileID: 1856297818}
-  - {fileID: 1356726844}
   m_Father: {fileID: 1008399850}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5287,7 +5397,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 24.155445, y: 65.6}
+  m_AnchoredPosition: {x: 24.155518, y: 65.599976}
   m_SizeDelta: {x: 50, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1272374970
@@ -5400,7 +5510,7 @@ GameObject:
   - component: {fileID: 1288570346}
   - component: {fileID: 1288570345}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: (683.0, 512.0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5425,8 +5535,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -40, y: -240}
+  m_AnchoredPosition: {x: -12.964966, y: 0}
+  m_SizeDelta: {x: 637.7101, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1288570341
 MonoBehaviour:
@@ -5515,17 +5625,22 @@ MonoBehaviour:
   _PropsToCopy: 7
   ShouldWork: 1
   TestFillMode: 0
-  _CurrentOrientation: 0
+  _CurrentOrientation: 1
   _Portrait:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
     _SizeDelta: {x: -40, y: -240}
     _AnchoredPosition: {x: 0, y: 0}
     _AnchorMin: {x: 0, y: 0}
     _AnchorMax: {x: 1, y: 1}
   _Landscape:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
     _SizeDelta: {x: 637.7101, y: -200}
     _AnchoredPosition: {x: -12.964966, y: 0}
     _AnchorMin: {x: 0, y: 0}
     _AnchorMax: {x: 1, y: 1}
+  _PropertiesByAspectRatio: []
 --- !u!114 &1288570346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5539,8 +5654,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    _SizeDelta: {x: -40, y: -240}
-    _AnchoredPosition: {x: 0, y: 0}
+    name: (667.0, 375.0)
+    _ReferenceAspectRatio: {x: 683, y: 512}
+    _SizeDelta: {x: 637.7101, y: -200}
+    _AnchoredPosition: {x: -12.964966, y: 0}
     _AnchorMin: {x: 0, y: 0}
     _AnchorMax: {x: 1, y: 1}
 --- !u!1 &1308711860
@@ -5684,7 +5801,7 @@ GameObject:
   - component: {fileID: 1351717387}
   - component: {fileID: 1351717386}
   m_Layer: 5
-  m_Name: TEST_AnimationDummy
+  m_Name: AnimDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5702,7 +5819,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1159034468}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5765,15 +5882,20 @@ MonoBehaviour:
   TestFillMode: 0
   _CurrentOrientation: 1
   _Portrait:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
     _SizeDelta: {x: 64, y: 75}
     _AnchoredPosition: {x: -1488.84, y: -110}
     _AnchorMin: {x: 0.5, y: 0.5}
     _AnchorMax: {x: 0.5, y: 0.5}
   _Landscape:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
     _SizeDelta: {x: 128, y: 128}
     _AnchoredPosition: {x: -1488.84, y: -110}
     _AnchorMin: {x: 0.5, y: 0.5}
     _AnchorMax: {x: 0.5, y: 0.5}
+  _PropertiesByAspectRatio: []
 --- !u!114 &1351717387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5787,6 +5909,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
+    name: (667.0, 375.0)
+    _ReferenceAspectRatio: {x: 683, y: 512}
     _SizeDelta: {x: 128, y: 128}
     _AnchoredPosition: {x: -1488.84, y: -110}
     _AnchorMin: {x: 0.5, y: 0.5}
@@ -5823,12 +5947,12 @@ RectTransform:
   m_Children:
   - {fileID: 1478815181}
   m_Father: {fileID: 1159034468}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.1139, y: -575.4}
-  m_SizeDelta: {x: 168.2278, y: 101.71}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -84.11401, y: 50.85498}
+  m_SizeDelta: {x: 168.22778, y: 101.71002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1356726845
 MonoBehaviour:
@@ -5945,7 +6069,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1370332814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6065,7 +6189,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1370332813}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -6228,7 +6352,7 @@ GameObject:
   - component: {fileID: 1448482098}
   - component: {fileID: 1448482097}
   m_Layer: 5
-  m_Name: InputPossible
+  m_Name: PossibleNumbers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6332,15 +6456,20 @@ MonoBehaviour:
   TestFillMode: 0
   _CurrentOrientation: 1
   _Portrait:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
     _SizeDelta: {x: 130.29999, y: 199.79999}
     _AnchoredPosition: {x: 65.149994, y: -0.0000038146973}
     _AnchorMin: {x: 0, y: 0.5}
     _AnchorMax: {x: 0, y: 0.5}
   _Landscape:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
     _SizeDelta: {x: 130.3, y: 199.8}
     _AnchoredPosition: {x: -65.15, y: 56.3}
     _AnchorMin: {x: 1, y: 0}
     _AnchorMax: {x: 1, y: 0}
+  _PropertiesByAspectRatio: []
 --- !u!114 &1448482098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6354,10 +6483,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
+    name: (667.0, 375.0)
+    _ReferenceAspectRatio: {x: 683, y: 512}
     _SizeDelta: {x: 130.29999, y: 199.79999}
-    _AnchoredPosition: {x: 65.149994, y: 0}
-    _AnchorMin: {x: 0, y: 0.5}
-    _AnchorMax: {x: 0, y: 0.5}
+    _AnchoredPosition: {x: -65.15, y: 56.3}
+    _AnchorMin: {x: 1, y: 0}
+    _AnchorMax: {x: 1, y: 0}
 --- !u!1 &1448716767
 GameObject:
   m_ObjectHideFlags: 0
@@ -7459,8 +7590,10 @@ GameObject:
   - component: {fileID: 1854026532}
   - component: {fileID: 1854026531}
   - component: {fileID: 1854026533}
+  - component: {fileID: 1854026535}
+  - component: {fileID: 1854026534}
   m_Layer: 5
-  m_Name: TEST_SelectionBorder
+  m_Name: _SelectionBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7478,12 +7611,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1159034468}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1488.84, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1854026531
 MonoBehaviour:
@@ -7542,6 +7675,56 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1854026534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854026529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e1c3efb00cd9418c9958c747887d64a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _PropsToCopy: 1
+  ShouldWork: 1
+  TestFillMode: 0
+  _CurrentOrientation: 1
+  _Portrait:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
+    _SizeDelta: {x: 64, y: 64}
+    _AnchoredPosition: {x: -1488.84, y: 0}
+    _AnchorMin: {x: 0.5, y: 0.5}
+    _AnchorMax: {x: 0.5, y: 0.5}
+  _Landscape:
+    name: 
+    _ReferenceAspectRatio: {x: 0, y: 0}
+    _SizeDelta: {x: 128, y: 128}
+    _AnchoredPosition: {x: -1488.84, y: 0}
+    _AnchorMin: {x: 0.5, y: 0.5}
+    _AnchorMax: {x: 0.5, y: 0.5}
+  _PropertiesByAspectRatio: []
+--- !u!114 &1854026535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854026529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c277f8ec5340d40598865f4a501731c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Properties:
+    name: (667.0, 375.0)
+    _ReferenceAspectRatio: {x: 683, y: 512}
+    _SizeDelta: {x: 128, y: 128}
+    _AnchoredPosition: {x: -1488.84, y: 0}
+    _AnchorMin: {x: 0.5, y: 0.5}
+    _AnchorMax: {x: 0.5, y: 0.5}
 --- !u!1 &1856297817
 GameObject:
   m_ObjectHideFlags: 0
@@ -7554,7 +7737,7 @@ GameObject:
   - component: {fileID: 1856297819}
   - component: {fileID: 1856297820}
   m_Layer: 5
-  m_Name: NumbersInput
+  m_Name: NumbersInputPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7575,12 +7758,12 @@ RectTransform:
   - {fileID: 878801318}
   - {fileID: 1448482095}
   m_Father: {fileID: 1159034468}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -428, y: -324.15002}
-  m_SizeDelta: {x: 205.9, y: -703.5}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: -65.61, y: 0}
+  m_SizeDelta: {x: 205.9, y: 580.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1856297819
 MonoBehaviour:
@@ -7595,10 +7778,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    _SizeDelta: {x: 0, y: 200}
-    _AnchoredPosition: {x: 0, y: 285.85}
-    _AnchorMin: {x: 0, y: 0}
-    _AnchorMax: {x: 1, y: 0}
+    name: (667.0, 375.0)
+    _ReferenceAspectRatio: {x: 683, y: 512}
+    _SizeDelta: {x: 205.9, y: 580.1}
+    _AnchoredPosition: {x: 208.3, y: 0}
+    _AnchorMin: {x: 0, y: 0.5}
+    _AnchorMax: {x: 0, y: 0.5}
 --- !u!114 &1856297820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7613,18 +7798,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _PropsToCopy: -1
   ShouldWork: 1
-  TestFillMode: 1
+  TestFillMode: 0
   _CurrentOrientation: 1
   _Portrait:
-    _SizeDelta: {x: 0, y: 200}
-    _AnchoredPosition: {x: 0, y: 285.85}
-    _AnchorMin: {x: 0, y: 0}
-    _AnchorMax: {x: 1, y: 0}
+    name: (9.0, 16.0)
+    _ReferenceAspectRatio: {x: 9, y: 16}
+    _SizeDelta: {x: 585.9, y: 200}
+    _AnchoredPosition: {x: 0.0000076293945, y: 270}
+    _AnchorMin: {x: 0.5, y: 0}
+    _AnchorMax: {x: 0.5, y: 0}
   _Landscape:
-    _SizeDelta: {x: 0, y: 200}
-    _AnchoredPosition: {x: 0, y: 285.85}
-    _AnchorMin: {x: 0, y: 0}
-    _AnchorMax: {x: 1, y: 0}
+    name: (16.0, 9.0)
+    _ReferenceAspectRatio: {x: 16, y: 9}
+    _SizeDelta: {x: 205.9, y: 580.1}
+    _AnchoredPosition: {x: 176.6, y: 0}
+    _AnchorMin: {x: 0, y: 0.5}
+    _AnchorMax: {x: 0, y: 0.5}
+  _PropertiesByAspectRatio:
+  - name: (667.0, 375.0)
+    _ReferenceAspectRatio: {x: 667, y: 375}
+    _SizeDelta: {x: 205.9, y: 580.1}
+    _AnchoredPosition: {x: 208.3, y: 0}
+    _AnchorMin: {x: 0, y: 0.5}
+    _AnchorMax: {x: 0, y: 0.5}
+  - name: (683.0, 512.0)
+    _ReferenceAspectRatio: {x: 683, y: 512}
+    _SizeDelta: {x: 205.9, y: 580.1}
+    _AnchoredPosition: {x: -65.61, y: 0}
+    _AnchorMin: {x: 0, y: 0.5}
+    _AnchorMax: {x: 0, y: 0.5}
+  - name: (16.0, 9.0)
+    _ReferenceAspectRatio: {x: 16, y: 9}
+    _SizeDelta: {x: 205.9, y: 580.1}
+    _AnchoredPosition: {x: 176.6, y: 0}
+    _AnchorMin: {x: 0, y: 0.5}
+    _AnchorMax: {x: 0, y: 0.5}
+  - name: (9.0, 16.0)
+    _ReferenceAspectRatio: {x: 9, y: 16}
+    _SizeDelta: {x: 585.9, y: 200}
+    _AnchoredPosition: {x: 0.0000076293945, y: 270}
+    _AnchorMin: {x: 0.5, y: 0}
+    _AnchorMax: {x: 0.5, y: 0}
 --- !u!1 &1904065705
 GameObject:
   m_ObjectHideFlags: 0

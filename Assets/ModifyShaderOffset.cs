@@ -600,6 +600,15 @@ public class ModifyShaderOffset : MonoBehaviour
         }
     }
 
+    public void ResetSelectionBorderPosition()
+    {
+        if(_SelectedIndex != -1) _SelectionBorder.transform.position = Camera.main.WorldToScreenPoint(Tiles[_SelectedIndex].transform.position);
+        else
+        {
+            _SelectionBorder.transform.position = new Vector3(-Screen.width * 2, 0, 0);
+        }
+    }
+
     internal void SetSelectionLocationToTappedSpot(SodukoGriidSpot gridSpot)
     {
         if (_SelectionBorder != null && !_AnimationPending)
