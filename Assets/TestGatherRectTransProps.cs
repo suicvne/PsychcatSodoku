@@ -13,6 +13,7 @@ namespace IgnoreSolutions.PsychSodoku
         public Vector2 _AnchoredPosition;
         public Vector2 _AnchorMin;
         public Vector2 _AnchorMax;
+        public Vector3 _LocalScale;
     }
 
     [ExecuteInEditMode]
@@ -37,6 +38,7 @@ namespace IgnoreSolutions.PsychSodoku
             _Properties._AnchoredPosition = _ThisRectTransform.anchoredPosition;
             _Properties._AnchorMin = _ThisRectTransform.anchorMin;
             _Properties._AnchorMax = _ThisRectTransform.anchorMax;
+            _Properties._LocalScale = _ThisRectTransform.localScale;
         }
     }
 }
