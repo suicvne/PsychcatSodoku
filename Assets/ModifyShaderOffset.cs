@@ -232,7 +232,9 @@ public class ModifyShaderOffset : MonoBehaviour
         _NumberOrigin = origin.position;
     }
 
-    public void SetNumberForSelectedIndex(int newValue)
+    public void SetNumberForSelectedIndex(int newValue) => SetNumberForSelectedIndex(newValue, false);
+
+    public void SetNumberForSelectedIndex(int newValue, bool skipUndo = false)
     {
         if (_AnimationPending) return; 
         if (_SelectedIndex == -1) return;
@@ -258,7 +260,7 @@ public class ModifyShaderOffset : MonoBehaviour
         {
             if (newValue == gridSpot._SquareFilledValue) return;
 
-            _UndoFeature.PushUndo(Tiles[_SelectedIndex]._SquareFilledValue, newValue, Tiles[_SelectedIndex], StepType.ChangeNumber, StepAffection.MainNumber);
+            if(!skipUndo) _UndoFeature.PushUndo(Tiles[_SelectedIndex]._SquareFilledValue, newValue, Tiles[_SelectedIndex], StepType.ChangeNumber, StepAffection.MainNumber);
 
             _AnimationPending = true;
             Tiles[_SelectedIndex]._SquareFilledValue = newValue;
@@ -266,7 +268,7 @@ public class ModifyShaderOffset : MonoBehaviour
             // Old value, new value, grid spot.
             
 
-            StartCoroutine(AnimateNumberUpdate(gridSpot, mr, sr, newValue));
+            StartCoroutine(AnimateNumberUpdate(gridSpot, mr, sr, newValue, skipUndo));
         }
     }
 
@@ -410,7 +412,7 @@ public class ModifyShaderOffset : MonoBehaviour
         return full;
     }
 
-    internal IEnumerator AnimateNumberUpdate(SodukoGriidSpot gridSpot, MeshRenderer mr, SpriteRenderer sr, int newValue)
+    internal IEnumerator AnimateNumberUpdate(SodukoGriidSpot gridSpot, MeshRenderer mr, SpriteRenderer sr, int newValue, bool skipUndo)
     {
         // 0. Set dummy origin
         Vector3 dummyOrigin = _AnimationDummy.transform.position;
@@ -437,7 +439,7 @@ public class ModifyShaderOffset : MonoBehaviour
         _AnimationDummy.transform.localScale = dummyScaleOrigin;
 
         // 4. Set the proper bits
-        UpdateFilledNumberAtSelectedIndex(newValue);
+        UpdateFilledNumberAtSelectedIndex(newValue, skipUndo);
 
         // 5. Hide the animation dummy
         _AnimationDummy.transform.position = dummyOrigin;
@@ -467,7 +469,7 @@ public class ModifyShaderOffset : MonoBehaviour
     /// remove the blur. 
     /// </summary>
     /// <param name="newValue"></param>
-    public void UpdateFilledNumberAtSelectedIndex(int newValue)
+    public void UpdateFilledNumberAtSelectedIndex(int newValue, bool skipUndo)
     {
         SodukoGriidSpot gridSpot = Tiles[_SelectedIndex];
         MeshRenderer mr = gridSpot.gameObject.GetComponent<MeshRenderer>();

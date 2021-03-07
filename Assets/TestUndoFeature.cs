@@ -55,13 +55,15 @@ namespace IgnoreSolutions.PsychSodoku
                 _GameBoard.SetSelectionLocationToTappedSpot(_gridSpot);
                 if (undoStep._StepType == StepType.ChangeNumber) // put back to previous value.
                 {
-
+                    _gridSpot._SquareFilledValue = undoStep._GridPreviousValue;
+                    StartCoroutine(_GameBoard.AnimateNumberUpdate(_gridSpot, _gridSpot.GetComponent<MeshRenderer>(), _gridSpot._SolutionNumberSprite, undoStep._GridPreviousValue, true));
                 }
                 else if(undoStep._StepType == StepType.RemoveNumber) // Remove Number means we use _StepValue to put the number back.
                 {
                     if (undoStep._StepAffection == StepAffection.MainNumber)
                     {
-                        StartCoroutine(_GameBoard.AnimateNumberUpdate(_gridSpot, _gridSpot.GetComponent<MeshRenderer>(), _gridSpot._SolutionNumberSprite, undoStep._StepValue));
+                        _gridSpot._SquareFilledValue = undoStep._GridPreviousValue;
+                        StartCoroutine(_GameBoard.AnimateNumberUpdate(_gridSpot, _gridSpot.GetComponent<MeshRenderer>(), _gridSpot._SolutionNumberSprite, undoStep._StepValue, true));
                         //_GameBoard.UpdateFilledNumberAtSelectedIndex(undoStep._StepValue);
                     }
                     else

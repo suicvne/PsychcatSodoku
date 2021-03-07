@@ -258,7 +258,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 481.68, y: 67.6}
+  m_AnchoredPosition: {x: 556.9, y: 67.6}
   m_SizeDelta: {x: 174.1, y: 101.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &36344092
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Properties:
     _SizeDelta: {x: 174.1, y: 101.7}
-    _AnchoredPosition: {x: 481.68, y: 67.6}
+    _AnchoredPosition: {x: 556.9, y: 67.6}
     _AnchorMin: {x: 0, y: 0}
     _AnchorMax: {x: 0, y: 0}
 --- !u!1 &55875007
@@ -1307,7 +1307,7 @@ MonoBehaviour:
   IsGenerated: 1
   DestroyOnDisable: 0
   TestCompleteAnimation: 0
-  _UndoFeature: {fileID: 0}
+  _UndoFeature: {fileID: 234419787}
   _TilePrefab: {fileID: 1338122483363953296, guid: fa6c2c2d63d854819aad50600156b7ce,
     type: 3}
   _CongratulationsScreen: {fileID: 1370332819}
@@ -1411,7 +1411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6612e8b9ec69f49e9b29a05f21816a44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _GameBoard: {fileID: 0}
+  _GameBoard: {fileID: 234419784}
 --- !u!1 &241998369
 GameObject:
   m_ObjectHideFlags: 0
