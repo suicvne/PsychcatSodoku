@@ -146,6 +146,8 @@ public class ModifyShaderOffset : MonoBehaviour
     public bool TestCompleteAnimation = false;
 
     [Header("References")]
+    [SerializeField] TestUndoFeature _UndoFeature;
+    [SerializeField] SodukoGriidSpot _TilePrefab;
     [SerializeField] CongratulationsScreenController _CongratulationsScreen;
     [SerializeField] CanvasGroup _GameUI;
     [SerializeField] NumberToSpriteLookup _NumberToSpriteLookup; // Number -> Sprite lookup for the board.
@@ -157,7 +159,7 @@ public class ModifyShaderOffset : MonoBehaviour
     [SerializeField] UnityEvent _OnBoardGenerated;
     [SerializeField] UnityEvent _OnBoardFullyComplete;
 
-    private List<SodukoGriidSpot> Tiles = new List<SodukoGriidSpot>(); // A list of all the tiles that this script manages.
+    internal List<SodukoGriidSpot> Tiles = new List<SodukoGriidSpot>(); // A list of all the tiles that this script manages.
     private List<LineRenderer> LineRenderers = new List<LineRenderer>(); // A list of the LineRenderers that this script manages.
 
     private Material lastMaterial; // Hm?
@@ -174,7 +176,7 @@ public class ModifyShaderOffset : MonoBehaviour
     /// Is an animation pending that should prevent
     /// us from starting the animation coroutine again?
     /// </summary>
-    private bool _AnimationPending = false;
+    internal bool _AnimationPending = false;
 
     /// <summary>
     /// How long should the Animation wait for after it's done
@@ -256,8 +258,13 @@ public class ModifyShaderOffset : MonoBehaviour
         {
             if (newValue == gridSpot._SquareFilledValue) return;
 
+            _UndoFeature.PushUndo(Tiles[_SelectedIndex]._SquareFilledValue, newValue, Tiles[_SelectedIndex], StepType.ChangeNumber, StepAffection.MainNumber);
+
             _AnimationPending = true;
             Tiles[_SelectedIndex]._SquareFilledValue = newValue;
+
+            // Old value, new value, grid spot.
+            
 
             StartCoroutine(AnimateNumberUpdate(gridSpot, mr, sr, newValue));
         }
@@ -403,7 +410,7 @@ public class ModifyShaderOffset : MonoBehaviour
         return full;
     }
 
-    IEnumerator AnimateNumberUpdate(SodukoGriidSpot gridSpot, MeshRenderer mr, SpriteRenderer sr, int newValue)
+    internal IEnumerator AnimateNumberUpdate(SodukoGriidSpot gridSpot, MeshRenderer mr, SpriteRenderer sr, int newValue)
     {
         // 0. Set dummy origin
         Vector3 dummyOrigin = _AnimationDummy.transform.position;
@@ -591,7 +598,7 @@ public class ModifyShaderOffset : MonoBehaviour
         }
     }
 
-    void SetSelectionLocationToTappedSpot(SodukoGriidSpot gridSpot)
+    internal void SetSelectionLocationToTappedSpot(SodukoGriidSpot gridSpot)
     {
         if (_SelectionBorder != null && !_AnimationPending)
         {
@@ -626,34 +633,29 @@ public class ModifyShaderOffset : MonoBehaviour
         {
             for (int y = 0; y < 9; y++)
             {
-                // Create new tile gameobject
-                GameObject tile = new GameObject();
-                tile.transform.parent = transform; // Set parent to our transform
+                var newTile = Instantiate(_TilePrefab, transform);
 
-                // Adding Grid Spot Properties
-                SodukoGriidSpot gridSpotProperties = tile.AddComponent<SodukoGriidSpot>();
-                gridSpotProperties.GridSpot = new Vector2Int(x, y);
-                gridSpotProperties.parent = this;
+                newTile.gameObject.name = $"tile_x{x + 1}_y{y + 1}";
+                newTile.GridSpot = new Vector2Int(x, y);
+                newTile.parent = this;
 
+                // Get Value
                 // "Debug Value" For now. This will have to be changed later.
                 Cell sudokuCell = GetCellAt(x, y);
                 bool _revealed = IsCellRevealedForCurrentDifficulty(x, y);
-                gridSpotProperties.DebugValue = sudokuCell.Value;
-                gridSpotProperties._SquareSolution = gridSpotProperties.DebugValue;
-                gridSpotProperties._LevelIndex = sudokuCell.Index;
-                gridSpotProperties._SquareGroupNo = sudokuCell.GroupNo;
-                gridSpotProperties._SquareFilledValue = _revealed ? sudokuCell.Value : -1;
-                gridSpotProperties._OnGridSpotTapped = new UnityEngine.Events.UnityEvent<SodukoGriidSpot>();
-                gridSpotProperties._OnGridSpotTapped?.AddListener((_gridSpot) =>
+                newTile.DebugValue = sudokuCell.Value;
+                newTile._SquareSolution = newTile.DebugValue;
+                newTile._LevelIndex = sudokuCell.Index;
+                newTile._SquareGroupNo = sudokuCell.GroupNo;
+                newTile._SquareFilledValue = _revealed ? sudokuCell.Value : -1;
+                newTile._OnGridSpotTapped = new UnityEngine.Events.UnityEvent<SodukoGriidSpot>();
+                newTile._OnGridSpotTapped?.AddListener((_gridSpot) =>
                 {
                     SetSelectionLocationToTappedSpot(_gridSpot);
                 });
 
-
-                // Adding MeshFilter and MeshRenderer for 3D Rendering
-                MeshFilter mf = tile.AddComponent<MeshFilter>();
-                MeshRenderer mr = tile.AddComponent<MeshRenderer>();
-                tile.name = string.Format("tile_x{0}_y{1}", x+1, y+1);
+                MeshRenderer mr = newTile.GetComponent<MeshRenderer>();
+                MeshFilter mf = newTile.GetComponent<MeshFilter>();
 
                 // ASSIGNING THE LEVEL TEXTURE
                 testBlock = new MaterialPropertyBlock();
@@ -661,7 +663,7 @@ public class ModifyShaderOffset : MonoBehaviour
                 mr.sharedMaterial.SetTexture("_Tilemap", this._CurrentLevelData.GetTilesetTexture());
                 mr.sharedMaterial.SetTexture("_MainTex", this._CurrentLevelData.GetTilesetTexture());
                 //if (!_revealed)
-                if(gridSpotProperties._SquareFilledValue == -1)
+                if(newTile._SquareFilledValue == -1)
                 {
                     testBlock.SetFloat("_Blur", 1);
                     testBlock.SetFloat("_BlurAmount", .02f);
@@ -684,12 +686,6 @@ public class ModifyShaderOffset : MonoBehaviour
                 float th = 1f / 3f; // Tile Height
                 float tileScale = 1 / 3f; // Tile Scale
 
-                // Add mesh collider component & set the shared mesh to the mesh data we've created.
-                BoxCollider _collider = tile.AddComponent<BoxCollider>();
-                //MeshCollider _collider = tile.AddComponent<MeshCollider>();
-                //_collider.sharedMesh = mesh;
-                //_collider.convex = true;
-
                 // Set the mesh UV offset for image tiling.
                 Vector2 tileOffset = new Vector2((float)x, (float)y) * tileScale;
                 mesh.uv = new Vector2[] { new Vector2(0f, 0f) + tileOffset, new Vector2(th, 0f) + tileOffset, new Vector2(0f, th) + tileOffset, new Vector2(th, th) + tileOffset };
@@ -697,33 +693,22 @@ public class ModifyShaderOffset : MonoBehaviour
                 mf.mesh = mesh;
 
                 // Set transform position 
-                tile.transform.position = (tileOffset + TileSpacing) * _MultiplicationOffset;
+                newTile.transform.position = (tileOffset + TileSpacing) * _MultiplicationOffset;
 
-                // TMP Child
-                GameObject tmpParent = new GameObject("TMP");
-                tmpParent.transform.parent = tile.transform;
-                SpriteRenderer spr = tmpParent.AddComponent<SpriteRenderer>();
-                spr.transform.localPosition = Vector3.zero;
-                spr.transform.localScale = Vector3.one * .15f;
-                spr.flipX = true;
-                if (gridSpotProperties._SquareFilledValue != -1) spr.sprite = _NumberToSpriteLookup.GetSpriteByNumber((short)gridSpotProperties._SquareFilledValue);
+                // Sprite Child
+                newTile._SolutionNumberSprite.sprite = _NumberToSpriteLookup.GetSpriteByNumber((short)newTile._SquareFilledValue);
+                newTile._SolutionNumberSprite.transform.localPosition = Vector3.zero;
+                newTile._SolutionNumberSprite.transform.localScale = Vector3.one * .15f;
+                newTile._SolutionNumberSprite.flipX = true;
 
                 // Possible Numbers
-                GameObject possibleNumbers = new GameObject("PossibleNumbers");
-                possibleNumbers.transform.parent = tile.transform;
-                TMP_Text possibleNumbersText = possibleNumbers.AddComponent<TextMeshPro>();
 
-                possibleNumbersText.transform.localScale = new Vector3(1f, .8f, 1f);
-                //possibleNumbersText.enableAutoSizing = true;
-                possibleNumbersText.fontSize = 4f;
-                possibleNumbersText.alignment = TextAlignmentOptions.Center;
-                possibleNumbersText.transform.localPosition = Vector3.forward;
-                possibleNumbersText.transform.rotation = Quaternion.Euler(0, 180, 0);
+                newTile._PossibleNumbersText.transform.localPosition = Vector3.forward;
+                newTile._PossibleNumbersText.transform.rotation = Quaternion.Euler(0, 180, 0);
 
-                gridSpotProperties.SetTMP(possibleNumbersText);
-                gridSpotProperties.UpdatePossibleNumbers();
+                newTile.UpdatePossibleNumbers();
 
-                Tiles.Add(gridSpotProperties);
+                Tiles.Add(newTile);
 
                 IsGenerated = true;
             }

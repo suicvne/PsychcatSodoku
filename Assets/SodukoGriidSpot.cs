@@ -20,7 +20,8 @@ public class SodukoGriidSpot : MonoBehaviour
 
     public UnityEvent<SodukoGriidSpot> _OnGridSpotTapped;
 
-    private TMP_Text _PossibleNumbersText;
+    [SerializeField] internal TMP_Text _PossibleNumbersText;
+    [SerializeField] internal SpriteRenderer _SolutionNumberSprite;
 
     private void OnEnable()
     {

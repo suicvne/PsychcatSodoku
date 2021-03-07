@@ -6,6 +6,9 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class ScaleCameraToObject : MonoBehaviour
 {
+    public Vector3 CamPosPortrait = new Vector3(4.66f, 2f, 1f);
+    public Vector3 CamPosLandscape = new Vector3(4.66f, 4.66f, 1f);
+
     public void Awake()
     {
         LastResolution = ResolutionToVector2();
@@ -47,11 +50,13 @@ public class ScaleCameraToObject : MonoBehaviour
             {
                 Debug.Log($"13");
                 camera.orthographicSize = 11.5f;
+                camera.transform.position = CamPosPortrait;
             }
             else if (Screen.width > Screen.height) // w > h. Landscape aspect.
             {
                 Debug.Log($"7");
                 camera.orthographicSize = 6;
+                camera.transform.position = CamPosLandscape;
             }
             else // w == h. Dunno yet.
             {

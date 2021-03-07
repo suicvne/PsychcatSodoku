@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace IgnoreSolutions.Sodoku
 {
-    [CreateAssetMenu(menuName = "Sodoku/Level List")]
+    //[CreateAssetMenu(menuName = "Sodoku/Level List")]
     public class LevelList : MonoBehaviour
     {
         // [SerializeField]
