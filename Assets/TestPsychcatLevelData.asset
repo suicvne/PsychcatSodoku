@@ -580,7 +580,7 @@ MonoBehaviour:
     _Position:
       _Row: 9
       _Column: 9
-  _BoardImage: {fileID: 2800000, guid: 11f6f872b939a40a8b1260f55bd0f015, type: 3}
+  _BoardImage: {fileID: 2800000, guid: e07035315006245fe8f2509e7be5a187, type: 3}
   _BoardHasValues: 0
   _BoardGenerated: 0
   _ForceGenerate: 0
