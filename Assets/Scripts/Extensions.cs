@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace IgnoreSolutions.PsychSodoku.Extensions
 {
@@ -18,6 +19,11 @@ namespace IgnoreSolutions.PsychSodoku.Extensions
                 list[k] = list[n];
                 list[n] = value;
             }
+        }
+
+        public static string PadNumbers(string input)
+        {
+            return Regex.Replace(input, "[0-9]+", match => match.Value.PadLeft(10, '0'));
         }
     }
 }

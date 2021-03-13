@@ -27,7 +27,7 @@ namespace IgnoreSolutions.Sodoku
     public class LevelData : ScriptableObject
     {
         const int EASY_FILLED_SQUARES = 49;
-        const int MEDIUM_FILLED_SQUARES = 39;
+        const int MEDIUM_FILLED_SQUARES = 26;
         const int HARD_FILLED_SQUARES = 20;
 
         /// <summary>
@@ -53,8 +53,7 @@ namespace IgnoreSolutions.Sodoku
 
         [SerializeField] Cell[] cells;
 
-        [SerializeField]
-        Texture _BoardImage;
+        [SerializeField] protected internal Texture _BoardImage;
 
         [Header("SUDOKULIB")]
         [Header("Stats")]
@@ -69,6 +68,7 @@ namespace IgnoreSolutions.Sodoku
 
         public SudokuBoard GetSudokuBoard() => b;
         public Texture GetTilesetTexture() => _BoardImage;
+        public void SetTilesetTexture(Texture tilesetTexture) => _BoardImage = tilesetTexture;
 
         public Cell GetCell(int x, int y)
         {
@@ -105,21 +105,26 @@ namespace IgnoreSolutions.Sodoku
             }
         }
 
+        public void GenerateBoard()
+        {
+            b = new SudokuBoard();
+            if(b == null || b.Solver == null) throw new Exception(" Could not creeate board. Board or solver were null.");
+            b.Solver.SolveThePuzzle(UseRandomGenerator: true);
+
+            cells = new Cell[b.Cells.Count];
+            b.Cells.CopyTo(cells);
+
+            ZeroOutDifficulties();
+            GenerateAllDifficulties();
+        }
+
         private void OnValidate()
         {
             if (_ForceGenerate)
             {
                 _ForceGenerate = false;
-                b = new SudokuBoard();
 
-                if (b == null || b.Solver == null) throw new Exception(" Could not creeate board. Board or solver were null.");
-                b.Solver.SolveThePuzzle(UseRandomGenerator: true);
-
-                cells = new Cell[b.Cells.Count];
-                b.Cells.CopyTo(cells);
-
-                ZeroOutDifficulties();
-                GenerateAllDifficulties();
+                GenerateBoard();
             }
 
             _BoardGenerated = (b != null);
