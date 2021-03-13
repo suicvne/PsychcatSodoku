@@ -1,0 +1,589 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc22340e9f56b460db217e452d50a86d, type: 3}
+  m_Name: Level_234
+  m_EditorClassIdentifier: 
+  cells:
+  - name: (1, 1) = 5
+    _Value: 5
+    _Index: 0
+    _GroupNo: 1
+    _Position:
+      _Row: 1
+      _Column: 1
+  - name: (1, 2) = 3
+    _Value: 3
+    _Index: 1
+    _GroupNo: 1
+    _Position:
+      _Row: 1
+      _Column: 2
+  - name: (1, 3) = 9
+    _Value: 9
+    _Index: 2
+    _GroupNo: 1
+    _Position:
+      _Row: 1
+      _Column: 3
+  - name: (1, 4) = 1
+    _Value: 1
+    _Index: 3
+    _GroupNo: 4
+    _Position:
+      _Row: 1
+      _Column: 4
+  - name: (1, 5) = 6
+    _Value: 6
+    _Index: 4
+    _GroupNo: 4
+    _Position:
+      _Row: 1
+      _Column: 5
+  - name: (1, 6) = 8
+    _Value: 8
+    _Index: 5
+    _GroupNo: 4
+    _Position:
+      _Row: 1
+      _Column: 6
+  - name: (1, 7) = 4
+    _Value: 4
+    _Index: 6
+    _GroupNo: 7
+    _Position:
+      _Row: 1
+      _Column: 7
+  - name: (1, 8) = 2
+    _Value: 2
+    _Index: 7
+    _GroupNo: 7
+    _Position:
+      _Row: 1
+      _Column: 8
+  - name: (1, 9) = 7
+    _Value: 7
+    _Index: 8
+    _GroupNo: 7
+    _Position:
+      _Row: 1
+      _Column: 9
+  - name: (2, 1) = 7
+    _Value: 7
+    _Index: 9
+    _GroupNo: 1
+    _Position:
+      _Row: 2
+      _Column: 1
+  - name: (2, 2) = 8
+    _Value: 8
+    _Index: 10
+    _GroupNo: 1
+    _Position:
+      _Row: 2
+      _Column: 2
+  - name: (2, 3) = 4
+    _Value: 4
+    _Index: 11
+    _GroupNo: 1
+    _Position:
+      _Row: 2
+      _Column: 3
+  - name: (2, 4) = 9
+    _Value: 9
+    _Index: 12
+    _GroupNo: 4
+    _Position:
+      _Row: 2
+      _Column: 4
+  - name: (2, 5) = 3
+    _Value: 3
+    _Index: 13
+    _GroupNo: 4
+    _Position:
+      _Row: 2
+      _Column: 5
+  - name: (2, 6) = 2
+    _Value: 2
+    _Index: 14
+    _GroupNo: 4
+    _Position:
+      _Row: 2
+      _Column: 6
+  - name: (2, 7) = 6
+    _Value: 6
+    _Index: 15
+    _GroupNo: 7
+    _Position:
+      _Row: 2
+      _Column: 7
+  - name: (2, 8) = 1
+    _Value: 1
+    _Index: 16
+    _GroupNo: 7
+    _Position:
+      _Row: 2
+      _Column: 8
+  - name: (2, 9) = 5
+    _Value: 5
+    _Index: 17
+    _GroupNo: 7
+    _Position:
+      _Row: 2
+      _Column: 9
+  - name: (3, 1) = 1
+    _Value: 1
+    _Index: 18
+    _GroupNo: 1
+    _Position:
+      _Row: 3
+      _Column: 1
+  - name: (3, 2) = 2
+    _Value: 2
+    _Index: 19
+    _GroupNo: 1
+    _Position:
+      _Row: 3
+      _Column: 2
+  - name: (3, 3) = 6
+    _Value: 6
+    _Index: 20
+    _GroupNo: 1
+    _Position:
+      _Row: 3
+      _Column: 3
+  - name: (3, 4) = 7
+    _Value: 7
+    _Index: 21
+    _GroupNo: 4
+    _Position:
+      _Row: 3
+      _Column: 4
+  - name: (3, 5) = 5
+    _Value: 5
+    _Index: 22
+    _GroupNo: 4
+    _Position:
+      _Row: 3
+      _Column: 5
+  - name: (3, 6) = 4
+    _Value: 4
+    _Index: 23
+    _GroupNo: 4
+    _Position:
+      _Row: 3
+      _Column: 6
+  - name: (3, 7) = 3
+    _Value: 3
+    _Index: 24
+    _GroupNo: 7
+    _Position:
+      _Row: 3
+      _Column: 7
+  - name: (3, 8) = 9
+    _Value: 9
+    _Index: 25
+    _GroupNo: 7
+    _Position:
+      _Row: 3
+      _Column: 8
+  - name: (3, 9) = 8
+    _Value: 8
+    _Index: 26
+    _GroupNo: 7
+    _Position:
+      _Row: 3
+      _Column: 9
+  - name: (4, 1) = 9
+    _Value: 9
+    _Index: 27
+    _GroupNo: 2
+    _Position:
+      _Row: 4
+      _Column: 1
+  - name: (4, 2) = 7
+    _Value: 7
+    _Index: 28
+    _GroupNo: 2
+    _Position:
+      _Row: 4
+      _Column: 2
+  - name: (4, 3) = 5
+    _Value: 5
+    _Index: 29
+    _GroupNo: 2
+    _Position:
+      _Row: 4
+      _Column: 3
+  - name: (4, 4) = 8
+    _Value: 8
+    _Index: 30
+    _GroupNo: 5
+    _Position:
+      _Row: 4
+      _Column: 4
+  - name: (4, 5) = 2
+    _Value: 2
+    _Index: 31
+    _GroupNo: 5
+    _Position:
+      _Row: 4
+      _Column: 5
+  - name: (4, 6) = 3
+    _Value: 3
+    _Index: 32
+    _GroupNo: 5
+    _Position:
+      _Row: 4
+      _Column: 6
+  - name: (4, 7) = 1
+    _Value: 1
+    _Index: 33
+    _GroupNo: 8
+    _Position:
+      _Row: 4
+      _Column: 7
+  - name: (4, 8) = 4
+    _Value: 4
+    _Index: 34
+    _GroupNo: 8
+    _Position:
+      _Row: 4
+      _Column: 8
+  - name: (4, 9) = 6
+    _Value: 6
+    _Index: 35
+    _GroupNo: 8
+    _Position:
+      _Row: 4
+      _Column: 9
+  - name: (5, 1) = 2
+    _Value: 2
+    _Index: 36
+    _GroupNo: 2
+    _Position:
+      _Row: 5
+      _Column: 1
+  - name: (5, 2) = 6
+    _Value: 6
+    _Index: 37
+    _GroupNo: 2
+    _Position:
+      _Row: 5
+      _Column: 2
+  - name: (5, 3) = 8
+    _Value: 8
+    _Index: 38
+    _GroupNo: 2
+    _Position:
+      _Row: 5
+      _Column: 3
+  - name: (5, 4) = 4
+    _Value: 4
+    _Index: 39
+    _GroupNo: 5
+    _Position:
+      _Row: 5
+      _Column: 4
+  - name: (5, 5) = 7
+    _Value: 7
+    _Index: 40
+    _GroupNo: 5
+    _Position:
+      _Row: 5
+      _Column: 5
+  - name: (5, 6) = 1
+    _Value: 1
+    _Index: 41
+    _GroupNo: 5
+    _Position:
+      _Row: 5
+      _Column: 6
+  - name: (5, 7) = 9
+    _Value: 9
+    _Index: 42
+    _GroupNo: 8
+    _Position:
+      _Row: 5
+      _Column: 7
+  - name: (5, 8) = 5
+    _Value: 5
+    _Index: 43
+    _GroupNo: 8
+    _Position:
+      _Row: 5
+      _Column: 8
+  - name: (5, 9) = 3
+    _Value: 3
+    _Index: 44
+    _GroupNo: 8
+    _Position:
+      _Row: 5
+      _Column: 9
+  - name: (6, 1) = 3
+    _Value: 3
+    _Index: 45
+    _GroupNo: 2
+    _Position:
+      _Row: 6
+      _Column: 1
+  - name: (6, 2) = 4
+    _Value: 4
+    _Index: 46
+    _GroupNo: 2
+    _Position:
+      _Row: 6
+      _Column: 2
+  - name: (6, 3) = 1
+    _Value: 1
+    _Index: 47
+    _GroupNo: 2
+    _Position:
+      _Row: 6
+      _Column: 3
+  - name: (6, 4) = 5
+    _Value: 5
+    _Index: 48
+    _GroupNo: 5
+    _Position:
+      _Row: 6
+      _Column: 4
+  - name: (6, 5) = 9
+    _Value: 9
+    _Index: 49
+    _GroupNo: 5
+    _Position:
+      _Row: 6
+      _Column: 5
+  - name: (6, 6) = 6
+    _Value: 6
+    _Index: 50
+    _GroupNo: 5
+    _Position:
+      _Row: 6
+      _Column: 6
+  - name: (6, 7) = 7
+    _Value: 7
+    _Index: 51
+    _GroupNo: 8
+    _Position:
+      _Row: 6
+      _Column: 7
+  - name: (6, 8) = 8
+    _Value: 8
+    _Index: 52
+    _GroupNo: 8
+    _Position:
+      _Row: 6
+      _Column: 8
+  - name: (6, 9) = 2
+    _Value: 2
+    _Index: 53
+    _GroupNo: 8
+    _Position:
+      _Row: 6
+      _Column: 9
+  - name: (7, 1) = 8
+    _Value: 8
+    _Index: 54
+    _GroupNo: 3
+    _Position:
+      _Row: 7
+      _Column: 1
+  - name: (7, 2) = 1
+    _Value: 1
+    _Index: 55
+    _GroupNo: 3
+    _Position:
+      _Row: 7
+      _Column: 2
+  - name: (7, 3) = 3
+    _Value: 3
+    _Index: 56
+    _GroupNo: 3
+    _Position:
+      _Row: 7
+      _Column: 3
+  - name: (7, 4) = 2
+    _Value: 2
+    _Index: 57
+    _GroupNo: 6
+    _Position:
+      _Row: 7
+      _Column: 4
+  - name: (7, 5) = 4
+    _Value: 4
+    _Index: 58
+    _GroupNo: 6
+    _Position:
+      _Row: 7
+      _Column: 5
+  - name: (7, 6) = 7
+    _Value: 7
+    _Index: 59
+    _GroupNo: 6
+    _Position:
+      _Row: 7
+      _Column: 6
+  - name: (7, 7) = 5
+    _Value: 5
+    _Index: 60
+    _GroupNo: 9
+    _Position:
+      _Row: 7
+      _Column: 7
+  - name: (7, 8) = 6
+    _Value: 6
+    _Index: 61
+    _GroupNo: 9
+    _Position:
+      _Row: 7
+      _Column: 8
+  - name: (7, 9) = 9
+    _Value: 9
+    _Index: 62
+    _GroupNo: 9
+    _Position:
+      _Row: 7
+      _Column: 9
+  - name: (8, 1) = 6
+    _Value: 6
+    _Index: 63
+    _GroupNo: 3
+    _Position:
+      _Row: 8
+      _Column: 1
+  - name: (8, 2) = 9
+    _Value: 9
+    _Index: 64
+    _GroupNo: 3
+    _Position:
+      _Row: 8
+      _Column: 2
+  - name: (8, 3) = 2
+    _Value: 2
+    _Index: 65
+    _GroupNo: 3
+    _Position:
+      _Row: 8
+      _Column: 3
+  - name: (8, 4) = 3
+    _Value: 3
+    _Index: 66
+    _GroupNo: 6
+    _Position:
+      _Row: 8
+      _Column: 4
+  - name: (8, 5) = 1
+    _Value: 1
+    _Index: 67
+    _GroupNo: 6
+    _Position:
+      _Row: 8
+      _Column: 5
+  - name: (8, 6) = 5
+    _Value: 5
+    _Index: 68
+    _GroupNo: 6
+    _Position:
+      _Row: 8
+      _Column: 6
+  - name: (8, 7) = 8
+    _Value: 8
+    _Index: 69
+    _GroupNo: 9
+    _Position:
+      _Row: 8
+      _Column: 7
+  - name: (8, 8) = 7
+    _Value: 7
+    _Index: 70
+    _GroupNo: 9
+    _Position:
+      _Row: 8
+      _Column: 8
+  - name: (8, 9) = 4
+    _Value: 4
+    _Index: 71
+    _GroupNo: 9
+    _Position:
+      _Row: 8
+      _Column: 9
+  - name: (9, 1) = 4
+    _Value: 4
+    _Index: 72
+    _GroupNo: 3
+    _Position:
+      _Row: 9
+      _Column: 1
+  - name: (9, 2) = 5
+    _Value: 5
+    _Index: 73
+    _GroupNo: 3
+    _Position:
+      _Row: 9
+      _Column: 2
+  - name: (9, 3) = 7
+    _Value: 7
+    _Index: 74
+    _GroupNo: 3
+    _Position:
+      _Row: 9
+      _Column: 3
+  - name: (9, 4) = 6
+    _Value: 6
+    _Index: 75
+    _GroupNo: 6
+    _Position:
+      _Row: 9
+      _Column: 4
+  - name: (9, 5) = 8
+    _Value: 8
+    _Index: 76
+    _GroupNo: 6
+    _Position:
+      _Row: 9
+      _Column: 5
+  - name: (9, 6) = 9
+    _Value: 9
+    _Index: 77
+    _GroupNo: 6
+    _Position:
+      _Row: 9
+      _Column: 6
+  - name: (9, 7) = 2
+    _Value: 2
+    _Index: 78
+    _GroupNo: 9
+    _Position:
+      _Row: 9
+      _Column: 7
+  - name: (9, 8) = 3
+    _Value: 3
+    _Index: 79
+    _GroupNo: 9
+    _Position:
+      _Row: 9
+      _Column: 8
+  - name: (9, 9) = 1
+    _Value: 1
+    _Index: 80
+    _GroupNo: 9
+    _Position:
+      _Row: 9
+      _Column: 9
+  _BoardImage: {fileID: 2800000, guid: 5f5a75f4be1e74b4ebf5e20ee7766f1f, type: 3}
+  _BoardHasValues: 0
+  _BoardGenerated: 0
+  _ForceGenerate: 0
+  _Easy: 000001000100010001000000010000000100010000000100010000000100010000000100000001000100010000000100010000000000010000000100000001000000010000000100000001000100000001000000010001000000000001000100010001000100000000000100000001000000010000000100010000000100010001000100010000000100000001000000000001000100010000000000010001000000
+  _Medium: 000001000100000000000000010001000000000000000000000000000100000001000000000001000000000001000100000000000000000000000000000001000000000000000000000001000100000000000000010000000000010000000000010000000100010001000000000000000000010000000000000000000000010000000100010001000000000000000100010000000000000000000000000000000100
+  _Hard: 000000000000000000000100010000000000010000000100000000000000000001000000000000000100000000000100000000000000010000000000010000000000010001000000000000000000010000000000000000000000010001000000000000000000000000000000000001000000000000000000010000000000000000000000000001000000000000000000000000000100000001000000000001000000
