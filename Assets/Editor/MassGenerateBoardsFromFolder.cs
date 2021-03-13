@@ -79,6 +79,7 @@ namespace IgnoreSolutions.PsychSodoku.Editor
 
         bool _beginGenerating = false;
         bool _writeToDisk = false;
+        bool _checkForLevelList = false;
         Vector2 _scrollPos = Vector2.zero;
         System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
         long lastMsPuzzleGeneration = -1;
@@ -132,19 +133,20 @@ namespace IgnoreSolutions.PsychSodoku.Editor
             {
                 LevelData generatedLevelData = _GeneratedLevelData[i];
                 string savePath = Path.Combine(_BoardOutputFolder, generatedLevelData.name + ".asset");
+                string absoluteSavePath = Path.Combine(Environment.CurrentDirectory, savePath);
 
-                if(File.Exists(savePath))
+                if(File.Exists(absoluteSavePath))
                 {
-                    if (overwrite)
+                    if (overwrite == false)
                     {
                         Debug.LogError($"ERROR: unable to write Level Data at {savePath} because the file already exists.");
+                        _GeneratedLevelData[i] = AssetDatabase.LoadAssetAtPath<LevelData>(savePath);
                         continue;
                     }
                     else File.Delete(savePath);
                 }
 
                 AssetDatabase.CreateAsset(generatedLevelData, savePath);
-                AssetDatabase.SaveAssets();
 
                 _GeneratedLevelData[i] = AssetDatabase.LoadAssetAtPath<LevelData>(savePath);
             }
@@ -160,14 +162,15 @@ namespace IgnoreSolutions.PsychSodoku.Editor
 
         private void CheckForLevelList()
         {
-            string[] potentialPaths = AssetDatabase.FindAssets("t:IgnoreSolutions.Sodoku.LevelList");
+            string[] potentialPaths = AssetDatabase.FindAssets("LevelList");
             if(potentialPaths.Length > 0)
             {
                 LevelList list = null;
                 string path = null;
                 foreach(var potentialPath in potentialPaths)
                 {
-                    list = AssetDatabase.LoadAssetAtPath<LevelList>(potentialPath);
+                    string pathFromGuid = AssetDatabase.GUIDToAssetPath(potentialPath);
+                    list = AssetDatabase.LoadAssetAtPath<LevelList>(pathFromGuid);
                     if (list != null)
                     {
                         path = potentialPath;
@@ -175,6 +178,7 @@ namespace IgnoreSolutions.PsychSodoku.Editor
                     }
                 }
 
+                if (list == null) return;
                 Debug.Log($"Found LevelList at {path}. Name: {list.name}");
             }
             else
@@ -230,10 +234,21 @@ namespace IgnoreSolutions.PsychSodoku.Editor
                     _writeToDisk = EditorGUILayout.Toggle(_writeToDisk);
                     EditorGUILayout.EndHorizontal();
 
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField($"Check for Level List");
+                    _checkForLevelList = EditorGUILayout.Toggle(_checkForLevelList);
+                    EditorGUILayout.EndHorizontal();
+
                     if(_writeToDisk)
                     {
                         _writeToDisk = false;
                         WriteGeneratedPuzzlesToDisk();
+                    }
+
+                    if(_checkForLevelList)
+                    {
+                        _checkForLevelList = false;
+                        CheckForLevelList();
                     }
 
                     if (lastMsWriteToDisk != -1)

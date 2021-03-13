@@ -4,10 +4,12 @@ using UnityEngine;
 
 namespace IgnoreSolutions.Sodoku
 {
-    //[CreateAssetMenu(menuName = "Sodoku/Level List")]
-    public class LevelList : MonoBehaviour
+    [CreateAssetMenu(menuName = "Ignore Solutions/Level List")]
+    public class LevelList : ScriptableObject
     {
-        // [SerializeField]
-        // List<LevelData>
+        [SerializeField]
+        List<LevelData> _Levels = new List<LevelData>();
+
+        public List<LevelData> GetLevelData() => _Levels;
     }
 }
