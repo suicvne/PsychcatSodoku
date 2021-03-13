@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using IgnoreSolutions.PsychSodoku.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -117,24 +118,29 @@ namespace IgnoreSolutions.PsychSodoku.Editor
                     {
                         Debug.LogWarning($"ERROR: meta already exists at '{newFileNameNoExt + ext + ".meta"}'");
                         File.Delete(newFileNameNoExt + ext + ".meta");
+                        Thread.Sleep(1000);
                     }
 
                     if(File.Exists(newFileNameNoExt + ext))
                     {
                         Debug.LogWarning($"ERROR: File/image already exists at '{newFileNameNoExt + ext}'");
-                        File.Delete(newFileNameNoExt + ext + ".meta");
+                        File.Delete(newFileNameNoExt + ext);
+                        Thread.Sleep(1000);
                     }
 
                     // Move meta file first.
                     Debug.Log($"{file.MetadataFilePath} -> {newFileNameNoExt + ext + ".meta"}");
                     File.Move(file.MetadataFilePath, newFileNameNoExt + ext + ".meta");
+                    Thread.Sleep(200);
                     // Move main file.
                     Debug.Log($"{file.PrimaryFilePath} -> {newFileNameNoExt + ext}");
                     File.Move(file.PrimaryFilePath, newFileNameNoExt + ext);
+                    Thread.Sleep(500);
 
                     Debug.Log($"File {idx}\nPrimary: {file.PrimaryFilePath} -> {newFileNameNoExt + ext}\nMeta: {file.MetadataFilePath} -> {newFileNameNoExt + ext + ".meta"}");
                     idx++;
                     renameIdx += 2; // 2, 1 meta, 1 file.
+                    Repaint();
                 }
             }
         }
