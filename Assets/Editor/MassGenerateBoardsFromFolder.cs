@@ -128,25 +128,59 @@ namespace IgnoreSolutions.PsychSodoku.Editor
             _stopwatch.Reset();
             _stopwatch.Start();
 
-            foreach(var generatedLevelData in _GeneratedLevelData)
+            for(int i = 0; i < _GeneratedLevelData.Count; i++)
             {
-                string savePath = Path.Combine(_BoardOutputFolder, generatedLevelData.name, ".asset");
+                LevelData generatedLevelData = _GeneratedLevelData[i];
+                string savePath = Path.Combine(_BoardOutputFolder, generatedLevelData.name + ".asset");
 
                 if(File.Exists(savePath))
                 {
-                    if (overwrite) Debug.LogError($"ERROR: unable to write Level Data at {savePath} because the file already exists.");
+                    if (overwrite)
+                    {
+                        Debug.LogError($"ERROR: unable to write Level Data at {savePath} because the file already exists.");
+                        continue;
+                    }
                     else File.Delete(savePath);
                 }
 
                 AssetDatabase.CreateAsset(generatedLevelData, savePath);
                 AssetDatabase.SaveAssets();
+
+                _GeneratedLevelData[i] = AssetDatabase.LoadAssetAtPath<LevelData>(savePath);
             }
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
+            CheckForLevelList();
+
             _stopwatch.Stop();
             lastMsWriteToDisk = _stopwatch.ElapsedMilliseconds;
+        }
+
+        private void CheckForLevelList()
+        {
+            string[] potentialPaths = AssetDatabase.FindAssets("t:IgnoreSolutions.Sodoku.LevelList");
+            if(potentialPaths.Length > 0)
+            {
+                LevelList list = null;
+                string path = null;
+                foreach(var potentialPath in potentialPaths)
+                {
+                    list = AssetDatabase.LoadAssetAtPath<LevelList>(potentialPath);
+                    if (list != null)
+                    {
+                        path = potentialPath;
+                        break;
+                    }
+                }
+
+                Debug.Log($"Found LevelList at {path}. Name: {list.name}");
+            }
+            else
+            {
+                Debug.LogWarning($"No level list found.");
+            }
         }
 
         private void OnGUI()
