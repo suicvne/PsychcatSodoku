@@ -56,6 +56,11 @@ namespace IgnoreSolutions.PsychSodoku.Editor
 
         void OccupyFileInfoList()
         {
+            if (string.IsNullOrEmpty(_Directory))
+            {
+                return;
+            }
+
             string[] filesInDir = Directory.GetFiles(_Directory);
 
             int count = 0;
@@ -97,28 +102,50 @@ namespace IgnoreSolutions.PsychSodoku.Editor
         private void RenameFilesAndMeta()
         {
             int idx = 0;
+            renameTotal = _FileInfo.Count;
+            renameIdx = 0;
             foreach(var file in _FileInfo)
             {
                 if(File.Exists(file.PrimaryFilePath) && File.Exists(file.MetadataFilePath))
                 {
+                    Debug.Log($"File {idx}");
                     string newFileNameNoExt = file.PrimaryFilePath.Substring(0, file.PrimaryFilePath.LastIndexOf('/') + 1) + $"{idx}";
                     string ext = file.PrimaryFilePath.Substring(file.PrimaryFilePath.LastIndexOf('.')).ToLower();
                     ext = ext == "jpeg" ? "jpg" : ext;
 
+                    if(File.Exists(newFileNameNoExt + ext + ".meta"))
+                    {
+                        Debug.LogWarning($"ERROR: meta already exists at '{newFileNameNoExt + ext + ".meta"}'");
+                        File.Delete(newFileNameNoExt + ext + ".meta");
+                    }
+
+                    if(File.Exists(newFileNameNoExt + ext))
+                    {
+                        Debug.LogWarning($"ERROR: File/image already exists at '{newFileNameNoExt + ext}'");
+                        File.Delete(newFileNameNoExt + ext + ".meta");
+                    }
+
                     // Move meta file first.
+                    Debug.Log($"{file.MetadataFilePath} -> {newFileNameNoExt + ext + ".meta"}");
                     File.Move(file.MetadataFilePath, newFileNameNoExt + ext + ".meta");
                     // Move main file.
+                    Debug.Log($"{file.PrimaryFilePath} -> {newFileNameNoExt + ext}");
                     File.Move(file.PrimaryFilePath, newFileNameNoExt + ext);
 
                     Debug.Log($"File {idx}\nPrimary: {file.PrimaryFilePath} -> {newFileNameNoExt + ext}\nMeta: {file.MetadataFilePath} -> {newFileNameNoExt + ext + ".meta"}");
                     idx++;
+                    renameIdx += 2; // 2, 1 meta, 1 file.
                 }
             }
         }
 
+        bool midRename = false;
+        int renameIdx = -1;
+        int renameTotal = -1;
+
         private void OnGUI()
         {
-            if (_FileInfo != null && _FileInfo.Count > 0)
+            if (_FileInfo != null && _FileInfo.Count > 0 && midRename == false)
             {
                 EditorGUILayout.LabelField($"Shuffle List");
                 _Shuffle = EditorGUILayout.Toggle(_Shuffle);
@@ -167,10 +194,17 @@ namespace IgnoreSolutions.PsychSodoku.Editor
                 if(_DoRename)
                 {
                     _DoRename = false;
+                    midRename = true;
                     RenameFilesAndMeta();
                     _FileInfo.Clear();
                     OccupyFileInfoList();
+                    midRename = false;
                 }
+            }
+            else if(midRename)
+            {
+                EditorGUILayout.LabelField($"Renaming.....{renameIdx} / {renameTotal} ({(float)renameIdx / (float)renameTotal}%");
+                Repaint();
             }
             else
             {
