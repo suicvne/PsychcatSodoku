@@ -173,13 +173,14 @@ namespace IgnoreSolutions.PsychSodoku.Editor
                     list = AssetDatabase.LoadAssetAtPath<LevelList>(pathFromGuid);
                     if (list != null)
                     {
-                        path = potentialPath;
+                        path = pathFromGuid;
                         break;
                     }
                 }
 
-                if (list == null) return;
+                if (list == null) { Debug.LogWarning($"No level list found."); return; }
                 Debug.Log($"Found LevelList at {path}. Name: {list.name}");
+                list.AddLevelsToList(_GeneratedLevelData.ToArray());
             }
             else
             {
