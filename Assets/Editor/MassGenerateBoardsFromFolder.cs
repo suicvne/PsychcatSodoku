@@ -181,6 +181,8 @@ namespace IgnoreSolutions.PsychSodoku.Editor
                 if (list == null) { Debug.LogWarning($"No level list found."); return; }
                 Debug.Log($"Found LevelList at {path}. Name: {list.name}");
                 list.AddLevelsToList(_GeneratedLevelData.ToArray());
+                EditorUtility.SetDirty(list);
+                AssetDatabase.SaveAssets();
             }
             else
             {
