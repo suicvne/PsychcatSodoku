@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static IgnoreSolutions.PsychSodoku.OrientationCanvasSwap;
 
 namespace IgnoreSolutions.PsychSodoku
 {
@@ -34,11 +35,11 @@ namespace IgnoreSolutions.PsychSodoku
         Vector2 _LastResolution = new Vector2();
         Vector2 _CurrentResolution = new Vector2();
 
-        public enum Orientation
-        {
-            Portrait,
-            Landscape
-        }
+        //public enum Orientation
+        //{
+        //    Portrait,
+        //    Landscape
+        //}
 
         private void OnEnable()
         {
@@ -139,6 +140,8 @@ namespace IgnoreSolutions.PsychSodoku
                     orientationProps = _PropertiesByAspectRatio[i];
                     orientationProps.name = _CurrentAspectRatio.ToString();
                 }
+
+                StaticConstants._CurrentScreenOrientation = _CurrentOrientation;
 
                 if (_PropsToCopy.HasFlag(PropertiesToCopy.SizeDelta)) _ThisRectTransform.sizeDelta = orientationProps._SizeDelta;
                 if(_PropsToCopy.HasFlag(PropertiesToCopy.AnchoredPosition)) _ThisRectTransform.anchoredPosition = orientationProps._AnchoredPosition;
