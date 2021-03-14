@@ -13,16 +13,31 @@ public class CardAnimationScript : MonoBehaviour
         NONE, Easy, Medium, Hard
     }
 
+    [SerializeField] float _TransitionSpeed = 1.5f;
+    [SerializeField] CanvasGroup _MyCanvasGroup;
+    [SerializeField] CanvasGroup _PreviousMenu;
     [SerializeField] bool _AnimationInProgress = false;
     [SerializeField] List<Button> _EnableOnDifficultySelect;
 
+
     Animator _thisAnimator;
-    LastSelectedDifficulty _LastSelectedDifficulty = LastSelectedDifficulty.NONE;
+    [SerializeField] LastSelectedDifficulty _LastSelectedDifficulty = LastSelectedDifficulty.NONE;
 
     // Start is called before the first frame update
     void Start()
     {
         _thisAnimator = GetComponent<Animator>();
+    }
+
+    public PlayDifficulty GetLastSelectedDifficulty()
+    {
+        switch(_LastSelectedDifficulty)
+        {
+            case LastSelectedDifficulty.NONE:
+                throw new System.Exception("Attempt made to move to next screen without selecting difficulty.");
+            default: return (PlayDifficulty)(((int)_LastSelectedDifficulty) - 1);
+            //case LastSelectedDifficulty.Easy: return PlayDifficulty.EASY;
+        }
     }
 
     public void ResetAnimationInProgress()
@@ -66,14 +81,14 @@ public class CardAnimationScript : MonoBehaviour
     private void PlayDifficultyAnimation(LastSelectedDifficulty difficulty, bool backAnim = false)
     {
         if (_AnimationInProgress) return;
-        if (_LastSelectedDifficulty == difficulty) return;
+        if (_LastSelectedDifficulty == difficulty && backAnim == false) return;
 
         if(backAnim) SetDifficultySelectedButtonStates(false);
         _AnimationInProgress = true;
 
         if(StaticConstants._CurrentScreenOrientation == Orientation.Landscape)
         {
-            Debug.Log($"Tr{_LastSelectedDifficulty.ToString()}" + (backAnim ? "Back" : ""));
+            Debug.Log($"Tr{difficulty.ToString()}" + (backAnim ? "Back" : ""));
 
             switch(difficulty)
             {
@@ -113,17 +128,26 @@ public class CardAnimationScript : MonoBehaviour
         _LastSelectedDifficulty = difficulty;
     }
 
+    public void FadeInCardSelectionScreen()
+    {
+        if (_AnimationInProgress) return;
+        _AnimationInProgress = true;
+        StartCoroutine(TransitionToMe());
+    }
+
     public void PlayBack()
     {
         if (_AnimationInProgress) return;
         switch(_LastSelectedDifficulty)
         {
             case LastSelectedDifficulty.NONE:
-                // TODO: Go back to main menu
-                Debug.Log($"TODO: Go back to main menu.");
+                _AnimationInProgress = true;
+                StartCoroutine(TransitionToPreviousMenu());
                 break;
             default:
                 PlayDifficultyAnimation(_LastSelectedDifficulty, true);
+                SetDifficultySelectedButtonStates(false);
+                _LastSelectedDifficulty = LastSelectedDifficulty.NONE;
                 break;
         }
     }
@@ -158,32 +182,72 @@ public class CardAnimationScript : MonoBehaviour
         _thisAnimator.speed = 1f;
     }
 
-    //public void PlayEasyBack()
-    //{
-    //    _AnimationInProgress = true;
-    //    SetDifficultySelectedButtonStates(false);
-
-    //    if(StaticConstants._CurrentScreenOrientation == Orientation.Portrait)
-    //    {
-    //        _thisAnimator.ResetTrigger("TrEasyPortraitBack");
-    //        _thisAnimator.SetTrigger("TrEasyPortraitBack");
-    //    }
-    //    else
-    //    {
-    //        _thisAnimator.ResetTrigger("TrEasyBack");
-    //        _thisAnimator.SetTrigger("TrEasyBack");
-    //    }
-
-    //    //if(_thisAnimator.GetBool("Easy_Portrait")) _thisAnimator.SetBool("Easy_Portrait", false);
-    //    //else _thisAnimator.SetBool("Easy", false);
-    //}
-
     void SetDifficultySelectedButtonStates(bool enabled)
     {
         foreach(Button b in _EnableOnDifficultySelect)
         {
             b.gameObject.SetActive(enabled);
         }
+    }
+
+    IEnumerator TransitionToMe()
+    {
+        if (_MyCanvasGroup == null || _PreviousMenu == null) yield break;
+
+        // Fade "previous menu" (title screen)
+        for (float f = 0.0f; f <= 1.0f; f += _TransitionSpeed * Time.deltaTime)
+        {
+            float i_f = 1.0f - f;
+            _PreviousMenu.alpha = i_f;
+            yield return null;
+        }
+
+        _PreviousMenu.alpha = 0.0f;
+        _PreviousMenu.blocksRaycasts = false;
+        _PreviousMenu.interactable = false;
+
+        // Fade in my menu
+        for (float f = 0.0f; f <= 1.0f; f += _TransitionSpeed * Time.deltaTime)
+        {
+            _MyCanvasGroup.alpha = f;
+            yield return null;
+        }
+
+        _MyCanvasGroup.alpha = 1.0f;
+        _MyCanvasGroup.blocksRaycasts = true;
+        _MyCanvasGroup.interactable = true;
+        yield return null;
+        _AnimationInProgress = false;
+    }
+
+    IEnumerator TransitionToPreviousMenu()
+    {
+        if (_MyCanvasGroup == null || _PreviousMenu == null) yield break;
+
+        // Fade my canvas group
+        for(float f = 0.0f; f <= 1.0f; f += _TransitionSpeed * Time.deltaTime)
+        {
+            float i_f = 1.0f - f;
+            _MyCanvasGroup.alpha = i_f;
+            yield return null;
+        }
+
+        _MyCanvasGroup.alpha = 0.0f;
+        _MyCanvasGroup.blocksRaycasts = false;
+        _MyCanvasGroup.interactable = false;
+
+        // Fade in previous menu
+        for(float f = 0.0f; f <= 1.0f; f += _TransitionSpeed * Time.deltaTime)
+        {
+            _PreviousMenu.alpha = f;
+            yield return null;
+        }
+
+        _PreviousMenu.alpha = 1.0f;
+        _PreviousMenu.blocksRaycasts = true;
+        _PreviousMenu.interactable = true;
+        yield return null;
+        _AnimationInProgress = false;
     }
 
 }
