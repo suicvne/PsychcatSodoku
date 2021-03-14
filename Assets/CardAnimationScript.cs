@@ -4,6 +4,7 @@ using IgnoreSolutions.PsychSodoku;
 using UnityEngine;
 using UnityEngine.UI;
 using static IgnoreSolutions.PsychSodoku.OrientationCanvasSwap;
+using static ModifyShaderOffset;
 
 public class CardAnimationScript : MonoBehaviour
 {
@@ -34,27 +35,82 @@ public class CardAnimationScript : MonoBehaviour
         }
     }
 
+    public void PlayHardSelect() => PlayDifficultyAnimation(LastSelectedDifficulty.Hard, false);
+
+    public void PlayMediumSelect() => PlayDifficultyAnimation(LastSelectedDifficulty.Medium, false);
+
     public void PlayEasySelect()
     {
-        if (_AnimationInProgress) return;
-        if (_LastSelectedDifficulty == LastSelectedDifficulty.Easy) return;
+        PlayDifficultyAnimation(LastSelectedDifficulty.Easy, false);
+        //if (_AnimationInProgress) return;
+        //if (_LastSelectedDifficulty == LastSelectedDifficulty.Easy) return;
 
+        //_AnimationInProgress = true;
+
+        //if (StaticConstants._CurrentScreenOrientation == OrientationCanvasSwap.Orientation.Landscape)
+        //{
+        //    _thisAnimator.ResetTrigger("TrEasy");
+        //    _thisAnimator.SetTrigger("TrEasy");
+        //    //_thisAnimator.SetBool("Easy", true);
+        //}
+        //else
+        //{
+        //    _thisAnimator.ResetTrigger("TrEasyPortrait");
+        //    _thisAnimator.SetTrigger("TrEasyPortrait");
+        //    //_thisAnimator.SetBool("Easy_Portrait", true);
+        //}
+
+        //_LastSelectedDifficulty = LastSelectedDifficulty.Easy;
+    }
+
+    private void PlayDifficultyAnimation(LastSelectedDifficulty difficulty, bool backAnim = false)
+    {
+        if (_AnimationInProgress) return;
+        if (_LastSelectedDifficulty == difficulty) return;
+
+        if(backAnim) SetDifficultySelectedButtonStates(false);
         _AnimationInProgress = true;
 
-        if (StaticConstants._CurrentScreenOrientation == OrientationCanvasSwap.Orientation.Landscape)
+        if(StaticConstants._CurrentScreenOrientation == Orientation.Landscape)
         {
-            _thisAnimator.ResetTrigger("TrEasy");
-            _thisAnimator.SetTrigger("TrEasy");
-            //_thisAnimator.SetBool("Easy", true);
+            Debug.Log($"Tr{_LastSelectedDifficulty.ToString()}" + (backAnim ? "Back" : ""));
+
+            switch(difficulty)
+            {
+                case LastSelectedDifficulty.Easy:
+                    _thisAnimator.ResetTrigger("TrEasy" + (backAnim ? "Back" : ""));
+                    _thisAnimator.SetTrigger("TrEasy" + (backAnim ? "Back" : ""));
+                    break;
+                case LastSelectedDifficulty.Medium:
+                    _thisAnimator.ResetTrigger("TrMedium" + (backAnim ? "Back" : ""));
+                    _thisAnimator.SetTrigger("TrMedium" + (backAnim ? "Back" : ""));
+                    break;
+                case LastSelectedDifficulty.Hard:
+                    _thisAnimator.ResetTrigger("TrHard" + (backAnim ? "Back" : ""));
+                    _thisAnimator.SetTrigger("TrHard" + (backAnim ? "Back" : ""));
+                    break;
+            }
         }
         else
         {
-            _thisAnimator.ResetTrigger("TrEasyPortrait");
-            _thisAnimator.SetTrigger("TrEasyPortrait");
-            //_thisAnimator.SetBool("Easy_Portrait", true);
+            switch (difficulty)
+            {
+                case LastSelectedDifficulty.Easy:
+                    _thisAnimator.ResetTrigger("TrEasyPortrait" + (backAnim ? "Back" : ""));
+                    _thisAnimator.SetTrigger("TrEasyPortrait" + (backAnim ? "Back" : ""));
+                    break;
+                case LastSelectedDifficulty.Medium:
+                    _thisAnimator.ResetTrigger("TrMediumPortrait" + (backAnim ? "Back" : ""));
+                    _thisAnimator.SetTrigger("TrMediumPortrait" + (backAnim ? "Back" : ""));
+                    break;
+                case LastSelectedDifficulty.Hard:
+                    _thisAnimator.ResetTrigger("TrHardPortrait" + (backAnim ? "Back" : ""));
+                    _thisAnimator.SetTrigger("TrHardPortrait" + (backAnim ? "Back" : ""));
+                    break;
+            }
         }
 
-        _LastSelectedDifficulty = LastSelectedDifficulty.Easy;
+        _LastSelectedDifficulty = difficulty;
     }
 
     public void PlayBack()
@@ -64,10 +120,10 @@ public class CardAnimationScript : MonoBehaviour
         {
             case LastSelectedDifficulty.NONE:
                 // TODO: Go back to main menu
+                Debug.Log($"TODO: Go back to main menu.");
                 break;
-            case LastSelectedDifficulty.Easy:
-                PlayEasyBack();
-                _LastSelectedDifficulty = LastSelectedDifficulty.NONE;
+            default:
+                PlayDifficultyAnimation(_LastSelectedDifficulty, true);
                 break;
         }
     }
@@ -102,25 +158,25 @@ public class CardAnimationScript : MonoBehaviour
         _thisAnimator.speed = 1f;
     }
 
-    public void PlayEasyBack()
-    {
-        _AnimationInProgress = true;
-        SetDifficultySelectedButtonStates(false);
+    //public void PlayEasyBack()
+    //{
+    //    _AnimationInProgress = true;
+    //    SetDifficultySelectedButtonStates(false);
 
-        if(StaticConstants._CurrentScreenOrientation == Orientation.Portrait)
-        {
-            _thisAnimator.ResetTrigger("TrEasyPortraitBack");
-            _thisAnimator.SetTrigger("TrEasyPortraitBack");
-        }
-        else
-        {
-            _thisAnimator.ResetTrigger("TrEasyBack");
-            _thisAnimator.SetTrigger("TrEasyBack");
-        }
+    //    if(StaticConstants._CurrentScreenOrientation == Orientation.Portrait)
+    //    {
+    //        _thisAnimator.ResetTrigger("TrEasyPortraitBack");
+    //        _thisAnimator.SetTrigger("TrEasyPortraitBack");
+    //    }
+    //    else
+    //    {
+    //        _thisAnimator.ResetTrigger("TrEasyBack");
+    //        _thisAnimator.SetTrigger("TrEasyBack");
+    //    }
 
-        //if(_thisAnimator.GetBool("Easy_Portrait")) _thisAnimator.SetBool("Easy_Portrait", false);
-        //else _thisAnimator.SetBool("Easy", false);
-    }
+    //    //if(_thisAnimator.GetBool("Easy_Portrait")) _thisAnimator.SetBool("Easy_Portrait", false);
+    //    //else _thisAnimator.SetBool("Easy", false);
+    //}
 
     void SetDifficultySelectedButtonStates(bool enabled)
     {
