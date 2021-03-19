@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using IgnoreSolutions.PsychSodoku;
+using IgnoreSolutions.PsychSodoku.Extensions;
 using IgnoreSolutions.Sodoku;
 using SudokuLib;
 using SudokuLib.Model;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static SudokuLib.Model.Cell;
 
@@ -24,6 +26,7 @@ public class ModifyShaderOffset : MonoBehaviour
     }
 
     [Header("Game Properties")]
+    [SerializeField] public bool _DirectInputToNumberSelect = false;
     [SerializeField] public bool _EnterAsPossibleNumber = false;
     [SerializeField] PlayDifficulty _PlayDifficulty = PlayDifficulty.EASY; // The difficulty that we want to use. This corresponds to how much of the board is shown/hidden.
     [SerializeField] LevelData _CurrentLevelData; // The current level data that we're basing the render off of.
@@ -44,6 +47,7 @@ public class ModifyShaderOffset : MonoBehaviour
     public bool TestCompleteAnimation = false;
 
     [Header("References")]
+    [SerializeField] ControlNumberScreenByKeyboard _NumbersInput;
     [SerializeField] TestUndoFeature _UndoFeature;
     [SerializeField] SodukoGriidSpot _TilePrefab;
     [SerializeField] CongratulationsScreenController _CongratulationsScreen;
@@ -143,6 +147,7 @@ public class ModifyShaderOffset : MonoBehaviour
         MeshRenderer mr = gridSpot.gameObject.GetComponent<MeshRenderer>();
         SpriteRenderer sr = gridSpot.transform.GetChild(0).GetComponent<SpriteRenderer>();
 
+        // Handle number input as possible number
         if (_EnterAsPossibleNumber)
         {
             if(newValue == 0)
@@ -154,7 +159,7 @@ public class ModifyShaderOffset : MonoBehaviour
             gridSpot.AddPossibleNumber(newValue);
             gridSpot.UpdatePossibleNumbers();
         }
-        else
+        else // Handle number input as normally.
         {
             if (newValue == gridSpot._SquareFilledValue) return;
 
@@ -163,7 +168,14 @@ public class ModifyShaderOffset : MonoBehaviour
             _AnimationPending = true;
             Tiles[_SelectedIndex]._SquareFilledValue = newValue;
 
-            // Old value, new value, grid spot.
+            if(gridSpot._PossibleNumbersText.enabled == true && newValue > 0)
+            {
+                gridSpot._PossibleNumbersText.enabled = false;
+            }
+            else if(gridSpot._PossibleNumbersText.enabled == false && newValue == 0)
+            {
+                gridSpot._PossibleNumbersText.enabled = true;
+            }
             
 
             StartCoroutine(AnimateNumberUpdate(gridSpot, mr, sr, newValue, skipUndo));
@@ -436,6 +448,20 @@ public class ModifyShaderOffset : MonoBehaviour
         return foundGridSpot;
     }
 
+    private SodukoGriidSpot GetGridSpot(int index)
+    {
+        SodukoGriidSpot foundGridSpot = null;
+        Tiles.Find(tiles =>
+        {
+            if ((foundGridSpot = tiles.GetComponent<SodukoGriidSpot>()) != null)
+            {
+                if (foundGridSpot._LevelIndex == index) return foundGridSpot;
+            }
+            return false;
+        });
+        return foundGridSpot;
+    }
+
     private void OnEnable()
     {
         //ClearList(false);
@@ -515,20 +541,7 @@ public class ModifyShaderOffset : MonoBehaviour
         }
     }
 
-    internal void SetSelectionLocationToTappedSpot(SodukoGriidSpot gridSpot)
-    {
-        if (_SelectionBorder != null && !_AnimationPending)
-        {
-            _AnimationPending = true;
-            _SelectedIndex = gridSpot._LevelIndex;
-            _SelectedTransform = gridSpot.transform;
-            // TODO: Cache the camera for later so we don't repeatedly call "FindObjectOfType<Camera>" every time someone taps a square.
-            StartCoroutine(_AnimateSpotChange(_SelectionBorder.transform,
-                _SelectionBorder.transform.position,
-                Camera.main.WorldToScreenPoint(gridSpot.transform.position))
-            );
-        }
-    }
+    
 
     IEnumerator _AnimateSpotChange(Transform target, Vector3 oldPos, Vector3 newPos)
     {
@@ -695,6 +708,21 @@ public class ModifyShaderOffset : MonoBehaviour
         }
     }
 
+    internal void SetSelectionLocationToTappedSpot(SodukoGriidSpot gridSpot)
+    {
+        if (_SelectionBorder != null && !_AnimationPending)
+        {
+            _AnimationPending = true;
+            _SelectedIndex = gridSpot._LevelIndex;
+            _SelectedTransform = gridSpot.transform;
+            // TODO: Cache the camera for later so we don't repeatedly call "FindObjectOfType<Camera>" every time someone taps a square.
+            StartCoroutine(_AnimateSpotChange(_SelectionBorder.transform,
+                _SelectionBorder.transform.position,
+                Camera.main.WorldToScreenPoint(gridSpot.transform.position))
+            );
+        }
+    }
+
     private void Update()
     {
         if(_ForceRegen)
@@ -705,6 +733,42 @@ public class ModifyShaderOffset : MonoBehaviour
             _ForceRegen = false;
             return;
         }
+
+        if (!_DirectInputToNumberSelect)
+        {
+            float h = Input.GetAxis("Horizontal"), v = Input.GetAxis("Vertical");
+
+            int possibleSpot = -1;
+
+            if (h > .35f) possibleSpot = _SelectedIndex - 9;
+            else if (h < -.35f) possibleSpot = _SelectedIndex + 9;
+            if (v > .35f) possibleSpot = _SelectedIndex + 1;
+            else if (v < -.35f) possibleSpot = _SelectedIndex - 1;
+
+            if (possibleSpot != -1)
+            {
+                int[] xy = Extensions.Index1DTo2D(possibleSpot, 9);
+
+                GetGridSpot(_SelectedIndex);
+
+                SodukoGriidSpot gsp = GetGridSpot(xy[0], xy[1]);
+                if (gsp != null)
+                {
+                    SetSelectionLocationToTappedSpot(gsp);
+                }
+                possibleSpot = -1;
+            }
+
+            if(Input.GetButtonDown("Submit") && !_DirectInputToNumberSelect)
+            {
+                _NumbersInput?.RedirectInput();
+            }
+        }
+        else
+        {
+            if (EventSystem.current.currentSelectedGameObject != null) EventSystem.current.SetSelectedGameObject(null);
+        }
+
         /*
         if (TileSet != lastMaterial)
         {

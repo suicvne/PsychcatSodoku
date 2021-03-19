@@ -74,9 +74,12 @@ public class SodukoGriidSpot : MonoBehaviour
 
     public void OnMouseDown()
     {
-        Debug.Log($"{GridSpot} You pressed me!");
+        if (parent._DirectInputToNumberSelect == false)
+        {
+            Debug.Log($"{GridSpot} You pressed me!");
 
-        _OnGridSpotTapped?.Invoke(this);
+            _OnGridSpotTapped?.Invoke(this);
+        }
     }
 
     public int GetValue()

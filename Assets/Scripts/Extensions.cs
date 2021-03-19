@@ -25,5 +25,15 @@ namespace IgnoreSolutions.PsychSodoku.Extensions
         {
             return Regex.Replace(input, "[0-9]+", match => match.Value.PadLeft(10, '0'));
         }
+
+        public static int Index2DTo1D(int x, int y, int width)
+        {
+            return (x + (y * width));
+        }
+
+        public static int[] Index1DTo2D(int input, int width)
+        {
+            return new int[] { input / width, input % width };
+        }
     }
 }

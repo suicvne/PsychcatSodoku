@@ -371,7 +371,7 @@ MonoBehaviour:
   ShouldWork: 1
   TestFillMode: 0
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 393, y: 221}
+  _CurrentAspectRatio: {x: 1013, y: 468}
   _Portrait:
     name: (9.0, 16.0)
     _ReferenceAspectRatio: {x: 9, y: 16}
@@ -507,8 +507,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (393.0, 221.0)
-    _ReferenceAspectRatio: {x: 393, y: 221}
+    name: (1013.0, 468.0)
+    _ReferenceAspectRatio: {x: 1013, y: 468}
     _SizeDelta: {x: 174.1001, y: 101.7}
     _AnchoredPosition: {x: 59, y: 69.79498}
     _AnchorMin: {x: 1, y: 0}
@@ -575,9 +575,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9716981, g: 0.62793696, b: 0.62793696, a: 1}
+    m_PressedColor: {r: 0.9150943, g: 0.3927999, b: 0.3927999, a: 1}
+    m_SelectedColor: {r: 0.9528302, g: 0.6786668, b: 0.6786668, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -914,6 +914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b2be618ea6247e5ac1162320952fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _DirectInputToNumberSelect: 0
   _EnterAsPossibleNumber: 0
   _PlayDifficulty: 0
   _CurrentLevelData: {fileID: 0}
@@ -928,6 +929,7 @@ MonoBehaviour:
   IsGenerated: 0
   DestroyOnDisable: 0
   TestCompleteAnimation: 0
+  _NumbersInput: {fileID: 0}
   _UndoFeature: {fileID: 0}
   _TilePrefab: {fileID: 0}
   _CongratulationsScreen: {fileID: 0}
@@ -1410,6 +1412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b2be618ea6247e5ac1162320952fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _DirectInputToNumberSelect: 0
   _EnterAsPossibleNumber: 0
   _PlayDifficulty: 0
   _CurrentLevelData: {fileID: 11400000, guid: 0497166185464465c9a5152efb34e385, type: 2}
@@ -1424,6 +1427,7 @@ MonoBehaviour:
   IsGenerated: 1
   DestroyOnDisable: 0
   TestCompleteAnimation: 0
+  _NumbersInput: {fileID: 1856297821}
   _UndoFeature: {fileID: 234419787}
   _TilePrefab: {fileID: 1338122483363953296, guid: fa6c2c2d63d854819aad50600156b7ce,
     type: 3}
@@ -1557,7 +1561,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 1, y: 1}
+  _CurrentAspectRatio: {x: 2, y: 1}
 --- !u!1 &241998369
 GameObject:
   m_ObjectHideFlags: 0
@@ -1890,9 +1894,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9716981, g: 0.62793696, b: 0.62793696, a: 1}
+    m_PressedColor: {r: 0.9150943, g: 0.3927999, b: 0.3927999, a: 1}
+    m_SelectedColor: {r: 0.9528302, g: 0.6786668, b: 0.6786668, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -2036,9 +2040,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9716981, g: 0.62793696, b: 0.62793696, a: 1}
+    m_PressedColor: {r: 0.9150943, g: 0.3927999, b: 0.3927999, a: 1}
+    m_SelectedColor: {r: 0.9528302, g: 0.6786668, b: 0.6786668, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -2740,9 +2744,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9716981, g: 0.62793696, b: 0.62793696, a: 1}
+    m_PressedColor: {r: 0.9150943, g: 0.3927999, b: 0.3927999, a: 1}
+    m_SelectedColor: {r: 0.9528302, g: 0.6786668, b: 0.6786668, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -3284,9 +3288,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9716981, g: 0.62793696, b: 0.62793696, a: 1}
+    m_PressedColor: {r: 0.9150943, g: 0.3927999, b: 0.3927999, a: 1}
+    m_SelectedColor: {r: 0.9528302, g: 0.6786668, b: 0.6786668, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -3429,9 +3433,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9716981, g: 0.62793696, b: 0.62793696, a: 1}
+    m_PressedColor: {r: 0.9150943, g: 0.3927999, b: 0.3927999, a: 1}
+    m_SelectedColor: {r: 0.9528302, g: 0.6786668, b: 0.6786668, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4010,7 +4014,7 @@ MonoBehaviour:
   ShouldWork: 1
   TestFillMode: 0
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 393, y: 221}
+  _CurrentAspectRatio: {x: 1013, y: 468}
   _Portrait:
     name: 
     _ReferenceAspectRatio: {x: 0, y: 0}
@@ -4041,8 +4045,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (393.0, 221.0)
-    _ReferenceAspectRatio: {x: 393, y: 221}
+    name: (1013.0, 468.0)
+    _ReferenceAspectRatio: {x: 1013, y: 468}
     _SizeDelta: {x: -20, y: 0}
     _AnchoredPosition: {x: 10, y: 0}
     _AnchorMin: {x: 0, y: 0}
@@ -4382,7 +4386,7 @@ MonoBehaviour:
   ShouldWork: 1
   TestFillMode: 0
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 393, y: 221}
+  _CurrentAspectRatio: {x: 1013, y: 468}
   _Portrait:
     name: 
     _ReferenceAspectRatio: {x: 0, y: 0}
@@ -4413,8 +4417,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (393.0, 221.0)
-    _ReferenceAspectRatio: {x: 393, y: 221}
+    name: (1013.0, 468.0)
+    _ReferenceAspectRatio: {x: 1013, y: 468}
     _SizeDelta: {x: -200, y: -160}
     _AnchoredPosition: {x: 0, y: 0}
     _AnchorMin: {x: 0, y: 0}
@@ -5743,7 +5747,7 @@ MonoBehaviour:
   ShouldWork: 1
   TestFillMode: 0
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 393, y: 221}
+  _CurrentAspectRatio: {x: 1013, y: 468}
   _Portrait:
     name: 
     _ReferenceAspectRatio: {x: 0, y: 0}
@@ -5774,8 +5778,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (393.0, 221.0)
-    _ReferenceAspectRatio: {x: 393, y: 221}
+    name: (1013.0, 468.0)
+    _ReferenceAspectRatio: {x: 1013, y: 468}
     _SizeDelta: {x: 637.7101, y: -200}
     _AnchoredPosition: {x: -12.964966, y: 0}
     _AnchorMin: {x: 0, y: 0}
@@ -6002,7 +6006,7 @@ MonoBehaviour:
   ShouldWork: 1
   TestFillMode: 0
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 393, y: 221}
+  _CurrentAspectRatio: {x: 1013, y: 468}
   _Portrait:
     name: 
     _ReferenceAspectRatio: {x: 0, y: 0}
@@ -6033,8 +6037,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (393.0, 221.0)
-    _ReferenceAspectRatio: {x: 393, y: 221}
+    name: (1013.0, 468.0)
+    _ReferenceAspectRatio: {x: 1013, y: 468}
     _SizeDelta: {x: 128, y: 128}
     _AnchoredPosition: {x: -1488.84, y: -110}
     _AnchorMin: {x: 0.5, y: 0.5}
@@ -6191,7 +6195,7 @@ MonoBehaviour:
   ShouldWork: 1
   TestFillMode: 0
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 393, y: 221}
+  _CurrentAspectRatio: {x: 1013, y: 468}
   _Portrait:
     name: (9.0, 16.0)
     _ReferenceAspectRatio: {x: 9, y: 16}
@@ -6327,8 +6331,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (393.0, 221.0)
-    _ReferenceAspectRatio: {x: 393, y: 221}
+    name: (1013.0, 468.0)
+    _ReferenceAspectRatio: {x: 1013, y: 468}
     _SizeDelta: {x: 168.22778, y: 101.71002}
     _AnchoredPosition: {x: 58.999817, y: 229}
     _AnchorMin: {x: 1, y: 0}
@@ -6587,9 +6591,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9716981, g: 0.62793696, b: 0.62793696, a: 1}
+    m_PressedColor: {r: 0.9150943, g: 0.3927999, b: 0.3927999, a: 1}
+    m_SelectedColor: {r: 0.9528302, g: 0.6786668, b: 0.6786668, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -6734,9 +6738,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9622642, g: 0.6127626, b: 0.6127626, a: 1}
+    m_PressedColor: {r: 0.9245283, g: 0.49279103, b: 0.49279103, a: 1}
+    m_SelectedColor: {r: 0.8962264, g: 0.629895, b: 0.629895, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -6788,7 +6792,7 @@ MonoBehaviour:
   ShouldWork: 1
   TestFillMode: 0
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 393, y: 221}
+  _CurrentAspectRatio: {x: 1013, y: 468}
   _Portrait:
     name: 
     _ReferenceAspectRatio: {x: 0, y: 0}
@@ -6819,8 +6823,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (393.0, 221.0)
-    _ReferenceAspectRatio: {x: 393, y: 221}
+    name: (1013.0, 468.0)
+    _ReferenceAspectRatio: {x: 1013, y: 468}
     _SizeDelta: {x: 130.29999, y: 199.79999}
     _AnchoredPosition: {x: -65.15, y: 56.3}
     _AnchorMin: {x: 1, y: 0}
@@ -8028,7 +8032,7 @@ MonoBehaviour:
   ShouldWork: 1
   TestFillMode: 0
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 393, y: 221}
+  _CurrentAspectRatio: {x: 1013, y: 468}
   _Portrait:
     name: 
     _ReferenceAspectRatio: {x: 0, y: 0}
@@ -8059,8 +8063,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (393.0, 221.0)
-    _ReferenceAspectRatio: {x: 393, y: 221}
+    name: (1013.0, 468.0)
+    _ReferenceAspectRatio: {x: 1013, y: 468}
     _SizeDelta: {x: 128, y: 128}
     _AnchoredPosition: {x: -1488.84, y: 0}
     _AnchorMin: {x: 0.5, y: 0.5}
@@ -8077,6 +8081,7 @@ GameObject:
   - component: {fileID: 1856297818}
   - component: {fileID: 1856297819}
   - component: {fileID: 1856297820}
+  - component: {fileID: 1856297821}
   m_Layer: 5
   m_Name: NumbersInputPanel
   m_TagString: Untagged
@@ -8119,8 +8124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (393.0, 221.0)
-    _ReferenceAspectRatio: {x: 393, y: 221}
+    name: (1013.0, 468.0)
+    _ReferenceAspectRatio: {x: 1013, y: 468}
     _SizeDelta: {x: 200, y: 600}
     _AnchoredPosition: {x: 154, y: -17.5}
     _AnchorMin: {x: 0, y: 0.5}
@@ -8142,7 +8147,7 @@ MonoBehaviour:
   ShouldWork: 1
   TestFillMode: 0
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 393, y: 221}
+  _CurrentAspectRatio: {x: 1013, y: 468}
   _Portrait:
     name: (86.0, 153.0)
     _ReferenceAspectRatio: {x: 86, y: 153}
@@ -8251,6 +8256,22 @@ MonoBehaviour:
     _AnchorMin: {x: 0.5, y: 0}
     _AnchorMax: {x: 0.5, y: 0}
     _LocalScale: {x: 1, y: 1, z: 1}
+--- !u!114 &1856297821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856297817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40ce5daedb9ff4cd3a0b16993b74c5fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _AcceptInput: 0
+  _MainGame: {fileID: 234419784}
+  _FirstSelected: {fileID: 2069087152}
+  _LastSelected: {fileID: 0}
 --- !u!1 &1904065705
 GameObject:
   m_ObjectHideFlags: 0
@@ -8312,9 +8333,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9716981, g: 0.62793696, b: 0.62793696, a: 1}
+    m_PressedColor: {r: 0.9150943, g: 0.3927999, b: 0.3927999, a: 1}
+    m_SelectedColor: {r: 0.9528302, g: 0.6786668, b: 0.6786668, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -8605,9 +8626,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9056604, g: 0.5596298, b: 0.5596298, a: 1}
+    m_PressedColor: {r: 0.8773585, g: 0.4014329, b: 0.4014329, a: 1}
+    m_SelectedColor: {r: 0.6320754, g: 0.4680936, b: 0.4680936, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -8750,9 +8771,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9716981, g: 0.62793696, b: 0.62793696, a: 1}
+    m_PressedColor: {r: 0.9150943, g: 0.3927999, b: 0.3927999, a: 1}
+    m_SelectedColor: {r: 0.9528302, g: 0.6786668, b: 0.6786668, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
