@@ -766,7 +766,8 @@ public class ModifyShaderOffset : MonoBehaviour
         }
         else
         {
-            if (EventSystem.current.currentSelectedGameObject != null) EventSystem.current.SetSelectedGameObject(null);
+            if (EventSystem.current.currentSelectedGameObject != null)
+                EventSystem.current.SetSelectedGameObject(null);
         }
 
         /*

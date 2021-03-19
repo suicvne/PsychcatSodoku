@@ -33,25 +33,6 @@ namespace IgnoreSolutions.PsychSodoku
 
         private void Update()
         {
-            //float v = Input.GetAxis("Vertical"), h = Input.GetAxis("Horizontal");
-
-            //if(h > .35f)
-            //{
-
-            //}
-            //else if(h < -.35f)
-            //{
-
-            //}
-
-            //if(v > .35f)
-            //{
-
-            //}
-            //else if(v < -.35f)
-            //{
-
-            //}
         }
     }
 }

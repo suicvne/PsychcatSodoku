@@ -6,6 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class SwitchScene : MonoBehaviour
 {
+    public void ShowCanvasGroup(CanvasGroup cg) => SetCanvasGroupState(cg, true);
+    public void HideCanvasGroup(CanvasGroup cg) => SetCanvasGroupState(cg, false);
+
+    public void SetCanvasGroupState(CanvasGroup cg, bool enabled)
+    {
+        cg.alpha = enabled ? 1.0f : 0.0f;
+        cg.interactable = enabled;
+        cg.blocksRaycasts = enabled;
+    }
+
     public void ChangeScene(int sceneIndex)
     {
         try
