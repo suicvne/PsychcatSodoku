@@ -116,7 +116,7 @@ namespace IgnoreSolutions.PsychSodoku
             }
         }
 
-        private static string SaveFile
+        internal static string SaveFile
         {
             get
             {
@@ -163,6 +163,24 @@ namespace IgnoreSolutions.PsychSodoku
 
 
             return false;
+        }
+
+        public static PsychSudokuSave ReadSaveFromJSON()
+        {
+            try
+            {
+                if (File.Exists(SaveFile))
+                {
+                    string jText = File.ReadAllText(SaveFile);
+                    return JsonConvert.DeserializeObject<PsychSudokuSave>(jText);
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.LogError($"Exception while trying to write save to `{SaveFile}`\n{ex.Message}\n\n{ex.StackTrace}");
+            }
+
+            return null;
         }
 
         private static int GetLevelIndexInList(LevelList list, LevelData data)

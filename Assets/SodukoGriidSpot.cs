@@ -16,7 +16,7 @@ public class SodukoGriidSpot : MonoBehaviour
     public int _LevelIndex = -1;
     public int _SquareGroupNo = -1;
 
-    List<int> PossibleNumbers = new List<int>();
+    internal List<int> PossibleNumbers = new List<int>();
 
     public UnityEvent<SodukoGriidSpot> _OnGridSpotTapped;
 
