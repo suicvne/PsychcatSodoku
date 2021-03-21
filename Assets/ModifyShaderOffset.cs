@@ -88,6 +88,10 @@ public class ModifyShaderOffset : MonoBehaviour
 
     private Vector3 _NumberOrigin;
 
+    protected internal List<SodukoGriidSpot> GetGridSpots() => Tiles;
+    protected internal Tuple<PlayDifficulty, LevelData> GetLevelInformation()
+        => new Tuple<PlayDifficulty, LevelData>(_PlayDifficulty, _CurrentLevelData);
+
     public void SetPossibleNumbersMode(bool enterAsPossibleNumbers)
     {
         _EnterAsPossibleNumber = enterAsPossibleNumbers;
