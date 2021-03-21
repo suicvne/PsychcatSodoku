@@ -1467,8 +1467,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (1351.0, 624.0)
-    _ReferenceAspectRatio: {x: 1351, y: 624}
+    name: (674.0, 311.0)
+    _ReferenceAspectRatio: {x: 1350, y: 623}
     _SizeDelta: {x: 651.8, y: 691.1}
     _AnchoredPosition: {x: -394.4, y: -10.8}
     _AnchorMin: {x: 1, y: 0.5}
@@ -1490,7 +1490,7 @@ MonoBehaviour:
   ShouldWork: 1
   TestFillMode: 0
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 1351, y: 624}
+  _CurrentAspectRatio: {x: 1350, y: 623}
   _Portrait:
     name: (512.0, 683.0)
     _ReferenceAspectRatio: {x: 512, y: 683}
@@ -2502,7 +2502,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1440.6747, y: 0}
+  m_AnchoredPosition: {x: -1441.4213, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &608429309
@@ -3133,6 +3133,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 884089053}
   m_CullTransparentMesh: 1
+--- !u!1 &899833033
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 899833034}
+  - component: {fileID: 899833035}
+  m_Layer: 0
+  m_Name: LevelSelectGridStyle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &899833034
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899833033}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1070044803}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &899833035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899833033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98fd9054f6f2c4999a8ebcedb5f619fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Prefab: {fileID: 0}
+  _LevelList: {fileID: 0}
+  _LevelsPerPage: 20
+  _LevelButtons: []
 --- !u!1 &924502627
 GameObject:
   m_ObjectHideFlags: 0
@@ -3722,14 +3774,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 720786708}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 720786711}
+        m_TargetAssemblyTypeName: IgnoreSolutions.PsychSodoku.ActionTranslator, Assembly-CSharp
+        m_MethodName: AExecuteAction
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4297,6 +4349,7 @@ RectTransform:
   - {fileID: 1019187870}
   - {fileID: 1632992195}
   - {fileID: 1000101937}
+  - {fileID: 899833034}
   m_Father: {fileID: 720786710}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7003,7 +7056,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1875028724}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 720786711}
+        m_TargetAssemblyTypeName: IgnoreSolutions.PsychSodoku.ActionTranslator, Assembly-CSharp
+        m_MethodName: AExecuteUndoAction
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1875028724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7520,7 +7585,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1414784784}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99992573
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8121,7 +8186,7 @@ MonoBehaviour:
   ShouldWork: 1
   TestFillMode: 0
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 1351, y: 624}
+  _CurrentAspectRatio: {x: 1350, y: 623}
   _Portrait:
     name: (512.0, 683.0)
     _ReferenceAspectRatio: {x: 512, y: 683}
@@ -8208,8 +8273,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (1351.0, 624.0)
-    _ReferenceAspectRatio: {x: 1351, y: 624}
+    name: (674.0, 311.0)
+    _ReferenceAspectRatio: {x: 1350, y: 623}
     _SizeDelta: {x: 2249.8, y: 762.6}
     _AnchoredPosition: {x: 527, y: 18.8}
     _AnchorMin: {x: 0, y: 0.5}

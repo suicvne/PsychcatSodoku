@@ -33,16 +33,16 @@ namespace IgnoreSolutions.PsychSodoku
     {
         [SerializeField] List<EnumToActionTranslator> Actions = new List<EnumToActionTranslator>();
 
-
+        
 
         public void AExecuteAction(int actionType)
         {
             ExecuteAction((MenuActions)actionType, false);
         }
 
-        public void AExecuteUndoAction(MenuActions actionType)
+        public void AExecuteUndoAction(int actionType)
         {
-            ExecuteAction(actionType, true);
+            ExecuteAction((MenuActions)actionType, true);
         }
 
         public void ExecuteAction(MenuActions actionType, bool undo)

@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace IgnoreSolutions.PsychSodoku.Extensions
 {
     public static class Extensions
     {
-        private static Random rng = new Random();
+        private static System.Random rng = new System.Random();
 
         public static void Shuffle<T>(this IList<T> list)
         {
@@ -19,6 +21,29 @@ namespace IgnoreSolutions.PsychSodoku.Extensions
                 list[k] = list[n];
                 list[n] = value;
             }
+        }
+
+        public static void FadeOutCanvasGroup(this CanvasGroup cg)
+        {
+
+        }
+
+        public static void FadeInCanvasGroup()
+        {
+
+        }
+
+        private static IEnumerator Fade(CanvasGroup cg, bool inOut)
+        {
+            for(float f = 0;
+                f <= 1.0f;
+                f += 1.0f * UnityEngine.Time.deltaTime)
+            {
+
+                yield return null;
+            }
+
+            yield return null;
         }
 
         public static string PadNumbers(string input)
