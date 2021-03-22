@@ -10,6 +10,7 @@ namespace IgnoreSolutions.PsychSodoku
     [RequireComponent(typeof(ScrollRect))]
     public class TestOccupyLotsOfButtons : MonoBehaviour
     {
+        [SerializeField] bool _Enabled = false;
         [SerializeField] Button _PlayButton;
         [SerializeField] Button _BackToLevelSelection;
         [SerializeField] LevelList _LevelList;
@@ -45,6 +46,7 @@ namespace IgnoreSolutions.PsychSodoku
         }
         private void Awake()
         {
+            
             _ThisScrollRect = GetComponent<ScrollRect>();
             _ScrollRectTransform = _ThisScrollRect.GetComponent<RectTransform>();
 
@@ -163,7 +165,9 @@ namespace IgnoreSolutions.PsychSodoku
 
         private void LateUpdate()
         {
-            if(EventSystem.current.currentSelectedGameObject != _LastSelectedGameObject)
+            if (_Enabled == false) return;
+
+            if (EventSystem.current.currentSelectedGameObject != _LastSelectedGameObject)
             {
                 if (EventSystem.current.currentSelectedGameObject != null)
                 {

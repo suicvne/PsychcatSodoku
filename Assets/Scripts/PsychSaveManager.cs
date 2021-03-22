@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using IgnoreSolutions.Sodoku;
 using UnityEngine;
 
 namespace IgnoreSolutions.PsychSodoku
 {
     public class PsychSaveManager : SaveManager<PsychSudokuSave>
     {
+        [SerializeField] LevelList _LevelList;
+
         public override void ReloadTrackedSaves()
         {
             ClearTrackedSaves();
@@ -25,6 +28,10 @@ namespace IgnoreSolutions.PsychSodoku
             else
             {
                 Debug.Log($"[PsychSaveManager] No saves found to load.");
+                save = PsychSudokuSave.Default(_LevelList);
+                bool success = PsychSudokuSave.WriteSaveJSON(save);
+                if (success == false) Debug.LogError($"Failed to write save to JSON. Unknown reasons why.");
+                else ReloadTrackedSaves();
             }
         }
     }
