@@ -477,8 +477,21 @@ public class ModifyShaderOffset : MonoBehaviour
             _PlayDifficulty = parameters.GetDifficulty();
 
             Debug.Log($"[ModifyShaderOffset] Using level {_CurrentLevelData} at difficulty {_PlayDifficulty}");
+
+            if(saveMgr != null)
+            {
+                Debug.Log($"[ModifyShaderOffset] Hooking up level complete events.");
+            }
         }
         else Debug.Log($"[ModifyShaderOffset] Unable to find SudokuParametersInjest. Using defaults.");
+    }
+
+    private void Handle_UpdatingSaveOnLevelComplete()
+    {
+        // When the level is completed and the SaveManager is
+        // present and functioning, the following should happen.
+        // 1.The level completion time is recorded.
+        // 2. 
     }
 
     private void OnDisable()
