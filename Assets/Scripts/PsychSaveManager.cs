@@ -36,7 +36,7 @@ namespace IgnoreSolutions.PsychSodoku
             }
         }
 
-        public void SetParametersInjestToLastCompletedLevel(PsychSudokuSave save, PlayDifficulty difficulty)
+        public void SetParametersInjestToNextLevel(PsychSudokuSave save, PlayDifficulty difficulty)
         {
             var parameterInjest = FindObjectOfType<SudokuParametersInjest>();
             if (parameterInjest == null) throw new System.Exception("[PsychSaveManager] Could not find parameter injest to setup game screen parameters.");

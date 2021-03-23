@@ -38,7 +38,7 @@ public class CardAnimationScript : MonoBehaviour
     public void Next_SetupSudokuScene()
     {
         var saveMgr = ((PsychSaveManager)PsychSaveManager.p_Instance);
-        saveMgr.SetParametersInjestToLastCompletedLevel(saveMgr.GetCurrentSave(), GetLastSelectedDifficulty());
+        saveMgr.SetParametersInjestToNextLevel(saveMgr.GetCurrentSave(), GetLastSelectedDifficulty());
 
         Debug.Log($"TODO: Switch scene.");
         _SceneSwitcher?.ChangeScene(1);

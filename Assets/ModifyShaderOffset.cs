@@ -499,6 +499,12 @@ public class ModifyShaderOffset : MonoBehaviour
         _OnBoardFullyComplete.RemoveListener(_OnBoardCompleteAction);
     }
 
+    public void UpdateSudokuSceneParametersNextLevel()
+    {
+        var saveMgr = ((PsychSaveManager)PsychSaveManager.p_Instance);
+        saveMgr.SetParametersInjestToNextLevel(saveMgr.GetCurrentSave(), _PlayDifficulty);
+    }
+
     public void UpdateFromSudokuSceneParameters()
     {
         SudokuParametersInjest parameters = SudokuParametersInjest.p_Instance;
@@ -612,9 +618,12 @@ public class ModifyShaderOffset : MonoBehaviour
 
     void Regenerate()
     {
-        // Enable Line Renderers
-        foreach (var lineRenderer in LineRenderers)
-            lineRenderer.enabled = true;
+        if (LineRenderers.Count > 0)
+        {
+            // Enable Line Renderers
+            foreach (var lineRenderer in LineRenderers)
+                lineRenderer.enabled = true;
+        }
 
         // Generate board
         for (int x = 0; x < 9; x++)
@@ -636,7 +645,7 @@ public class ModifyShaderOffset : MonoBehaviour
                 newTile._LevelIndex = sudokuCell.Index;
                 newTile._SquareGroupNo = sudokuCell.GroupNo;
                 newTile._SquareFilledValue = _revealed ? sudokuCell.Value : -1;
-                newTile._OnGridSpotTapped = new UnityEngine.Events.UnityEvent<SodukoGriidSpot>();
+                newTile._OnGridSpotTapped = new UnityEvent<SodukoGriidSpot>();
                 newTile._OnGridSpotTapped?.AddListener((_gridSpot) =>
                 {
                     SetSelectionLocationToTappedSpot(_gridSpot);
@@ -703,7 +712,8 @@ public class ModifyShaderOffset : MonoBehaviour
         }
 
         // Place lines
-        DrawGridDividers();
+        if(LineRenderers.Count == 0)
+            DrawGridDividers();
 
         if(_CongratulationsScreen != null)
         {
