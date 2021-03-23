@@ -54,7 +54,7 @@ public class ModifyShaderOffset : MonoBehaviour
     [SerializeField] CanvasGroup _GameUI;
     [SerializeField] NumberToSpriteLookup _NumberToSpriteLookup; // Number -> Sprite lookup for the board.
     [SerializeField] private bool _ForceRegen = false; // Should we force regenerate? This is mostly for the editor's sake
-    [SerializeField] private LineRenderer _LineRenderer; // ???? Template LineRenderer?
+    //[SerializeField] private LineRenderer _LineRenderer; // ???? Template LineRenderer?
     [SerializeField] float _MultiplicationOffset = 4f; // ?
 
     [Header("Events")]
@@ -62,7 +62,7 @@ public class ModifyShaderOffset : MonoBehaviour
     [SerializeField] UnityEvent _OnBoardFullyComplete;
 
     internal List<SodukoGriidSpot> Tiles = new List<SodukoGriidSpot>(); // A list of all the tiles that this script manages.
-    private List<LineRenderer> LineRenderers = new List<LineRenderer>(); // A list of the LineRenderers that this script manages.
+    public List<LineRenderer> LineRenderers = new List<LineRenderer>(); // A list of the LineRenderers that this script manages.
 
     private Material lastMaterial; // Hm?
     private bool WasBlur = false; // TODO: Remove this?
@@ -492,11 +492,17 @@ public class ModifyShaderOffset : MonoBehaviour
             _OnBoardCompleteAction = new UnityAction(Handle_UpdatingSaveOnLevelComplete);
             _OnBoardFullyComplete.AddListener(_OnBoardCompleteAction);
         }
+
+        RegenerateBoard();
     }
 
     void OnDisable()
     {
-        _OnBoardFullyComplete.RemoveListener(_OnBoardCompleteAction);
+        try
+        {
+            _OnBoardFullyComplete.RemoveListener(_OnBoardCompleteAction);
+        }
+        catch { }
     }
 
     public void UpdateSudokuSceneParametersNextLevel()
@@ -618,6 +624,12 @@ public class ModifyShaderOffset : MonoBehaviour
 
     void Regenerate()
     {
+        if(_CurrentLevelData == null)
+        {
+            Debug.LogError($"No level.");
+            return;
+        }
+
         if (LineRenderers.Count > 0)
         {
             // Enable Line Renderers
@@ -711,9 +723,9 @@ public class ModifyShaderOffset : MonoBehaviour
             }
         }
 
-        // Place lines
-        if(LineRenderers.Count == 0)
-            DrawGridDividers();
+        //// Place lines
+        //if(LineRenderers.Count == 0)
+        //    DrawGridDividers();
 
         if(_CongratulationsScreen != null)
         {
@@ -725,56 +737,56 @@ public class ModifyShaderOffset : MonoBehaviour
         _OnBoardGenerated?.Invoke();
     }
 
-    /// <summary>
-    /// Clones a valid line renderer and draws lines between sodoku squares.
-    /// </summary>
-    private void DrawGridDividers()
-    {
-        if(_LineRenderer == null)
-        {
-            return;
-        }
+    ///// <summary>
+    ///// Clones a valid line renderer and draws lines between sodoku squares.
+    ///// </summary>
+    //private void DrawGridDividers()
+    //{
+    //    if(_LineRenderer == null)
+    //    {
+    //        return;
+    //    }
 
-        // Create 4 unique line renderers for the board dividers.
-        // These are cloned after the LineRenderer template provided by the prefab.
-        for(int i = 0; i < 4; i++)
-        {
-            LineRenderer newLineRenderer = Instantiate(_LineRenderer);
-            LineRenderers.Add(newLineRenderer);
+    //    // Create 4 unique line renderers for the board dividers.
+    //    // These are cloned after the LineRenderer template provided by the prefab.
+    //    for(int i = 0; i < 4; i++)
+    //    {
+    //        LineRenderer newLineRenderer = Instantiate(_LineRenderer);
+    //        LineRenderers.Add(newLineRenderer);
 
-            SodukoGriidSpot a = null, b = null;
-            // blergh
-            switch(i)
-            {
-                case 0:
-                    a = GetGridSpot(0, 3);
-                    b = GetGridSpot(8, 3);
-                    LineRenderers[i].SetPosition(0, (a.transform.position - Vector3.right + (Vector3.down / 1.8f)));
-                    LineRenderers[i].SetPosition(1, (b.transform.position + Vector3.right + (Vector3.down / 1.8f)));
-                    break;
-                case 1:
-                    a = GetGridSpot(0, 6);
-                    b = GetGridSpot(8, 6);
-                    LineRenderers[i].SetPosition(0, (a.transform.position - Vector3.right + (Vector3.down / 1.8f)));
-                    LineRenderers[i].SetPosition(1, (b.transform.position + Vector3.right + (Vector3.down / 1.8f)));
-                    break;
-                case 2:
-                    a = GetGridSpot(3, 0);
-                    b = GetGridSpot(3, 8);
+    //        SodukoGriidSpot a = null, b = null;
+    //        // blergh
+    //        switch(i)
+    //        {
+    //            case 0:
+    //                a = GetGridSpot(0, 3);
+    //                b = GetGridSpot(8, 3);
+    //                LineRenderers[i].SetPosition(0, (a.transform.position - Vector3.right + (Vector3.down / 1.8f)));
+    //                LineRenderers[i].SetPosition(1, (b.transform.position + Vector3.right + (Vector3.down / 1.8f)));
+    //                break;
+    //            case 1:
+    //                a = GetGridSpot(0, 6);
+    //                b = GetGridSpot(8, 6);
+    //                LineRenderers[i].SetPosition(0, (a.transform.position - Vector3.right + (Vector3.down / 1.8f)));
+    //                LineRenderers[i].SetPosition(1, (b.transform.position + Vector3.right + (Vector3.down / 1.8f)));
+    //                break;
+    //            case 2:
+    //                a = GetGridSpot(3, 0);
+    //                b = GetGridSpot(3, 8);
 
-                    LineRenderers[i].SetPosition(0, (a.transform.position) + (Vector3.left / 1.7f) - Vector3.up);
-                    LineRenderers[i].SetPosition(1, (b.transform.position) + (Vector3.left / 1.7f) + Vector3.up);
-                    break;
-                case 3:
-                    a = GetGridSpot(6, 0);
-                    b = GetGridSpot(6, 8);
+    //                LineRenderers[i].SetPosition(0, (a.transform.position) + (Vector3.left / 1.7f) - Vector3.up);
+    //                LineRenderers[i].SetPosition(1, (b.transform.position) + (Vector3.left / 1.7f) + Vector3.up);
+    //                break;
+    //            case 3:
+    //                a = GetGridSpot(6, 0);
+    //                b = GetGridSpot(6, 8);
 
-                    LineRenderers[i].SetPosition(0, (a.transform.position) + (Vector3.left / 1.7f) - Vector3.up);
-                    LineRenderers[i].SetPosition(1, (b.transform.position) + (Vector3.left / 1.7f) + Vector3.up);
-                    break;
-            }
-        }
-    }
+    //                LineRenderers[i].SetPosition(0, (a.transform.position) + (Vector3.left / 1.7f) - Vector3.up);
+    //                LineRenderers[i].SetPosition(1, (b.transform.position) + (Vector3.left / 1.7f) + Vector3.up);
+    //                break;
+    //        }
+    //    }
+    //}
 
     internal void SetSelectionLocationToTappedSpot(SodukoGriidSpot gridSpot)
     {
@@ -793,6 +805,8 @@ public class ModifyShaderOffset : MonoBehaviour
 
     private void Update()
     {
+        if (_CurrentLevelData == null) return;
+
         if(_ForceRegen)
         {
             _ForceRegen = true;
