@@ -461,7 +461,7 @@ MonoBehaviour:
     Build: 0
     Revision: 0
     _Extras: 
-  _LevelList: {fileID: 11400000, guid: e2e045b105ed64595be5c31967ce6e7f, type: 2}
+  _LevelList: {fileID: 11400000, guid: 521f4ecd8134947838e870b582d62df8, type: 2}
 --- !u!4 &122981301
 Transform:
   m_ObjectHideFlags: 0
@@ -1737,8 +1737,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (0.0, 0.0)
-    _ReferenceAspectRatio: {x: 1105, y: 622}
+    name: (1105.0, 671.0)
+    _ReferenceAspectRatio: {x: 1105, y: 671}
     _SizeDelta: {x: 651.8, y: 691.1}
     _AnchoredPosition: {x: -394.4, y: -10.8}
     _AnchorMin: {x: 1, y: 0.5}
@@ -2743,6 +2743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb24bb9d0a734e0f9ae55d5b8424c40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _LevelList: {fileID: 11400000, guid: 521f4ecd8134947838e870b582d62df8, type: 2}
   _LevelToLoad: {fileID: 0}
   _LevelIndex: 0
   _Difficulty: 0
@@ -4374,7 +4375,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1632992199}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: IgnoreSolutions.PsychSodoku.TestOccupyLotsOfButtons,
           Assembly-CSharp
         m_MethodName: BackToLevelSelection
@@ -4722,7 +4723,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1000101937
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4800,7 +4801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1019187870
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7584,14 +7585,13 @@ GameObject:
   - component: {fileID: 1632992198}
   - component: {fileID: 1632992197}
   - component: {fileID: 1632992196}
-  - component: {fileID: 1632992199}
   m_Layer: 0
   m_Name: Scroll View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1632992195
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7682,24 +7682,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1632992194}
   m_CullTransparentMesh: 1
---- !u!114 &1632992199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632992194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0246c29bc001949cd9c2a53a19112756, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Enabled: 0
-  _PlayButton: {fileID: 1053522062}
-  _BackToLevelSelection: {fileID: 972502217}
-  _LevelList: {fileID: 11400000, guid: e2e045b105ed64595be5c31967ce6e7f, type: 2}
-  Cutoff: 400
-  _SelectionOffset: 0
 --- !u!1 &1734751801
 GameObject:
   m_ObjectHideFlags: 0
@@ -9408,8 +9390,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (0.0, 0.0)
-    _ReferenceAspectRatio: {x: 1105, y: 622}
+    name: (1105.0, 671.0)
+    _ReferenceAspectRatio: {x: 1105, y: 671}
     _SizeDelta: {x: 2249.8, y: 762.6}
     _AnchoredPosition: {x: 527, y: 18.8}
     _AnchorMin: {x: 0, y: 0.5}
