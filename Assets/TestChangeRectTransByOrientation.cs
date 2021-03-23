@@ -22,6 +22,7 @@ namespace IgnoreSolutions.PsychSodoku
         [SerializeField] PropertiesToCopy _PropsToCopy = PropertiesToCopy.SizeDelta | PropertiesToCopy.AnchoredPosition | PropertiesToCopy.AnchorMin | PropertiesToCopy.AnchorMax;
         [SerializeField] bool ShouldWork = false;
         [SerializeField] bool TestFillMode = false;
+        [SerializeField] bool _AllowUpdateInEditor = false;
         [SerializeField] Orientation _CurrentOrientation;
         [SerializeField] Vector2 _CurrentAspectRatio;
         [SerializeField] RectTransformProperties _Portrait;
@@ -50,6 +51,9 @@ namespace IgnoreSolutions.PsychSodoku
 
         private void LateUpdate()
         {
+            if (Application.isPlaying == false
+                && _AllowUpdateInEditor == false) return;
+
             _CurrentResolution.Set(Screen.width, Screen.height);
             if (_CurrentResolution != _LastResolution)
             {

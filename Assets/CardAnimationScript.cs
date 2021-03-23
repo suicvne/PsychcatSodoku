@@ -20,6 +20,8 @@ public class CardAnimationScript : MonoBehaviour
     [SerializeField] List<Button> _EnableOnDifficultySelect;
     [SerializeField] LastSelectedDifficulty _LastSelectedDifficulty = LastSelectedDifficulty.NONE;
 
+    [SerializeField] SwitchScene _SceneSwitcher;
+
     Animator _thisAnimator;
     
 
@@ -31,6 +33,15 @@ public class CardAnimationScript : MonoBehaviour
     void Start()
     {
         _thisAnimator = GetComponent<Animator>();
+    }
+
+    public void Next_SetupSudokuScene()
+    {
+        var saveMgr = ((PsychSaveManager)PsychSaveManager.p_Instance);
+        saveMgr.SetParametersInjestToLastCompletedLevel(saveMgr.GetCurrentSave(), GetLastSelectedDifficulty());
+
+        Debug.Log($"TODO: Switch scene.");
+        _SceneSwitcher?.ChangeScene(1);
     }
 
     public PlayDifficulty GetLastSelectedDifficulty()

@@ -393,6 +393,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 25859339}
   m_CullTransparentMesh: 1
+--- !u!1 &122981299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 122981301}
+  - component: {fileID: 122981300}
+  m_Layer: 0
+  m_Name: PsychSudokuSaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &122981300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122981299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbf3c013da93d45cab2b8b68c1ebfeac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SelectedSave: 0
+  _LoadedSaves: []
+  _ClientVersionNumber:
+    Major: 0
+    Minor: 0
+    Build: 0
+    Revision: 0
+    _Extras: 
+  _LevelList: {fileID: 11400000, guid: e2e045b105ed64595be5c31967ce6e7f, type: 2}
+--- !u!4 &122981301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122981299}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 503.24377, y: 329.4525, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &127065422
 GameObject:
   m_ObjectHideFlags: 0
@@ -1623,7 +1675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (0.0, 0.0)
+    name: (1012.0, 467.0)
     _ReferenceAspectRatio: {x: 1012, y: 467}
     _SizeDelta: {x: 651.8, y: 691.1}
     _AnchoredPosition: {x: -394.4, y: -10.8}
@@ -1645,6 +1697,7 @@ MonoBehaviour:
   _PropsToCopy: 7
   ShouldWork: 1
   TestFillMode: 0
+  _AllowUpdateInEditor: 0
   _CurrentOrientation: 1
   _CurrentAspectRatio: {x: 1012, y: 467}
   _Portrait:
@@ -2599,6 +2652,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 574871385}
   m_CullTransparentMesh: 1
+--- !u!1 &580119226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 580119228}
+  - component: {fileID: 580119227}
+  m_Layer: 0
+  m_Name: SudokuParametersInjest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &580119227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580119226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb24bb9d0a734e0f9ae55d5b8424c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _LevelToLoad: {fileID: 0}
+  _Difficulty: 0
+--- !u!4 &580119228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580119226}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 503.24377, y: 329.4525, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &581458063
 GameObject:
   m_ObjectHideFlags: 0
@@ -9123,8 +9221,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _PropsToCopy: 7
-  ShouldWork: 0
+  ShouldWork: 1
   TestFillMode: 0
+  _AllowUpdateInEditor: 0
   _CurrentOrientation: 1
   _CurrentAspectRatio: {x: 1350, y: 623}
   _Portrait:
@@ -9227,7 +9326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (0.0, 0.0)
+    name: (1012.0, 467.0)
     _ReferenceAspectRatio: {x: 1012, y: 467}
     _SizeDelta: {x: 2249.8, y: 762.6}
     _AnchoredPosition: {x: 527, y: 18.8}

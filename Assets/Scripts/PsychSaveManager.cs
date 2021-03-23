@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using IgnoreSolutions.Sodoku;
 using UnityEngine;
+using static ModifyShaderOffset;
 
 namespace IgnoreSolutions.PsychSodoku
 {
@@ -20,7 +21,7 @@ namespace IgnoreSolutions.PsychSodoku
 
             if(save != null)
             {
-                Debug.Log($"[PsychSaveManager] Loaded save: {save}");
+                Debug.Log($"[PsychSaveManager] Loaded save: {save}. Last Completed Level Index: {save._LastCompletedLevel}");
                 _LoadedSaves = new PsychSudokuSave[1];
                 _LoadedSaves[0] = save;
                 SetCurrentSaveIndex(0);
@@ -32,6 +33,30 @@ namespace IgnoreSolutions.PsychSodoku
                 bool success = PsychSudokuSave.WriteSaveJSON(save);
                 if (success == false) Debug.LogError($"Failed to write save to JSON. Unknown reasons why.");
                 else ReloadTrackedSaves();
+            }
+        }
+
+        public void SetParametersInjestToLastCompletedLevel(PsychSudokuSave save, PlayDifficulty difficulty)
+        {
+            var parameterInjest = FindObjectOfType<SudokuParametersInjest>();
+            if (parameterInjest == null) throw new System.Exception("[PsychSaveManager] Could not find parameter injest to setup game screen parameters.");
+
+            if (save._LastCompletedLevel == -1)
+            {
+                parameterInjest.SetSudokuParameters(0, _LevelList.GetLevelList()[0], difficulty);
+            }
+            else
+            {
+                if (save._LastCompletedLevel == _LevelList.GetLevelList().Count - 1) // TODO: Last level already completed?
+                {
+                    Debug.Log($"TODO: Handle case where all levels up to last are completed.");
+                }
+                else
+                {
+                    parameterInjest.SetSudokuParameters(save._LastCompletedLevel + 1,
+                        _LevelList.GetLevelList()[save._LastCompletedLevel + 1],
+                        difficulty);
+                }
             }
         }
 

@@ -15,7 +15,7 @@ using UnityEngine.UI;
 using static SudokuLib.Model.Cell;
 
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class ModifyShaderOffset : MonoBehaviour
 {
     public enum PlayDifficulty
@@ -468,22 +468,21 @@ public class ModifyShaderOffset : MonoBehaviour
 
     private void OnEnable()
     {
-        //ClearList(false);
-        //if(Application.isPlaying)
-        //{
-        //    Regenerate();
-        //}
-        //Regenerate();
+        SudokuParametersInjest parameters = SudokuParametersInjest.p_Instance;
+        PsychSaveManager saveMgr = ((PsychSaveManager)PsychSaveManager.p_Instance);
+
+        if (parameters != null)
+        {
+            _CurrentLevelData = parameters.GetLevel();
+            _PlayDifficulty = parameters.GetDifficulty();
+
+            Debug.Log($"[ModifyShaderOffset] Using level {_CurrentLevelData} at difficulty {_PlayDifficulty}");
+        }
+        else Debug.Log($"[ModifyShaderOffset] Unable to find SudokuParametersInjest. Using defaults.");
     }
 
     private void OnDisable()
-    {
-        //if(DestroyOnDisable && IsGenerated)
-        //{
-        //    IsGenerated = false;
-        //    ClearList(false);
-        //}
-    }
+    {    }
 
     public void SetLevelInformation(LevelData _level, PlayDifficulty difficulty)
     {

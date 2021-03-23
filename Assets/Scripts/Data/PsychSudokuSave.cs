@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using IgnoreSolutions.Sodoku;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -96,14 +97,14 @@ namespace IgnoreSolutions.PsychSodoku
         ///
         /// Also stores and associates best times & best scores.
         /// </summary>
-        protected internal LevelSaveInformation[] _LevelSaveInformation;
+        [SerializeField] public LevelSaveInformation[] _LevelSaveInformation;
 
-        protected internal SaveStateInformation _SaveStateInformation;
+        [SerializeField] public SaveStateInformation _SaveStateInformation;
 
         /// <summary>
         /// The last level index that was FULLY completed (at least one difficulty complete).
         /// </summary>
-        protected internal int _LastCompletedLevel = -1;
+        [SerializeField] public int _LastCompletedLevel = -1;
 
         private static string ApplicationSavePath
         {
@@ -122,6 +123,30 @@ namespace IgnoreSolutions.PsychSodoku
             {
                 return Path.Combine(ApplicationSavePath, "state.json");
             }
+        }
+
+        public void SetLevelIndexCompleted(PlayDifficulty difficulty, int levelIndex, double levelCompleteTime)
+        {
+            // Update our last completed level index.
+            _LastCompletedLevel = levelIndex;
+
+            // Init stack with our existing times
+            List<double> bestTimes = new List<double>(_LevelSaveInformation[levelIndex]._BestTimes[difficulty]);
+            // Push our new level complete time
+            bestTimes.Add(levelCompleteTime);
+
+            // Order by lowest times first.
+            // TODO: Does this happen?
+            // Do I need to init some fake times to try and beat?
+            bestTimes.OrderBy(x => x);
+
+            // Best Times
+            _LevelSaveInformation[levelIndex]._BestTimes[difficulty] = bestTimes.ToArray();
+
+            bool success = PsychSudokuSave.WriteSaveJSON(this);
+
+            if (success) Debug.Log($"Saved progress.");
+            else Debug.LogError($"Unable to save progress. [PsychSudokuSave] Set Level Index Completed");
         }
 
         public static PsychSudokuSave Default(LevelList _levelList = null)

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace IgnoreSolutions
 {
-    public abstract class SaveManager<T> : MonoBehaviour
+    public abstract class SaveManager<T> : Singleton<SaveManager<T>>
     {
         [SerializeField] internal int _SelectedSave;
         [SerializeField] internal T[] _LoadedSaves;
@@ -50,11 +50,14 @@ namespace IgnoreSolutions
         {
             DontDestroyOnLoad(gameObject);
 
-            if(!Directory.Exists(SaveManager<T>.ApplicationSavePath))
+            if (!Directory.Exists(SaveManager<T>.ApplicationSavePath))
             {
-                Debug.Log("Application Save Path `{ApplicationSavePath}` does not exist. Creating.");
+                Debug.Log($"Application Save Path `{ApplicationSavePath}` does not exist. Creating.");
                 Directory.CreateDirectory(ApplicationSavePath);
             }
+            else Debug.Log($"Save Path: `{ApplicationSavePath}`");
+
+            ReloadTrackedSaves();
         }
 
         public virtual void ClearTrackedSaves()
