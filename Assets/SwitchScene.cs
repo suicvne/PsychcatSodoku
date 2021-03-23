@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using IgnoreSolutions.PsychSodoku;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -50,6 +51,11 @@ public class SwitchScene : MonoBehaviour
         _FadeOutMenu.blocksRaycasts = false;
         _FadeOutMenu.interactable = false;
 
+        CanvasGroupStateChangeEvents fadeOutEvents =
+            _FadeOutMenu.GetComponent<CanvasGroupStateChangeEvents>();
+        if(fadeOutEvents != null)
+            fadeOutEvents.ExecuteOnInvisible();
+
         // Fade in my menu
         for (float f = 0.0f; f <= 1.0f; f += _TransitionSpeed * Time.deltaTime)
         {
@@ -61,11 +67,18 @@ public class SwitchScene : MonoBehaviour
         _MyCanvasGroup.blocksRaycasts = true;
         _MyCanvasGroup.interactable = true;
         yield return null;
+
+        CanvasGroupStateChangeEvents myGroupEvents =
+            _MyCanvasGroup.GetComponent<CanvasGroupStateChangeEvents>();
+        if (myGroupEvents != null)
+            myGroupEvents.ExecuteOnVisible();
+
         _AnimationInProgress = false;
 
         OnFadeCompleted?.Invoke();
     }
 
+    [Obsolete]
     IEnumerator TransitionToPreviousMenu(CanvasGroup _MyCanvasGroup, CanvasGroup _FadeOutMenu)
     {
         if (_MyCanvasGroup == null || _FadeOutMenu == null) yield break;

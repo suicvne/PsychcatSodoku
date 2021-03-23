@@ -68,7 +68,11 @@ public class CardAnimationScript : MonoBehaviour
     private void PlayDifficultyAnimation(LastSelectedDifficulty difficulty, bool backAnim = false)
     {
         if (_AnimationInProgress) return;
-        if (_LastSelectedDifficulty == difficulty && backAnim == false) return;
+        if (_LastSelectedDifficulty == difficulty && backAnim == false)
+        {
+            Next_SetupSudokuScene();
+            return;
+        }
 
         if(backAnim) SetDifficultySelectedButtonStates(false);
         _AnimationInProgress = true;

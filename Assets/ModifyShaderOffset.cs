@@ -534,17 +534,17 @@ public class ModifyShaderOffset : MonoBehaviour
         // 2. The save manager is notified that the current level is completed.
         //    It is also notified of the difficulty we completed it at.
         // 3. The save file is saved.
-        
-        if(GameTimeManager.InstanceNull() == false
-            && SudokuParametersInjest.InstanceNull() == false
-            && PsychSaveManager.InstanceNull() == false)
-        {
-            TimeSpan completeTime = GameTimeManager.p_Instance.GetPlayTime();
-            PsychSudokuSave s = PsychSaveManager.p_Instance.GetCurrentSave();
-            s.SetLevelIndexCompleted(SudokuParametersInjest.p_Instance.GetDifficulty(),
-                SudokuParametersInjest.p_Instance.GetLevelIndex(),
-                completeTime.TotalSeconds);
-        }
+        Debug.Log($"Handle_UpdatingSaveOnLevelComplete");
+
+        var gameTime = GameTimeManager.p_Instance;
+        var paramsInjest = SudokuParametersInjest.InstanceNull();
+        var saveMan = PsychSaveManager.InstanceNull();
+
+        TimeSpan completeTime = GameTimeManager.p_Instance.GetPlayTime();
+        PsychSudokuSave s = PsychSaveManager.p_Instance.GetCurrentSave();
+        s.SetLevelIndexCompleted(SudokuParametersInjest.p_Instance.GetDifficulty(),
+            SudokuParametersInjest.p_Instance.GetLevelIndex(),
+            completeTime.TotalSeconds);
     }
 
     public void SetLevelInformation(LevelData _level, PlayDifficulty difficulty)

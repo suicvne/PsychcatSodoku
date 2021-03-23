@@ -143,6 +143,10 @@ namespace IgnoreSolutions.PsychSodoku
             // Best Times
             _LevelSaveInformation[levelIndex]._BestTimes[difficulty] = bestTimes.ToArray();
 
+            // Level completed at least once
+            if(_LevelSaveInformation[levelIndex]._LevelCompletedOnce == false)
+                _LevelSaveInformation[levelIndex]._LevelCompletedOnce = true;
+
             bool success = PsychSudokuSave.WriteSaveJSON(this);
 
             if (success) Debug.Log($"Saved progress.");
