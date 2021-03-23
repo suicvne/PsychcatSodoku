@@ -34,5 +34,20 @@ namespace IgnoreSolutions.PsychSodoku
                 else ReloadTrackedSaves();
             }
         }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            
+        }
+
+        private void OnApplicationPause(bool pause)
+        {
+            
+        }
+
+        private void OnApplicationQuit()
+        {
+            
+        }
     }
 }
