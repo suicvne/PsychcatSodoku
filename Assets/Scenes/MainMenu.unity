@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 9732685}
   - component: {fileID: 9732684}
   - component: {fileID: 9732688}
+  - component: {fileID: 9732689}
   m_Layer: 5
   m_Name: MainMenuCanvasLANDSCAPE
   m_TagString: Untagged
@@ -259,6 +260,36 @@ MonoBehaviour:
   - {fileID: 877658607}
   _MenuActions: {fileID: 720786709}
   _TransitionIndex: 0
+--- !u!114 &9732689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9732682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01a36d903ce841428f4138335f85deb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _OnCanvasGroupBecameVisible:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1842386860}
+        m_TargetAssemblyTypeName: ManageFirstSelected, Assembly-CSharp
+        m_MethodName: SetSelectedGameObject
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1359038409}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _OnCanvasGroupBecameInvisible:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &25859339
 GameObject:
   m_ObjectHideFlags: 0
@@ -1706,7 +1737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (1105.0, 622.0)
+    name: (0.0, 0.0)
     _ReferenceAspectRatio: {x: 1105, y: 622}
     _SizeDelta: {x: 651.8, y: 691.1}
     _AnchoredPosition: {x: -394.4, y: -10.8}
@@ -3172,9 +3203,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9150943, g: 0.634523, b: 0.634523, a: 1}
+    m_PressedColor: {r: 0.990566, g: 0.4812656, b: 0.4812656, a: 1}
+    m_SelectedColor: {r: 0.9528302, g: 0.5887772, b: 0.5887772, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -9377,7 +9408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (1105.0, 622.0)
+    name: (0.0, 0.0)
     _ReferenceAspectRatio: {x: 1105, y: 622}
     _SizeDelta: {x: 2249.8, y: 762.6}
     _AnchoredPosition: {x: 527, y: 18.8}

@@ -508,8 +508,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (13.0, 6.0)
-    _ReferenceAspectRatio: {x: 13, y: 6}
+    name: (1105.0, 622.0)
+    _ReferenceAspectRatio: {x: 1105, y: 622}
     _SizeDelta: {x: 174.1001, y: 101.7}
     _AnchoredPosition: {x: 59, y: 69.79498}
     _AnchorMin: {x: 1, y: 0}
@@ -915,6 +915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b2be618ea6247e5ac1162320952fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _DontUpdate: 0
   _DirectInputToNumberSelect: 0
   _EnterAsPossibleNumber: 0
   _PlayDifficulty: 0
@@ -1413,6 +1414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b2be618ea6247e5ac1162320952fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _DontUpdate: 0
   _DirectInputToNumberSelect: 0
   _EnterAsPossibleNumber: 0
   _PlayDifficulty: 0
@@ -1570,7 +1572,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _CurrentOrientation: 1
-  _CurrentAspectRatio: {x: 2, y: 1}
+  _CurrentAspectRatio: {x: 1, y: 1}
 --- !u!1 &241998369
 GameObject:
   m_ObjectHideFlags: 0
@@ -2361,8 +2363,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -40.000122}
-  m_SizeDelta: {x: -20, y: -79.999756}
+  m_AnchoredPosition: {x: 0, y: 437.84998}
+  m_SizeDelta: {x: -20, y: -924.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &328845225
 MonoBehaviour:
@@ -2384,10 +2386,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Congratulations! You completed the level!
+  m_text: 'Congratulations! You completed Level {0}!
 
 
-    Completion Time: {0}'
+    Completion Time: {1}'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2396,8 +2398,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2414,10 +2416,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 47.25
+  m_fontSizeBase: 38.3
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -4135,8 +4137,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (13.0, 6.0)
-    _ReferenceAspectRatio: {x: 13, y: 6}
+    name: (1105.0, 622.0)
+    _ReferenceAspectRatio: {x: 1105, y: 622}
     _SizeDelta: {x: -20, y: 0}
     _AnchoredPosition: {x: 10, y: 0}
     _AnchorMin: {x: 0, y: 0}
@@ -4508,8 +4510,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (13.0, 6.0)
-    _ReferenceAspectRatio: {x: 13, y: 6}
+    name: (1105.0, 622.0)
+    _ReferenceAspectRatio: {x: 1105, y: 622}
     _SizeDelta: {x: -200, y: -160}
     _AnchoredPosition: {x: 0, y: 0}
     _AnchorMin: {x: 0, y: 0}
@@ -4823,9 +4825,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9716981, g: 0.73794055, b: 0.73794055, a: 1}
+    m_PressedColor: {r: 0.9811321, g: 0.5229619, b: 0.5229619, a: 1}
+    m_SelectedColor: {r: 0.9716981, g: 0.66460484, b: 0.66460484, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -5788,9 +5790,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9716981, g: 0.73794055, b: 0.73794055, a: 1}
+    m_PressedColor: {r: 0.9811321, g: 0.5229619, b: 0.5229619, a: 1}
+    m_SelectedColor: {r: 0.9716981, g: 0.66460484, b: 0.66460484, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -5899,6 +5901,7 @@ GameObject:
   - component: {fileID: 1288570344}
   - component: {fileID: 1288570346}
   - component: {fileID: 1288570345}
+  - component: {fileID: 1288570347}
   m_Layer: 5
   m_Name: (683.0, 512.0)
   m_TagString: Untagged
@@ -6048,13 +6051,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (13.0, 6.0)
-    _ReferenceAspectRatio: {x: 13, y: 6}
+    name: (1105.0, 622.0)
+    _ReferenceAspectRatio: {x: 1105, y: 622}
     _SizeDelta: {x: 637.7101, y: -200}
     _AnchoredPosition: {x: -12.964966, y: 0}
     _AnchorMin: {x: 0, y: 0}
     _AnchorMax: {x: 1, y: 1}
     _LocalScale: {x: 1, y: 1, z: 1}
+--- !u!114 &1288570347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288570339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21d518c12461d45ed80c64947bf7be3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CongratsCanvas: {fileID: 0}
 --- !u!1 &1308711860
 GameObject:
   m_ObjectHideFlags: 0
@@ -6308,8 +6324,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (13.0, 6.0)
-    _ReferenceAspectRatio: {x: 13, y: 6}
+    name: (1105.0, 622.0)
+    _ReferenceAspectRatio: {x: 1105, y: 622}
     _SizeDelta: {x: 128, y: 128}
     _AnchoredPosition: {x: -1488.84, y: -110}
     _AnchorMin: {x: 0.5, y: 0.5}
@@ -6603,8 +6619,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (13.0, 6.0)
-    _ReferenceAspectRatio: {x: 13, y: 6}
+    name: (1105.0, 622.0)
+    _ReferenceAspectRatio: {x: 1105, y: 622}
     _SizeDelta: {x: 168.22778, y: 101.71002}
     _AnchoredPosition: {x: 58.999878, y: 229}
     _AnchorMin: {x: 1, y: 0}
@@ -6742,7 +6758,9 @@ MonoBehaviour:
   _Animator: {fileID: 1288570343}
   CompletedArt: {fileID: 376705109}
   _Text: {fileID: 328845225}
+  _MainGame: {fileID: 234419784}
   _GameTime: {fileID: 1370332818}
+  _NextButton: {fileID: 1278642433}
 --- !u!225 &1370332820
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -7096,8 +7114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (13.0, 6.0)
-    _ReferenceAspectRatio: {x: 13, y: 6}
+    name: (1105.0, 622.0)
+    _ReferenceAspectRatio: {x: 1105, y: 622}
     _SizeDelta: {x: 130.29999, y: 199.79999}
     _AnchoredPosition: {x: -65.15, y: 56.3}
     _AnchorMin: {x: 1, y: 0}
@@ -8337,8 +8355,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (13.0, 6.0)
-    _ReferenceAspectRatio: {x: 13, y: 6}
+    name: (1105.0, 622.0)
+    _ReferenceAspectRatio: {x: 1105, y: 622}
     _SizeDelta: {x: 128, y: 128}
     _AnchoredPosition: {x: -1488.84, y: 0}
     _AnchorMin: {x: 0.5, y: 0.5}
@@ -8398,8 +8416,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (13.0, 6.0)
-    _ReferenceAspectRatio: {x: 13, y: 6}
+    name: (1105.0, 622.0)
+    _ReferenceAspectRatio: {x: 1105, y: 622}
     _SizeDelta: {x: 200, y: 600}
     _AnchoredPosition: {x: 154, y: -17.5}
     _AnchorMin: {x: 0, y: 0.5}

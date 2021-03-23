@@ -28,22 +28,43 @@ public class ManageFirstSelected : MonoBehaviour
 
     public void SetSelectedGameObject(GameObject go)
     {
-        Debug.Log($"[ManageFirstSelected] Setting first selected to {FirstSelected}", FirstSelected);
+        Debug.Log($"[ManageFirstSelected] Setting first selected to {go}", go);
         EventSystem.current.SetSelectedGameObject(null);
 
 
         EventSystem.current.SetSelectedGameObject(go, new BaseEventData(EventSystem.current));
 
-        Button b = FirstSelected.GetComponent<Button>();
+        Button b = go.GetComponent<Button>();
         if (b != null)
         {
             b.Select();
         }
     }
 
-    IEnumerator Delayed()
+    public void DelayedSetSelected(GameObject go)
+    {
+        StartCoroutine(Delayed(go));
+    }
+
+    IEnumerator Delayed(GameObject go)
     {
         yield return null;
         
+        Debug.Log($"[ManageFirstSelected] Setting first selected to {go}", go);
+        EventSystem.current.SetSelectedGameObject(null);
+
+        yield return null;
+
+        Debug.Log($"GO Active: {go.activeInHierarchy} {go.activeSelf}");
+
+        EventSystem.current.SetSelectedGameObject(go, new BaseEventData(EventSystem.current));
+
+        yield return null;
+
+        Button b = go.GetComponent<Button>();
+        if (b != null)
+        {
+            b.Select();
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace IgnoreSolutions.PsychSodoku
 {
     public class SudokuParametersInjest : Singleton<SudokuParametersInjest>
     {
+        [SerializeField] LevelList _LevelList;
         [SerializeField] LevelData _LevelToLoad;
         [SerializeField] int _LevelIndex;
         [SerializeField] PlayDifficulty _Difficulty;
@@ -24,6 +25,7 @@ namespace IgnoreSolutions.PsychSodoku
             _Difficulty = difficulty;
         }
 
+        public LevelList GetLevelList() => _LevelList;
         public int GetLevelIndex() => _LevelIndex;
         public LevelData GetLevel() => _LevelToLoad;
         public PlayDifficulty GetDifficulty() => _Difficulty;

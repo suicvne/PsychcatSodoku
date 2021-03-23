@@ -21,6 +21,7 @@ public class CardAnimationScript : MonoBehaviour
     [SerializeField] LastSelectedDifficulty _LastSelectedDifficulty = LastSelectedDifficulty.NONE;
 
     [SerializeField] SwitchScene _SceneSwitcher;
+    MenuActions _menuActions;
 
     Animator _thisAnimator;
     
@@ -33,6 +34,20 @@ public class CardAnimationScript : MonoBehaviour
     void Start()
     {
         _thisAnimator = GetComponent<Animator>();
+
+        _menuActions = _SceneSwitcher.gameObject.GetComponent<MenuActions>();
+    }
+
+    public void Update()
+    {
+        if(_MyCanvasGroup.interactable && _MyCanvasGroup.blocksRaycasts)
+        {
+            if(Input.GetKeyDown(KeyCode.Escape) &&
+                _menuActions._TransitionInProgress == false)
+            {
+                _menuActions.TransitionCanvasGroupToOther(_MyCanvasGroup, _PreviousMenu);
+            }
+        }
     }
 
     public void Next_SetupSudokuScene()

@@ -26,6 +26,7 @@ public class ModifyShaderOffset : MonoBehaviour
     }
 
     [Header("Game Properties")]
+    [SerializeField] public bool _DontUpdate = false;
     [SerializeField] public bool _DirectInputToNumberSelect = false;
     [SerializeField] public bool _EnterAsPossibleNumber = false;
     [SerializeField] PlayDifficulty _PlayDifficulty = PlayDifficulty.EASY; // The difficulty that we want to use. This corresponds to how much of the board is shown/hidden.
@@ -100,6 +101,30 @@ public class ModifyShaderOffset : MonoBehaviour
     protected internal List<SodukoGriidSpot> GetGridSpots() => Tiles;
     protected internal Tuple<PlayDifficulty, LevelData> GetLevelInformation()
         => new Tuple<PlayDifficulty, LevelData>(_PlayDifficulty, _CurrentLevelData);
+
+    public void OnApplicationPause(bool pause)
+    {
+        if(pause)
+        {
+            Debug.Log($"PAUSE IS TRUE! STORING SAVE STATE");
+            PsychSudokuSave.SetSaveState(PsychSaveManager.p_Instance.GetCurrentSave(),
+                this,
+                SudokuParametersInjest.p_Instance.GetLevelList(),
+                GameTimeManager.p_Instance);
+
+            PsychSudokuSave.WriteSaveJSON(PsychSaveManager.p_Instance.GetCurrentSave());
+        }
+        else
+        {
+            // Restore state
+            PsychSudokuSave save = PsychSaveManager.p_Instance.GetCurrentSave();
+
+            if(save._SaveStateInformation._IsValidSaveState)
+            {
+                Debug.Log($"[ModifyShaderOffset] TODO: Support save state restoration.");
+            }
+        }
+    }
 
     public void SetPossibleNumbersMode(bool enterAsPossibleNumbers)
     {
@@ -806,6 +831,7 @@ public class ModifyShaderOffset : MonoBehaviour
     private void Update()
     {
         if (_CurrentLevelData == null) return;
+        if (_DontUpdate == true) return;
 
         if(_ForceRegen)
         {
@@ -816,7 +842,7 @@ public class ModifyShaderOffset : MonoBehaviour
             return;
         }
 
-        if (!_DirectInputToNumberSelect)
+        if (_DirectInputToNumberSelect == false)
         {
             float h = Input.GetAxis("Horizontal"), v = Input.GetAxis("Vertical");
 
@@ -845,11 +871,21 @@ public class ModifyShaderOffset : MonoBehaviour
             {
                 _NumbersInput?.RedirectInput();
             }
+
+            if (EventSystem.current.currentSelectedGameObject != null)
+            {
+                Debug.Log($"De-selecting for your convenience ;) Direct: {_DirectInputToNumberSelect}");
+                EventSystem.current.SetSelectedGameObject(null);
+            }
         }
         else
         {
-            if (EventSystem.current.currentSelectedGameObject != null)
-                EventSystem.current.SetSelectedGameObject(null);
+            if(Input.GetKeyDown(KeyCode.Escape)
+                && _DirectInputToNumberSelect
+                && EventSystem.current.currentSelectedGameObject != null)
+            {
+                _NumbersInput?.CancelInput();
+            }
         }
 
         /*

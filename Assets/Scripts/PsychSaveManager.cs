@@ -25,6 +25,11 @@ namespace IgnoreSolutions.PsychSodoku
                 _LoadedSaves = new PsychSudokuSave[1];
                 _LoadedSaves[0] = save;
                 SetCurrentSaveIndex(0);
+
+                if(GetCurrentSave()._SaveStateInformation._IsValidSaveState)
+                {
+                    Debug.Log($"[PsychSaveManager ReloadTrackedSaves] TODO!!! Restore the game's save state. Level: {GetCurrentSave()._SaveStateInformation._LastLevelIndex}");
+                }
             }
             else
             {
