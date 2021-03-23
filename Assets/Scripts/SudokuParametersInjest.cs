@@ -24,7 +24,9 @@ namespace IgnoreSolutions.PsychSodoku
             _Difficulty = difficulty;
         }
 
+        public int GetLevelIndex() => _LevelIndex;
         public LevelData GetLevel() => _LevelToLoad;
         public PlayDifficulty GetDifficulty() => _Difficulty;
+        
     }
 }

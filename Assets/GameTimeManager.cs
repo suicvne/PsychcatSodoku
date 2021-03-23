@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace IgnoreSolutions.PsychSodoku
 {
-    public class GameTimeManager : MonoBehaviour
+    public class GameTimeManager : Singleton<GameTimeManager>
     {
         [SerializeField] public long StartTime;
         [SerializeField] public long CompleteTime;

@@ -69,6 +69,15 @@ public class ModifyShaderOffset : MonoBehaviour
     private bool done = false; // Keep this
 
     /// <summary>
+    /// During the OnEnable step,
+    /// if the SaveManager is found and setup we inject our own
+    /// event into the UnityEvent "_OnBoardFullyComplete".
+    ///
+    /// This Listener is removed when OnDisable is called.
+    /// </summary>
+    UnityAction _OnBoardCompleteAction;
+
+    /// <summary>
     /// The property block we use to assign
     /// tiling, blur or no blur, and more information.
     /// </summary>
@@ -207,6 +216,9 @@ public class ModifyShaderOffset : MonoBehaviour
     IEnumerator AnimateBoardCompleted()
     {
         _AnimationPending = true;
+
+        foreach(var lineRenderer in LineRenderers)
+            lineRenderer.enabled = false;
 
         _SelectionBorder.transform.position = Vector2.left * (-Screen.width * 2);
 
@@ -466,7 +478,28 @@ public class ModifyShaderOffset : MonoBehaviour
         return foundGridSpot;
     }
 
+    
+
     private void OnEnable()
+    {
+        UpdateFromSudokuSceneParameters();
+
+        PsychSaveManager saveMgr = ((PsychSaveManager)PsychSaveManager.p_Instance);
+
+        if (saveMgr != null)
+        {
+            Debug.Log($"[ModifyShaderOffset] Hooking up level complete events.");
+            _OnBoardCompleteAction = new UnityAction(Handle_UpdatingSaveOnLevelComplete);
+            _OnBoardFullyComplete.AddListener(_OnBoardCompleteAction);
+        }
+    }
+
+    void OnDisable()
+    {
+        _OnBoardFullyComplete.RemoveListener(_OnBoardCompleteAction);
+    }
+
+    public void UpdateFromSudokuSceneParameters()
     {
         SudokuParametersInjest parameters = SudokuParametersInjest.p_Instance;
         PsychSaveManager saveMgr = ((PsychSaveManager)PsychSaveManager.p_Instance);
@@ -477,11 +510,6 @@ public class ModifyShaderOffset : MonoBehaviour
             _PlayDifficulty = parameters.GetDifficulty();
 
             Debug.Log($"[ModifyShaderOffset] Using level {_CurrentLevelData} at difficulty {_PlayDifficulty}");
-
-            if(saveMgr != null)
-            {
-                Debug.Log($"[ModifyShaderOffset] Hooking up level complete events.");
-            }
         }
         else Debug.Log($"[ModifyShaderOffset] Unable to find SudokuParametersInjest. Using defaults.");
     }
@@ -491,11 +519,21 @@ public class ModifyShaderOffset : MonoBehaviour
         // When the level is completed and the SaveManager is
         // present and functioning, the following should happen.
         // 1.The level completion time is recorded.
-        // 2. 
+        // 2. The save manager is notified that the current level is completed.
+        //    It is also notified of the difficulty we completed it at.
+        // 3. The save file is saved.
+        
+        if(GameTimeManager.InstanceNull() == false
+            && SudokuParametersInjest.InstanceNull() == false
+            && PsychSaveManager.InstanceNull() == false)
+        {
+            TimeSpan completeTime = GameTimeManager.p_Instance.GetPlayTime();
+            PsychSudokuSave s = PsychSaveManager.p_Instance.GetCurrentSave();
+            s.SetLevelIndexCompleted(SudokuParametersInjest.p_Instance.GetDifficulty(),
+                SudokuParametersInjest.p_Instance.GetLevelIndex(),
+                completeTime.TotalSeconds);
+        }
     }
-
-    private void OnDisable()
-    {    }
 
     public void SetLevelInformation(LevelData _level, PlayDifficulty difficulty)
     {
@@ -574,6 +612,10 @@ public class ModifyShaderOffset : MonoBehaviour
 
     void Regenerate()
     {
+        // Enable Line Renderers
+        foreach (var lineRenderer in LineRenderers)
+            lineRenderer.enabled = true;
+
         // Generate board
         for (int x = 0; x < 9; x++)
         {
