@@ -1737,8 +1737,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (1105.0, 671.0)
-    _ReferenceAspectRatio: {x: 1105, y: 671}
+    name: (0.0, 0.0)
+    _ReferenceAspectRatio: {x: 1105, y: 603}
     _SizeDelta: {x: 651.8, y: 691.1}
     _AnchoredPosition: {x: -394.4, y: -10.8}
     _AnchorMin: {x: 1, y: 0.5}
@@ -7769,6 +7769,7 @@ GameObject:
   - component: {fileID: 1842386858}
   - component: {fileID: 1842386857}
   - component: {fileID: 1842386860}
+  - component: {fileID: 1842386861}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -7841,6 +7842,19 @@ MonoBehaviour:
   SetOnOther: 1
   isMobile: 0
   isOther: 0
+--- !u!114 &1842386861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842386856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 699edff408ea94850898f1d0e4e757e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ForceAnyway: 1
 --- !u!1 &1863286449
 GameObject:
   m_ObjectHideFlags: 0
@@ -9390,8 +9404,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (1105.0, 671.0)
-    _ReferenceAspectRatio: {x: 1105, y: 671}
+    name: (0.0, 0.0)
+    _ReferenceAspectRatio: {x: 1105, y: 603}
     _SizeDelta: {x: 2249.8, y: 762.6}
     _AnchoredPosition: {x: 527, y: 18.8}
     _AnchorMin: {x: 0, y: 0.5}

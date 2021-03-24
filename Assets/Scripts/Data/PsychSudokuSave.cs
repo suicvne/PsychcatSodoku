@@ -155,7 +155,7 @@ namespace IgnoreSolutions.PsychSodoku
 
         public static PsychSudokuSave Default(LevelList _levelList = null)
         {
-            PsychSudokuSave pss = CreateInstance<PsychSudokuSave>();
+            PsychSudokuSave pss = ScriptableObject.CreateInstance<PsychSudokuSave>();
 
             // Init level list for save.
             if(_levelList != null)
