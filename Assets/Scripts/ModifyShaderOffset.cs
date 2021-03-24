@@ -531,6 +531,14 @@ public class ModifyShaderOffset : MonoBehaviour
         catch { }
     }
 
+    public void DoFullUpdateForNextLevel()
+    {
+        UpdateSudokuSceneParametersNextLevel();;
+        UpdateFromSudokuSceneParameters();
+        _DontUpdate = false;
+        RegenerateBoard();
+    }
+
     public void UpdateSudokuSceneParametersNextLevel()
     {
         var saveMgr = ((PsychSaveManager)PsychSaveManager.p_Instance);
@@ -601,14 +609,16 @@ public class ModifyShaderOffset : MonoBehaviour
                 Destroy(Tiles[i].gameObject);
             else DestroyImmediate(Tiles[i].gameObject);
         }
-
+        
+        /*
         for(int i = LineRenderers.Count - 1; i >= 0; i--)
         {
             DestroyImmediate(LineRenderers[i].gameObject);
         }
+        LineRenderers.Clear();
+        */
 
         Tiles.Clear();
-        LineRenderers.Clear();
 
         //if(doNextDelayed) Invoke(nameof(Regenerate), .1f);
     }
