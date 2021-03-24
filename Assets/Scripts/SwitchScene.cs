@@ -29,6 +29,7 @@ public class SwitchScene : MonoBehaviour
         StartCoroutine(TransitionToMe(fadeIn, fadeOut));
     }
 
+    [Obsolete]
     public void StartFadeOutTransition(CanvasGroup fadeIn, CanvasGroup fadeOut)
     {
         if (_AnimationInProgress) return;

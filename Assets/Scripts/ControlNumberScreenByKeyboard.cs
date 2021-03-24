@@ -12,19 +12,40 @@ namespace IgnoreSolutions.PsychSodoku
         public ModifyShaderOffset _MainGame;
         public GameObject _FirstSelected;
         public GameObject _LastSelected = null;
+        [SerializeField] private CanvasGroup _SelectionFadeGroup;
 
-        bool inProgress = false;
+        public bool inProgress = false;
 
         public void RedirectInput()
         {
-            if (inProgress) return;
+            if (inProgress)
+            {
+                Debug.Log($"Redirect already in progress.");
+                return;
+            }
+            
 
             inProgress = true;
             StartCoroutine(WTF());
         }
 
+        private WaitForFixedUpdate _WaitFixedUpdate = new WaitForFixedUpdate();
+
         IEnumerator WTF()
         {
+            if (_SelectionFadeGroup != null)
+            {
+                for (float f = 0f; f <= 1.0f; f += 4.0f * Time.fixedDeltaTime)
+                {
+                    _SelectionFadeGroup.alpha = f;
+                    yield return _WaitFixedUpdate;
+                }
+
+                _SelectionFadeGroup.alpha = 1.0f;
+                _SelectionFadeGroup.interactable = false;
+                _SelectionFadeGroup.blocksRaycasts = true;
+            }
+            
             if (_LastSelected != null)
             {
                 _AcceptInput = true;
@@ -51,14 +72,41 @@ namespace IgnoreSolutions.PsychSodoku
                     b.Select();
 
             }
+
+            inProgress = false;
+            _MainGame._DontUpdate = false;
         }
 
         public void CancelInput()
         {
+            if (inProgress == true) return;
+            
             Debug.Log($"Cancel Input.");
             _AcceptInput = false;
             _MainGame._DirectInputToNumberSelect = false;
             EventSystem.current.SetSelectedGameObject(null);
+            StartCoroutine((DoCancel()));
+        }
+
+        IEnumerator DoCancel()
+        {
+            inProgress = true;
+            if (_SelectionFadeGroup != null)
+            {
+                for (float f = 0f; f <= 1.0f; f += 1.0f * Time.fixedDeltaTime)
+                {
+                    float i_f = 1.0f - f;
+                    _SelectionFadeGroup.alpha = i_f;
+                    yield return _WaitFixedUpdate;
+                }
+
+                _SelectionFadeGroup.alpha = 0.0f;
+                _SelectionFadeGroup.interactable = false;
+                _SelectionFadeGroup.blocksRaycasts = false;
+            }
+
+            inProgress = false;
+            _MainGame._DontUpdate = false;
         }
 
         private void Update()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -50,6 +51,18 @@ public class SodukoGriidSpot : MonoBehaviour
         }
     }
 
+    private char[] _FullWidth = new char[]
+    {
+        '０', '１', '２', '３', '４', '５', '６', '７', '８', '９'
+    };
+
+    private char NumberToFullWidth(int number)
+    {
+        if(number > 9) return Char.MaxValue;
+
+        return _FullWidth[number];
+    }
+    
     public void UpdatePossibleNumbers()
     {
         if(_PossibleNumbersText == null)
@@ -58,14 +71,14 @@ public class SodukoGriidSpot : MonoBehaviour
             return;
         }
 
-        string format = "{0} {1} {2}\n{3} {4} {5}\n{6} {7} {8}";
-        string[] formatNumbers = new string[] { " ", " ", " ", /**/ " ", " ", " ", /**/ " ", " ", " " };
+        string format = "{0}　{1}　{2}\n{3}　{4}　{5}\n{6}　{7}　{8}";
+        string[] formatNumbers = new string[] { "　", "　", "　", /**/ "　", "　", "　", /**/ "　", "　", "　" };
 
         for(int i = 0; i < formatNumbers.Length; i++)
         {
             if(PossibleNumbers.Contains(i + 1))
             {
-                formatNumbers[i] = $"{i + 1}";
+                formatNumbers[i] = $"{NumberToFullWidth(i + 1)}";
             }
         }
 

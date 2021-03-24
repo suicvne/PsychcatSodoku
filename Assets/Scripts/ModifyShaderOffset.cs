@@ -33,11 +33,12 @@ public class ModifyShaderOffset : MonoBehaviour
     [SerializeField] LevelData _CurrentLevelData; // The current level data that we're basing the render off of.
     [SerializeField] int _SelectedIndex = -1;
     [SerializeField] Transform _SelectedTransform;
+    internal static bool _ControllerInputOccurredOnce = false;
 
     [Header("Selection")]
     [SerializeField] Image _SelectionBorder; // Selection border to be moved around as tiles are tapped.
     [SerializeField] Image _AnimationDummy;
-    [SerializeField] float _SelectionMovementSpeed = .75f;
+    [SerializeField] float _SelectionMovementSpeed = 1.75f;
 
     [Header("Tileset Generation")]
     public Material TileSet; // The material to use for the individual tiles. This is not the material used for the number sprites which are separate. 
@@ -94,7 +95,7 @@ public class ModifyShaderOffset : MonoBehaviour
     /// How long should the Animation wait for after it's done
     /// before we allow input again?
     /// </summary>
-    private WaitForSeconds _WaitBetweenAnimations = new WaitForSeconds(.25f);
+    private WaitForSeconds _WaitBetweenAnimations = new WaitForSeconds(.1f);
 
     private Vector3 _NumberOrigin;
 
@@ -632,14 +633,14 @@ public class ModifyShaderOffset : MonoBehaviour
         }
     }
 
-    
+    private WaitForFixedUpdate _WaitForFixedUpdate = new WaitForFixedUpdate();
 
     IEnumerator _AnimateSpotChange(Transform target, Vector3 oldPos, Vector3 newPos)
     {
         for(float f = 0; f <= 1.0f; f += _SelectionMovementSpeed * Time.deltaTime)
         {
             target.position = Vector3.Lerp(oldPos, newPos, f);
-            yield return null;
+            yield return _WaitForFixedUpdate;
         }
 
         target.position = newPos;
@@ -848,13 +849,14 @@ public class ModifyShaderOffset : MonoBehaviour
 
             int possibleSpot = -1;
 
-            if (h > .35f) possibleSpot = _SelectedIndex - 9;
-            else if (h < -.35f) possibleSpot = _SelectedIndex + 9;
-            if (v > .35f) possibleSpot = _SelectedIndex + 1;
-            else if (v < -.35f) possibleSpot = _SelectedIndex - 1;
+            if (h > .2f) possibleSpot = _SelectedIndex - 9;
+            else if (h < -.2f) possibleSpot = _SelectedIndex + 9;
+            if (v > .2f) possibleSpot = _SelectedIndex + 1;
+            else if (v < -.2f) possibleSpot = _SelectedIndex - 1;
 
             if (possibleSpot != -1)
             {
+                if (_ControllerInputOccurredOnce == false) _ControllerInputOccurredOnce = true;
                 int[] xy = Extensions.Index1DTo2D(possibleSpot, 9);
 
                 GetGridSpot(_SelectedIndex);
@@ -867,20 +869,26 @@ public class ModifyShaderOffset : MonoBehaviour
                 possibleSpot = -1;
             }
 
-            if(Input.GetButtonDown("Submit") && !_DirectInputToNumberSelect)
+            if(Input.GetButtonDown("Submit") && !_NumbersInput.inProgress)
             {
+                if (_ControllerInputOccurredOnce == false) _ControllerInputOccurredOnce = true;
+                Debug.Log($"Redirect");
+                _DirectInputToNumberSelect = true;
+                _DontUpdate = true;
                 _NumbersInput?.RedirectInput();
             }
-
+            
+            /*
             if (EventSystem.current.currentSelectedGameObject != null)
             {
                 Debug.Log($"De-selecting for your convenience ;) Direct: {_DirectInputToNumberSelect}");
                 EventSystem.current.SetSelectedGameObject(null);
             }
+            */
         }
         else
         {
-            if(Input.GetKeyDown(KeyCode.Escape)
+            if((Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Cancel"))
                 && _DirectInputToNumberSelect
                 && EventSystem.current.currentSelectedGameObject != null)
             {

@@ -75,7 +75,7 @@ namespace IgnoreSolutions.PsychSodoku
             
         }
 
-        private void OnApplicationQuit()
+        private new void OnApplicationQuit()
         {
             
         }

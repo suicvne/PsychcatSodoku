@@ -16,7 +16,7 @@ namespace IgnoreSolutions.PsychSodoku
     {
         [SerializeField] Orientation _CurrentOrientation;
         [SerializeField] List<CanvasOrientationLookups> _CanvasLookups = new List<CanvasOrientationLookups>();
-        Camera camera;
+        new Camera camera;
         Vector2 _LastResolution = new Vector2();
         Vector2 _CurrentResolution = new Vector2();
 
