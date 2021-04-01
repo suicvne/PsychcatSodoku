@@ -11,6 +11,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static SudokuLib.Model.Cell;
 
@@ -105,6 +106,7 @@ public class ModifyShaderOffset : MonoBehaviour
 
     public void OnApplicationPause(bool pause)
     {
+        if (PsychSaveManager.InstanceNull() == true) return;
         if(pause)
         {
             Debug.Log($"PAUSE IS TRUE! STORING SAVE STATE");
@@ -522,6 +524,21 @@ public class ModifyShaderOffset : MonoBehaviour
         RegenerateBoard();
     }
 
+    public void ReturnToMainMenu()
+    {
+        if (PsychSaveManager.InstanceNull() == false)
+        {
+            var save = PsychSaveManager.p_Instance.GetCurrentSave();
+            bool saved = PsychSudokuSave.WriteSaveJSON(save);
+            
+            if(saved) Debug.Log($"Saved successfully.");
+            else Debug.LogError(($"Unable to save?"));
+
+            
+        }
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
+    }
+    
     void OnDisable()
     {
         try
@@ -693,6 +710,7 @@ public class ModifyShaderOffset : MonoBehaviour
                 newTile._LevelIndex = sudokuCell.Index;
                 newTile._SquareGroupNo = sudokuCell.GroupNo;
                 newTile._SquareFilledValue = _revealed ? sudokuCell.Value : -1;
+                newTile.SetCanBeSelected(!_revealed);
                 newTile._OnGridSpotTapped = new UnityEvent<SodukoGriidSpot>();
                 newTile._OnGridSpotTapped?.AddListener((_gridSpot) =>
                 {
@@ -879,15 +897,20 @@ public class ModifyShaderOffset : MonoBehaviour
                 possibleSpot = -1;
             }
 
-            if(Input.GetButtonDown("Submit") && !_NumbersInput.inProgress)
+            if (_SelectedIndex >= 0)
             {
-                if (_ControllerInputOccurredOnce == false) _ControllerInputOccurredOnce = true;
-                Debug.Log($"Redirect");
-                _DirectInputToNumberSelect = true;
-                _DontUpdate = true;
-                _NumbersInput?.RedirectInput();
+                if (GetGridSpots()[_SelectedIndex]._CanBeSelected == true &&
+                    Input.GetButtonDown("Submit") &&
+                    !_NumbersInput.inProgress)
+                {
+                    if (_ControllerInputOccurredOnce == false) _ControllerInputOccurredOnce = true;
+                    Debug.Log($"Redirect");
+                    _DirectInputToNumberSelect = true;
+                    _DontUpdate = true;
+                    _NumbersInput?.RedirectInput();
+                }
             }
-            
+
             /*
             if (EventSystem.current.currentSelectedGameObject != null)
             {

@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c79e808991f83408f9d831569748e8af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _CanBeSelected: 1
   GridSpot: {x: 0, y: 0}
   DebugValue: -1
   _SquareSolution: -1
@@ -138,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1338122483607249407
 RectTransform:
   m_ObjectHideFlags: 0

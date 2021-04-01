@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 public class SodukoGriidSpot : MonoBehaviour
 {
+    public bool _CanBeSelected = true;
     public Vector2Int GridSpot;
     internal ModifyShaderOffset parent;
 
@@ -27,6 +28,15 @@ public class SodukoGriidSpot : MonoBehaviour
     private void OnEnable()
     {
         UpdatePossibleNumbers();
+    }
+
+    public void SetCanBeSelected(bool canBeSelected)
+    {
+        if (_CanBeSelected != canBeSelected)
+        {
+            _CanBeSelected = canBeSelected;
+            _SolutionNumberSprite.color = _CanBeSelected ? Color.white : Color.gray;
+        }
     }
 
     public void SetTMP(TMP_Text text)
@@ -71,14 +81,20 @@ public class SodukoGriidSpot : MonoBehaviour
             return;
         }
 
+        /*
         string format = "{0}　{1}　{2}\n{3}　{4}　{5}\n{6}　{7}　{8}";
-        string[] formatNumbers = new string[] { "　", "　", "　", /**/ "　", "　", "　", /**/ "　", "　", "　" };
+        string[] formatNumbers = new string[] { "　", "　", "　",  "　", "　", "　",  "　", "　", "　" };
+        */
+        
+        string format = "{0} {1} {2}\n{3} {4} {5}\n{6} {7} {8}";
+        string[] formatNumbers = new string[] { " ", " ", " ", /**/ " ", " ", " ", /**/ " ", " ", " " };
 
         for(int i = 0; i < formatNumbers.Length; i++)
         {
             if(PossibleNumbers.Contains(i + 1))
             {
-                formatNumbers[i] = $"{NumberToFullWidth(i + 1)}";
+                formatNumbers[i] = $"{i + 1}";
+                /*formatNumbers[i] = $"{NumberToFullWidth(i + 1)}";*/
             }
         }
 
@@ -87,6 +103,8 @@ public class SodukoGriidSpot : MonoBehaviour
 
     public void OnMouseDown()
     {
+        if (_CanBeSelected == false) return;
+        
         if (parent._DirectInputToNumberSelect == false)
         {
             Debug.Log($"{GridSpot} You pressed me!");
