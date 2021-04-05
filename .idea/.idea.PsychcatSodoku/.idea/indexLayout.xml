@@ -29,6 +29,7 @@
       <Path>EXCLUDE</Path>
       <Path>Library</Path>
       <Path>Logs</Path>
+      <Path>Temp</Path>
       <Path>UserSettings</Path>
       <Path>build_macos</Path>
       <Path>obj</Path>
