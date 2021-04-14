@@ -66,6 +66,9 @@ namespace IgnoreSolutions
                 _LoadedSaves = null;
         }
 
+        /// <summary>
+        /// Method is called during "Awake"
+        /// </summary>
         public abstract void ReloadTrackedSaves();
     }
 }

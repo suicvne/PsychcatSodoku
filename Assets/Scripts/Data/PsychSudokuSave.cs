@@ -54,8 +54,6 @@ namespace IgnoreSolutions.PsychSodoku
         public PlayDifficulty _LastLevelDifficulty;
 
         public GridSpotInformation[] _PlayerModifiedGridSpots;
-        // TODO: Add list of filled cells with index,
-        //       store level "notes" also.
 
         public static SaveStateInformation Default()
         {
@@ -66,6 +64,26 @@ namespace IgnoreSolutions.PsychSodoku
                 _LastLevelTime = -1,
                 _PlayerModifiedGridSpots = new GridSpotInformation[49]
             };
+        }
+
+        public override string ToString()
+        {
+            return ($"Save State Information - Sudoku\nIs Valid: {_IsValidSaveState}\n"
+                + $"Last Level Index: {_LastLevelIndex}\n"
+                + $"Last Level Time (seconds): {_LastLevelTime}\n"
+                + $"Last Level Difficulty: {_LastLevelDifficulty}\n"
+                + $"Player Modified Grid Spot Count: {_PlayerModifiedGridSpots.Length}");
+        }
+
+        public GridSpotInformation? GetSerializedInfoByIndex(int index)
+        {
+            for(int i = 0; i < _PlayerModifiedGridSpots.Length; i++)
+            {
+                if (index == _PlayerModifiedGridSpots[i]._IndexOnGrid)
+                    return _PlayerModifiedGridSpots[i];
+            }
+
+            return null;
         }
     }
 
@@ -252,7 +270,8 @@ namespace IgnoreSolutions.PsychSodoku
             
             foreach(var gridSpot in gridSpots)
             {
-                if (gridSpot._SquareFilledValue != -1)
+                if (gridSpot._SquareFilledValue != -1
+                    && gridSpot._CanBeSelected) // Only selected grid spots can be filled in by the player.
                 {
                     modifiedGridSpots.Add(gridSpot);
                     continue;
@@ -273,6 +292,8 @@ namespace IgnoreSolutions.PsychSodoku
                 ssi._PlayerModifiedGridSpots[i]._FilledValue = modGridSpot._SquareFilledValue;
                 ssi._PlayerModifiedGridSpots[i]._PossibleNumbers = modGridSpot.PossibleNumbers.ToArray();
             }
+
+            save._SaveStateInformation = ssi;
 
             return ssi;
         }

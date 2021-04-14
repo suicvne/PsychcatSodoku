@@ -12,6 +12,11 @@ namespace IgnoreSolutions.PsychSodoku
     {
         [SerializeField] LevelList _LevelList;
 
+        public LevelList GetLevelList { get => _LevelList; }
+
+        public delegate void SaveHasSaveState(PsychSudokuSave save);
+        public event SaveHasSaveState OnCurSaveHasSaveState;
+
         public override void ReloadTrackedSaves()
         {
             ClearTrackedSaves();
@@ -29,6 +34,7 @@ namespace IgnoreSolutions.PsychSodoku
                 if(GetCurrentSave()._SaveStateInformation._IsValidSaveState)
                 {
                     Debug.Log($"[PsychSaveManager ReloadTrackedSaves] TODO!!! Restore the game's save state. Level: {GetCurrentSave()._SaveStateInformation._LastLevelIndex}");
+                    OnCurSaveHasSaveState?.Invoke(GetCurrentSave());
                 }
             }
             else
@@ -65,19 +71,6 @@ namespace IgnoreSolutions.PsychSodoku
             }
         }
 
-        private void OnApplicationFocus(bool focus)
-        {
-            
-        }
-
-        private void OnApplicationPause(bool pause)
-        {
-            
-        }
-
-        private new void OnApplicationQuit()
-        {
-            
-        }
+        
     }
 }

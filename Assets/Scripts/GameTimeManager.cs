@@ -24,7 +24,7 @@ namespace IgnoreSolutions.PsychSodoku
         {
             CompleteTime = DateTime.Now.Ticks;
 
-            return new TimeSpan(CompleteTime - StartTime);
+            return new TimeSpan((CompleteTime - StartTime));
         }
     }
 }

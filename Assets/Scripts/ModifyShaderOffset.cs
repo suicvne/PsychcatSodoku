@@ -27,7 +27,8 @@ public class ModifyShaderOffset : MonoBehaviour
     }
 
     [Header("Game Properties")]
-    [SerializeField] public bool _DontUpdate = false;
+    [SerializeField] public bool _GameShouldRestoreState = false;
+    [SerializeField] public bool _DontUpdate = true;
     [SerializeField] public bool _DirectInputToNumberSelect = false;
     [SerializeField] public bool _EnterAsPossibleNumber = false;
     [SerializeField] PlayDifficulty _PlayDifficulty = PlayDifficulty.EASY; // The difficulty that we want to use. This corresponds to how much of the board is shown/hidden.
@@ -136,6 +137,7 @@ public class ModifyShaderOffset : MonoBehaviour
 
     public void RegenerateBoard()
     {
+        Debug.Log($"[ModifyShaderOffset] Setting Force Regen to true.");
         _ForceRegen = true;
     }
 
@@ -512,6 +514,7 @@ public class ModifyShaderOffset : MonoBehaviour
     {
         UpdateFromSudokuSceneParameters();
 
+        
         PsychSaveManager saveMgr = ((PsychSaveManager)PsychSaveManager.p_Instance);
 
         if (saveMgr != null)
@@ -521,7 +524,12 @@ public class ModifyShaderOffset : MonoBehaviour
             _OnBoardFullyComplete.AddListener(_OnBoardCompleteAction);
         }
 
-        RegenerateBoard();
+        if (!_GameShouldRestoreState)
+        {
+            RegenerateBoard();
+        }
+
+        _DontUpdate = false;
     }
 
     public void ReturnToMainMenu()
@@ -552,6 +560,7 @@ public class ModifyShaderOffset : MonoBehaviour
     {
         UpdateSudokuSceneParametersNextLevel();;
         UpdateFromSudokuSceneParameters();
+
         _DontUpdate = false;
         RegenerateBoard();
     }
@@ -567,12 +576,20 @@ public class ModifyShaderOffset : MonoBehaviour
         SudokuParametersInjest parameters = SudokuParametersInjest.p_Instance;
         PsychSaveManager saveMgr = ((PsychSaveManager)PsychSaveManager.p_Instance);
 
-        if (parameters != null)
+        if (parameters != null
+            && parameters.GetShouldRestoreFromSaveState() == false)
         {
             _CurrentLevelData = parameters.GetLevel();
             _PlayDifficulty = parameters.GetDifficulty();
 
             Debug.Log($"[ModifyShaderOffset] Using level {_CurrentLevelData} at difficulty {_PlayDifficulty}");
+        }
+        else if(parameters != null
+            && parameters.GetShouldRestoreFromSaveState() == true)
+        {
+            _GameShouldRestoreState = true;
+            // SuspendGameState will setup the rest and then
+            // call on the board to be generated.
         }
         else Debug.Log($"[ModifyShaderOffset] Unable to find SudokuParametersInjest. Using defaults.");
     }
@@ -791,57 +808,6 @@ public class ModifyShaderOffset : MonoBehaviour
         _OnBoardGenerated?.Invoke();
     }
 
-    ///// <summary>
-    ///// Clones a valid line renderer and draws lines between sodoku squares.
-    ///// </summary>
-    //private void DrawGridDividers()
-    //{
-    //    if(_LineRenderer == null)
-    //    {
-    //        return;
-    //    }
-
-    //    // Create 4 unique line renderers for the board dividers.
-    //    // These are cloned after the LineRenderer template provided by the prefab.
-    //    for(int i = 0; i < 4; i++)
-    //    {
-    //        LineRenderer newLineRenderer = Instantiate(_LineRenderer);
-    //        LineRenderers.Add(newLineRenderer);
-
-    //        SodukoGriidSpot a = null, b = null;
-    //        // blergh
-    //        switch(i)
-    //        {
-    //            case 0:
-    //                a = GetGridSpot(0, 3);
-    //                b = GetGridSpot(8, 3);
-    //                LineRenderers[i].SetPosition(0, (a.transform.position - Vector3.right + (Vector3.down / 1.8f)));
-    //                LineRenderers[i].SetPosition(1, (b.transform.position + Vector3.right + (Vector3.down / 1.8f)));
-    //                break;
-    //            case 1:
-    //                a = GetGridSpot(0, 6);
-    //                b = GetGridSpot(8, 6);
-    //                LineRenderers[i].SetPosition(0, (a.transform.position - Vector3.right + (Vector3.down / 1.8f)));
-    //                LineRenderers[i].SetPosition(1, (b.transform.position + Vector3.right + (Vector3.down / 1.8f)));
-    //                break;
-    //            case 2:
-    //                a = GetGridSpot(3, 0);
-    //                b = GetGridSpot(3, 8);
-
-    //                LineRenderers[i].SetPosition(0, (a.transform.position) + (Vector3.left / 1.7f) - Vector3.up);
-    //                LineRenderers[i].SetPosition(1, (b.transform.position) + (Vector3.left / 1.7f) + Vector3.up);
-    //                break;
-    //            case 3:
-    //                a = GetGridSpot(6, 0);
-    //                b = GetGridSpot(6, 8);
-
-    //                LineRenderers[i].SetPosition(0, (a.transform.position) + (Vector3.left / 1.7f) - Vector3.up);
-    //                LineRenderers[i].SetPosition(1, (b.transform.position) + (Vector3.left / 1.7f) + Vector3.up);
-    //                break;
-    //        }
-    //    }
-    //}
-
     internal void SetSelectionLocationToTappedSpot(SodukoGriidSpot gridSpot)
     {
         if (_SelectionBorder != null && !_AnimationPending)
@@ -864,6 +830,7 @@ public class ModifyShaderOffset : MonoBehaviour
 
         if(_ForceRegen)
         {
+            Debug.Log($"[ModifyShaderOffset] Regenerating Level with {_CurrentLevelData} as its template.");
             _ForceRegen = true;
             ClearList(false);
             Regenerate();

@@ -7,6 +7,7 @@ using static ModifyShaderOffset;
 
 namespace IgnoreSolutions.PsychSodoku
 {
+    [System.Obsolete]
     public class SudokuSceneSetup : MonoBehaviour
     {
         [SerializeField] PlayDifficulty _BoardDifficulty;
@@ -16,7 +17,7 @@ namespace IgnoreSolutions.PsychSodoku
 
         private void OnEnable()
         {
-            SceneManager.sceneLoaded += OnLevelFinishedLoading;
+            //SceneManager.sceneLoaded += OnLevelFinishedLoading;
         }
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
