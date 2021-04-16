@@ -11,6 +11,8 @@ namespace IgnoreSolutions.PsychSodoku
         [SerializeField] bool _EnabledAndWorking = false;
         [SerializeField] bool _HadValidStateOnStart = false;
 
+        public bool HadValidStateOnStart => _HadValidStateOnStart;
+        public bool EnabledAndWorking => _EnabledAndWorking;
 
         ModifyShaderOffset _SudokuBoard;
 
@@ -106,12 +108,22 @@ namespace IgnoreSolutions.PsychSodoku
 
         private void OnApplicationPause(bool pause)
         {
-
+            Debug.Log($"[SuspendGameState] OnApplicationPause pause: {pause}");
+            if(pause)
+            {
+                // Suspend game state
+                TestSuspendState();
+            }
+            else
+            {
+                // TODO:
+                Debug.Log($"[SuspendGameState] Todo Reload game state?");
+            }
         }
 
         private void OnApplicationQuit()
         {
-
+            TestSuspendState();
         }
     }
 }
