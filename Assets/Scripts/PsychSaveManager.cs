@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -21,30 +22,40 @@ namespace IgnoreSolutions.PsychSodoku
         public override void ReloadTrackedSaves()
         {
             ClearTrackedSaves();
-            Debug.Log($"[PsychSaveManager] Save Format Version: {_ClientVersionNumber.ToString()} {_ClientVersionNumber.ToLong()}");
+            Debug.Log($"[PsychSaveManager {gameObject.name}] Save Format Version: {_ClientVersionNumber.ToString()} {_ClientVersionNumber.ToLong()}");
 
             var save = PsychSudokuSave.ReadSaveFromJSON();
 
             if(save != null)
             {
-                Debug.Log($"[PsychSaveManager] Loaded save: {save}. Last Completed Level Index: {save._LastCompletedLevel}");
+                Debug.Log($"[PsychSaveManager {gameObject.name}] Loaded save: {save}. Last Completed Level Index: {save._LastCompletedLevel}");
                 _LoadedSaves = new PsychSudokuSave[1];
                 _LoadedSaves[0] = save;
                 SetCurrentSaveIndex(0);
 
                 if(GetCurrentSave()._SaveStateInformation._IsValidSaveState)
                 {
-                    Debug.Log($"[PsychSaveManager ReloadTrackedSaves] TODO!!! Restore the game's save state. Level: {GetCurrentSave()._SaveStateInformation._LastLevelIndex}");
+                    Debug.Log($"[PsychSaveManager {gameObject.name}] TODO!!! Restore the game's save state. Level: {GetCurrentSave()._SaveStateInformation._LastLevelIndex}");
                     OnCurSaveHasSaveState?.Invoke(GetCurrentSave());
                 }
             }
             else
             {
-                Debug.Log($"[PsychSaveManager] No saves found to load.");
-                save = PsychSudokuSave.Default(_LevelList);
-                bool success = PsychSudokuSave.WriteSaveJSON(save);
-                if (success == false) Debug.LogError($"Failed to write save to JSON. Unknown reasons why.");
-                else ReloadTrackedSaves();
+                try
+                {
+                    Debug.Log($"[PsychSaveManager {gameObject.name}] No saves found to load.");
+                    save = PsychSudokuSave.Default(_LevelList);
+                    bool success = PsychSudokuSave.WriteSaveJSON(save);
+                    if (success == false)
+                    {
+                        ReloadTrackedSaves();
+                    }
+                    else Debug.LogError($"Failed to write save to JSON. Unknown reasons why."); 
+                }
+                catch(Exception ex)
+                {
+                    Debug.LogError($"[PsychSaveManager] Exception while attempting to write save: {ex.Message}\n\n{ex.StackTrace}\nEND\n");
+                }
             }
         }
 

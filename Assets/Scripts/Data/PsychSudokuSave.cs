@@ -173,7 +173,7 @@ namespace IgnoreSolutions.PsychSodoku
 
         public static PsychSudokuSave Default(LevelList _levelList = null)
         {
-            PsychSudokuSave pss = ScriptableObject.CreateInstance<PsychSudokuSave>();
+            PsychSudokuSave pss = CreateInstance<PsychSudokuSave>();
 
             // Init level list for save.
             if(_levelList != null)
@@ -198,18 +198,23 @@ namespace IgnoreSolutions.PsychSodoku
 
         public static bool WriteSaveJSON(PsychSudokuSave save)
         {
+            Debug.Log($"[PsychSudokuSave] Write Save");
             try
             {
+                Debug.Log($"[PsychSudokuSave] Write All Text");
                 File.WriteAllText
                 (
                     SaveFile,
                     JsonConvert.SerializeObject(save, Formatting.Indented)
                 );
+
+                Debug.Log($"[PsychSudokuSave] Returning true because it was written to {SaveFile}");
                 return true;
             }
             catch(Exception ex)
             {
                 Debug.LogError($"Exception while trying to write save to `{SaveFile}`\n{ex.Message}\n\n{ex.StackTrace}");
+                return false;
             }
 
 
@@ -222,13 +227,16 @@ namespace IgnoreSolutions.PsychSodoku
             {
                 if (File.Exists(SaveFile))
                 {
+                    Debug.Log($"[PsychSudokuSave] File Exists: {SaveFile}");
                     string jText = File.ReadAllText(SaveFile);
+
+                    Debug.Log($"[PsychSudokuSave] Attempting deserialize with jText length of {jText.Length}");
                     return JsonConvert.DeserializeObject<PsychSudokuSave>(jText);
                 }
             }
             catch(Exception ex)
             {
-                Debug.LogError($"Exception while trying to write save to `{SaveFile}`\n{ex.Message}\n\n{ex.StackTrace}");
+                Debug.LogError($"Exception while trying to read save from `{SaveFile}`\n{ex.Message}\n\n{ex.StackTrace}");
             }
 
             return null;

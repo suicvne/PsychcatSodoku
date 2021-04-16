@@ -65,9 +65,8 @@ namespace IgnoreSolutions.PsychSodoku
                 {
                     var currentSave = PsychSaveManager.p_Instance.GetCurrentSave();
 
-                    currentSave._SaveStateInformation._IsValidSaveState = false;
-
-                    PsychSudokuSave.WriteSaveJSON(currentSave);
+                    //currentSave._SaveStateInformation._IsValidSaveState = false;
+                    //PsychSudokuSave.WriteSaveJSON(currentSave);
                 }
             }
         }

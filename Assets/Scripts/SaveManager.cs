@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace IgnoreSolutions
 {
+
     public abstract class SaveManager<T> : Singleton<SaveManager<T>>
     {
         [SerializeField] internal int _SelectedSave;

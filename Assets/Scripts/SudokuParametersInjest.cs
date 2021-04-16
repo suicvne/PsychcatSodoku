@@ -43,7 +43,7 @@ namespace IgnoreSolutions.PsychSodoku
             {
                 SudokuParametersInjest_OnCurSaveHasSaveState(PsychSaveManager.p_Instance.GetCurrentSave());
             }
-            else Debug.LogWarning($"[SudokuParametersInjest] No PsychSaveManager instance yet.");
+            else Debug.LogWarning($"[SudokuParametersInjest] No PsychSaveManager instance yet OR no valid state.");
 
             DontDestroyOnLoad(gameObject);
         }
