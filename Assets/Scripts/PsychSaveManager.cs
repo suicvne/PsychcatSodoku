@@ -29,7 +29,11 @@ namespace IgnoreSolutions.PsychSodoku
             if(save != null)
             {
                 PsychSudokuSaveSerializer.WriteSudokuSave(save, Path.Combine(ApplicationSavePath, "state.txt"));
-                PsychSudokuSaveSerializer.ReadSudokuSave(Path.Combine(ApplicationSavePath, "state.txt"));
+                var alternateSave = PsychSudokuSaveSerializer.ReadSudokuSave(Path.Combine(ApplicationSavePath, "state.txt"), _LevelList);
+                if(alternateSave != null)
+                {
+                    Debug.Log($"Congratulations! New Save System works!");
+                }
 
                 Debug.Log($"[PsychSaveManager {gameObject.name}] Loaded save: {save}. Last Completed Level Index: {save._LastCompletedLevel}");
                 _LoadedSaves = new PsychSudokuSave[1];
