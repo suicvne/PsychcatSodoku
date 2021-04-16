@@ -49,6 +49,7 @@ namespace IgnoreSolutions
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
+            SetInstance(this);
 
             if (!Directory.Exists(SaveManager<T>.ApplicationSavePath))
             {

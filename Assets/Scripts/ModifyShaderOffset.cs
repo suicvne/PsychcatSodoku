@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -692,6 +693,33 @@ public class ModifyShaderOffset : MonoBehaviour
         _AnimationPending = false;
     }
 
+    private static bool HasPreviouslyFilledValue(SodukoGriidSpot gridSpot)
+    {
+        if(PsychSaveManager.InstanceNull() == false)
+        {
+            var _CurrentSave = PsychSaveManager.p_Instance.GetCurrentSave();
+
+            GridSpotInformation? value = _CurrentSave._SaveStateInformation._PlayerModifiedGridSpots
+                .FirstOrDefault(x => x._IndexOnGrid == gridSpot._LevelIndex);
+            if(value.HasValue)
+            {
+                if (value.Value._FilledValue != 0)
+                    gridSpot._SquareFilledValue = value.Value._FilledValue;
+                if (value.Value._PossibleNumbers != null
+                    && value.Value._PossibleNumbers.Length > 0)
+                    gridSpot.PossibleNumbers.AddRange(value.Value._PossibleNumbers);
+
+                return true;
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Skipping value check of {gridSpot} because the PsychSaveManager instance is null.");
+        }
+
+        return false;
+    }
+
     void Regenerate()
     {
         if(_CurrentLevelData == null)
@@ -733,6 +761,14 @@ public class ModifyShaderOffset : MonoBehaviour
                 {
                     SetSelectionLocationToTappedSpot(_gridSpot);
                 });
+
+                // SAVE STATE LOAD INFO
+                if(_GameShouldRestoreState
+                    && HasPreviouslyFilledValue(newTile))
+                {
+                    Debug.Log($"[ModifyShaderOffset] {newTile} has previously filled value.");
+                }
+                // END SAVE STATE LOAD INFO
 
                 MeshRenderer mr = newTile.GetComponent<MeshRenderer>();
                 MeshFilter mf = newTile.GetComponent<MeshFilter>();

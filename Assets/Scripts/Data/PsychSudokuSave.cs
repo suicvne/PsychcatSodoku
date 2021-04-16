@@ -200,7 +200,11 @@ namespace IgnoreSolutions.PsychSodoku
         {
             try
             {
-                File.WriteAllText(SaveFile, JsonConvert.SerializeObject(save));
+                File.WriteAllText
+                (
+                    SaveFile,
+                    JsonConvert.SerializeObject(save, Formatting.Indented)
+                );
                 return true;
             }
             catch(Exception ex)

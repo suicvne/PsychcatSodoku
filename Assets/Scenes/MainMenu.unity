@@ -1605,7 +1605,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &389858030
@@ -1737,8 +1737,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (0.0, 0.0)
-    _ReferenceAspectRatio: {x: 1105, y: 603}
+    name: (936.0, 571.0)
+    _ReferenceAspectRatio: {x: 936, y: 571}
     _SizeDelta: {x: 651.8, y: 691.1}
     _AnchoredPosition: {x: -394.4, y: -10.8}
     _AnchorMin: {x: 1, y: 0.5}
@@ -2743,10 +2743,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb24bb9d0a734e0f9ae55d5b8424c40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _SceneSwitcher: {fileID: 720786712}
   _LevelList: {fileID: 11400000, guid: 521f4ecd8134947838e870b582d62df8, type: 2}
   _LevelToLoad: {fileID: 0}
   _LevelIndex: 0
   _Difficulty: 0
+  _ShouldRestoreFromCurSaveState: 0
 --- !u!4 &580119228
 Transform:
   m_ObjectHideFlags: 0
@@ -8103,7 +8105,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1881025908
@@ -9404,8 +9406,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Properties:
-    name: (0.0, 0.0)
-    _ReferenceAspectRatio: {x: 1105, y: 603}
+    name: (936.0, 571.0)
+    _ReferenceAspectRatio: {x: 936, y: 571}
     _SizeDelta: {x: 2249.8, y: 762.6}
     _AnchoredPosition: {x: 527, y: 18.8}
     _AnchorMin: {x: 0, y: 0.5}

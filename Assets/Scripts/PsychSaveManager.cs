@@ -17,6 +17,7 @@ namespace IgnoreSolutions.PsychSodoku
         public delegate void SaveHasSaveState(PsychSudokuSave save);
         public event SaveHasSaveState OnCurSaveHasSaveState;
 
+
         public override void ReloadTrackedSaves()
         {
             ClearTrackedSaves();

@@ -26,6 +26,7 @@ namespace IgnoreSolutions.PsychSodoku
                 {
                     Debug.Log($"[SuspendGameState] Valid Save State! {_CurrentSave._SaveStateInformation}");
                     _HadValidStateOnStart = true;
+                    SetBackGameState(_CurrentSave);
                 }
                 else
                 {
@@ -51,6 +52,22 @@ namespace IgnoreSolutions.PsychSodoku
             _SudokuBoard._GameShouldRestoreState = true;
             _SudokuBoard.SetLevelInformation(SudokuParametersInjest.p_Instance.GetLevel(),
                 SudokuParametersInjest.p_Instance.GetDifficulty());
+        }
+
+        public void Handle_BoardFinishedGenerating()
+        {
+            if (_EnabledAndWorking && _HadValidStateOnStart)
+            {
+                // Set valid save state to false and save the game
+                if (PsychSaveManager.InstanceNull() == false)
+                {
+                    var currentSave = PsychSaveManager.p_Instance.GetCurrentSave();
+
+                    currentSave._SaveStateInformation._IsValidSaveState = false;
+
+                    PsychSudokuSave.WriteSaveJSON(currentSave);
+                }
+            }
         }
 
         void GetReferences()
