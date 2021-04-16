@@ -28,6 +28,9 @@ namespace IgnoreSolutions.PsychSodoku
 
             if(save != null)
             {
+                PsychSudokuSaveSerializer.WriteSudokuSave(save, Path.Combine(ApplicationSavePath, "state.txt"));
+                PsychSudokuSaveSerializer.ReadSudokuSave(Path.Combine(ApplicationSavePath, "state.txt"));
+
                 Debug.Log($"[PsychSaveManager {gameObject.name}] Loaded save: {save}. Last Completed Level Index: {save._LastCompletedLevel}");
                 _LoadedSaves = new PsychSudokuSave[1];
                 _LoadedSaves[0] = save;
@@ -46,11 +49,14 @@ namespace IgnoreSolutions.PsychSodoku
                     Debug.Log($"[PsychSaveManager {gameObject.name}] No saves found to load.");
                     save = PsychSudokuSave.Default(_LevelList);
                     bool success = PsychSudokuSave.WriteSaveJSON(save);
-                    if (success == false)
-                    {
-                        ReloadTrackedSaves();
-                    }
-                    else Debug.LogError($"Failed to write save to JSON. Unknown reasons why."); 
+
+                    // TODO: Test AOT deserialization and THEN re-enable this.
+                    //if (success == false)
+                    //{
+                    //    Debug.LogError($"Failed to write save to JSON. Unknown reasons why.");
+                        
+                    //}
+                    //else ReloadTrackedSaves();
                 }
                 catch(Exception ex)
                 {

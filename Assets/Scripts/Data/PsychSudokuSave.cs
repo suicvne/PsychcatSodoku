@@ -15,10 +15,8 @@ namespace IgnoreSolutions.PsychSodoku
         public int LevelIndex;
         public bool _LevelCompletedOnce;
 
-        //public Dictionary<PlayDifficulty, double[]> _BestTimes;
-        
-
-        //public Dictionary<PlayDifficulty, int[]> _BestScores;
+        public Dictionary<PlayDifficulty, double[]> _BestTimes;
+        public Dictionary<PlayDifficulty, int[]> _BestScores;
         
 
 
@@ -30,16 +28,16 @@ namespace IgnoreSolutions.PsychSodoku
                 _LevelCompletedOnce = false
             };
 
-            //lsi._BestTimes = new Dictionary<PlayDifficulty, double[]>();
-            //lsi._BestTimes.Add(PlayDifficulty.EASY, new double[5]);
-            //lsi._BestTimes.Add(PlayDifficulty.MEDIUM, new double[5]);
-            //lsi._BestTimes.Add(PlayDifficulty.HARD, new double[5]);
+            lsi._BestTimes = new Dictionary<PlayDifficulty, double[]>();
+            lsi._BestTimes.Add(PlayDifficulty.EASY, new double[5]);
+            lsi._BestTimes.Add(PlayDifficulty.MEDIUM, new double[5]);
+            lsi._BestTimes.Add(PlayDifficulty.HARD, new double[5]);
 
-            //lsi._BestScores = new Dictionary<PlayDifficulty, int[]>();
+            lsi._BestScores = new Dictionary<PlayDifficulty, int[]>();
 
-            //lsi._BestScores.Add(PlayDifficulty.EASY, new int[5]);
-            //lsi._BestScores.Add(PlayDifficulty.MEDIUM, new int[5]);
-            //lsi._BestScores.Add(PlayDifficulty.HARD, new int[5]);
+            lsi._BestScores.Add(PlayDifficulty.EASY, new int[5]);
+            lsi._BestScores.Add(PlayDifficulty.MEDIUM, new int[5]);
+            lsi._BestScores.Add(PlayDifficulty.HARD, new int[5]);
 
             return lsi;
         }
@@ -150,18 +148,18 @@ namespace IgnoreSolutions.PsychSodoku
 
             // Init stack with our existing times
 
-            //List<double> bestTimes = new List<double>(_LevelSaveInformation[levelIndex]._BestTimes[difficulty]);
+            List<double> bestTimes = new List<double>(_LevelSaveInformation[levelIndex]._BestTimes[difficulty]);
 
             // Push our new level complete time
-            //bestTimes.Add(levelCompleteTime);
+            bestTimes.Add(levelCompleteTime);
 
             // Order by lowest times first.
             // TODO: Does this happen?
             // Do I need to init some fake times to try and beat?
-            //bestTimes.OrderBy(x => x);
+            bestTimes.OrderBy(x => x);
 
             // Best Times
-            //_LevelSaveInformation[levelIndex]._BestTimes[difficulty] = bestTimes.ToArray();
+            _LevelSaveInformation[levelIndex]._BestTimes[difficulty] = bestTimes.ToArray();
 
             // Level completed at least once
             if(_LevelSaveInformation[levelIndex]._LevelCompletedOnce == false)
