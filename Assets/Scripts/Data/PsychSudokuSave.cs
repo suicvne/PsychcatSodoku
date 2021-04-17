@@ -196,7 +196,21 @@ namespace IgnoreSolutions.PsychSodoku
             return pss;
         }
 
-        public static bool WriteSaveJSON(PsychSudokuSave save)
+        public static bool WriteSave(PsychSudokuSave save, int method = 1)
+        {
+            switch(method)
+            {
+                case 0:
+                    return WriteSaveJSON(save);
+                case 1:
+                    PsychSudokuSaveSerializer.WriteSudokuSave(save, Path.Combine(ApplicationSavePath, "state.txt"));
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static bool WriteSaveJSON(PsychSudokuSave save)
         {
             Debug.Log($"[PsychSudokuSave] Write Save");
             try
@@ -227,16 +241,16 @@ namespace IgnoreSolutions.PsychSodoku
             {
                 if (File.Exists(SaveFile))
                 {
-                    Debug.Log($"[PsychSudokuSave] File Exists: {SaveFile}");
+                    //Debug.Log($"[PsychSudokuSave] File Exists: {SaveFile}");
                     string jText = File.ReadAllText(SaveFile);
 
-                    Debug.Log($"[PsychSudokuSave] Attempting deserialize with jText length of {jText.Length}");
+                    //Debug.Log($"[PsychSudokuSave] Attempting deserialize with jText length of {jText.Length}");
                     return JsonConvert.DeserializeObject<PsychSudokuSave>(jText);
                 }
             }
             catch(Exception ex)
             {
-                Debug.LogError($"Exception while trying to read save from `{SaveFile}`\n{ex.Message}\n\n{ex.StackTrace}");
+                //Debug.LogError($"Exception while trying to read save from `{SaveFile}`\n{ex.Message}\n\n{ex.StackTrace}");
             }
 
             return null;

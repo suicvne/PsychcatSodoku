@@ -117,7 +117,7 @@ public class ModifyShaderOffset : MonoBehaviour
                 SudokuParametersInjest.p_Instance.GetLevelList(),
                 GameTimeManager.p_Instance);
 
-            PsychSudokuSave.WriteSaveJSON(PsychSaveManager.p_Instance.GetCurrentSave());
+            PsychSudokuSave.WriteSave(PsychSaveManager.p_Instance.GetCurrentSave());
         }
         else
         {
@@ -538,7 +538,7 @@ public class ModifyShaderOffset : MonoBehaviour
         if (PsychSaveManager.InstanceNull() == false)
         {
             var save = PsychSaveManager.p_Instance.GetCurrentSave();
-            bool saved = PsychSudokuSave.WriteSaveJSON(save);
+            bool saved = PsychSudokuSave.WriteSave(save);
             
             if(saved) Debug.Log($"Saved successfully.");
             else Debug.LogError(($"Unable to save?"));

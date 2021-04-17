@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using IgnoreSolutions.Sodoku;
 using UnityEngine;
 
@@ -93,9 +94,13 @@ namespace IgnoreSolutions.PsychSodoku
                 ((PsychSaveManager)PsychSaveManager.p_Instance).GetLevelList,
                 GameTimeManager.p_Instance);
 
-            PsychSudokuSave.WriteSaveJSON(_CurrentSave);
+            _CurrentSave._SaveStateInformation._IsValidSaveState = true;
 
-            Debug.Log($"[SuspendGameState] Wrote save state to JSON!");
+            PsychSudokuSave.WriteSave(_CurrentSave);
+
+            Debug.Log($"[SuspendGameState] Wrote save state!");
+
+            PsychSudokuSaveSerializer.DebugSave(Path.Combine(PsychSaveManager.ApplicationSavePath, "state.txt"));
         }
 
 

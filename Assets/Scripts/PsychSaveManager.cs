@@ -24,17 +24,18 @@ namespace IgnoreSolutions.PsychSodoku
             ClearTrackedSaves();
             Debug.Log($"[PsychSaveManager {gameObject.name}] Save Format Version: {_ClientVersionNumber.ToString()} {_ClientVersionNumber.ToLong()}");
 
-            var save = PsychSudokuSave.ReadSaveFromJSON();
+            //var save = PsychSudokuSave.ReadSaveFromJSON();
+            var jsonSave = PsychSudokuSave.ReadSaveFromJSON();
+            var save = PsychSudokuSaveSerializer.ReadSudokuSave(Path.Combine(ApplicationSavePath, "state.txt"), _LevelList);
 
-            if(save != null)
+            if(save == null && jsonSave != null)
             {
-                PsychSudokuSaveSerializer.WriteSudokuSave(save, Path.Combine(ApplicationSavePath, "state.txt"));
-                var alternateSave = PsychSudokuSaveSerializer.ReadSudokuSave(Path.Combine(ApplicationSavePath, "state.txt"), _LevelList);
-                if(alternateSave != null)
-                {
-                    Debug.Log($"Congratulations! New Save System works!");
-                }
-
+                Debug.Log($"[PsychSaveManager] Upgrading JSON save to new save format.");
+                PsychSudokuSaveSerializer.WriteSudokuSave(jsonSave, Path.Combine(ApplicationSavePath, "state.txt"));
+                File.Move(Path.Combine(ApplicationSavePath, "state.json"), Path.Combine(ApplicationSavePath, "state.json.bak"));
+            }
+            else if (save != null)
+            {
                 Debug.Log($"[PsychSaveManager {gameObject.name}] Loaded save: {save}. Last Completed Level Index: {save._LastCompletedLevel}");
                 _LoadedSaves = new PsychSudokuSave[1];
                 _LoadedSaves[0] = save;
@@ -52,15 +53,15 @@ namespace IgnoreSolutions.PsychSodoku
                 {
                     Debug.Log($"[PsychSaveManager {gameObject.name}] No saves found to load.");
                     save = PsychSudokuSave.Default(_LevelList);
-                    bool success = PsychSudokuSave.WriteSaveJSON(save);
+                    bool success = PsychSudokuSave.WriteSave(save);
 
                     // TODO: Test AOT deserialization and THEN re-enable this.
-                    //if (success == false)
-                    //{
-                    //    Debug.LogError($"Failed to write save to JSON. Unknown reasons why.");
-                        
-                    //}
-                    //else ReloadTrackedSaves();
+                    if (success == false)
+                    {
+                        Debug.LogError($"Failed to write save to JSON. Unknown reasons why.");
+
+                    }
+                    else ReloadTrackedSaves();
                 }
                 catch(Exception ex)
                 {

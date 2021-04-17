@@ -10,8 +10,24 @@ using static ModifyShaderOffset;
 
 public static class PsychSudokuSaveSerializer
 {
+
+    public static void DebugSave(string path)
+    {
+#if UNITY_IOS
+        string fullText = File.ReadAllText(path);
+        UnityEngine.Debug.Log(path);
+        UnityEngine.Debug.Log(fullText);
+#endif
+    }
+
     public static PsychSudokuSave ReadSudokuSave(string path, LevelList levelList = null)
     {
+        if(!File.Exists(path)) return null;
+
+#if UNITY_IOS
+        DebugSave(path);
+#endif
+
         using (FileStream fs = File.OpenRead(path))
         {
             using(StreamReader sr = new StreamReader(fs, Encoding.UTF8))
