@@ -1,5 +1,6 @@
 # Excluding builds
 BUILD/
+build*/
 build_macos/
 
 # This .gitignore file should be placed at the root of your Unity project directory
