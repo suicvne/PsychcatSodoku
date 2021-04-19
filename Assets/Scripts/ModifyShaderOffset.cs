@@ -762,11 +762,13 @@ namespace IgnoreSolutions.PsychSodoku
                     // "Debug Value" For now. This will have to be changed later.
                     Cell sudokuCell = GetCellAt(x, y);
                     bool _revealed = IsCellRevealedForCurrentDifficulty(x, y);
+                    
                     newTile.DebugValue = sudokuCell.Value;
                     newTile._SquareSolution = newTile.DebugValue;
                     newTile._LevelIndex = sudokuCell.Index;
                     newTile._SquareGroupNo = sudokuCell.GroupNo;
                     newTile._SquareFilledValue = _revealed ? sudokuCell.Value : -1;
+                    newTile._AllowInputEvents = !_revealed;
                     newTile.SetCanBeSelected(!_revealed);
                     newTile._OnGridSpotTapped = new UnityEvent<SodukoGriidSpot>();
                     newTile._OnGridSpotTapped?.AddListener((_gridSpot) =>
@@ -914,7 +916,8 @@ namespace IgnoreSolutions.PsychSodoku
 
                 if (_SelectedIndex >= 0)
                 {
-                    if (GetGridSpots()[_SelectedIndex]._CanBeSelected == true &&
+                    if (GetGridSpots()[_SelectedIndex]._AllowInputEvents == true &&
+                        GetGridSpots()[_SelectedIndex]._CanBeSelected == true &&
                         Input.GetButtonDown("Submit") &&
                         !_NumbersInput.inProgress)
                     {

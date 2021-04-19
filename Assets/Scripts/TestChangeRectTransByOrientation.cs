@@ -36,6 +36,8 @@ namespace IgnoreSolutions.PsychSodoku
         Vector2 _LastResolution = new Vector2();
         Vector2 _CurrentResolution = new Vector2();
 
+        public Orientation GetOrientation => _CurrentOrientation;
+
         //public enum Orientation
         //{
         //    Portrait,

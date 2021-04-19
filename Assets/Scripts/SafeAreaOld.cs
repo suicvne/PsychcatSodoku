@@ -1,14 +1,15 @@
-//#define DEBUG
+
 
 using UnityEngine;
 
+[System.Obsolete]
 [RequireComponent(typeof(RectTransform))]
-public class SafeArea : MonoBehaviour {
+public class SafeAreaOld : MonoBehaviour {
 
     private RectTransform safeAreaRect;
     private Canvas canvas;
     private Rect lastSafeArea;
-
+#if F
     void OnEnable() {
         safeAreaRect = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
@@ -43,5 +44,6 @@ public class SafeArea : MonoBehaviour {
         #else
             return Screen.safeArea;
         #endif
-    } 
+    }
+#endif
 }
