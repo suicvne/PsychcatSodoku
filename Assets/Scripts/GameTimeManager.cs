@@ -20,6 +20,8 @@ namespace IgnoreSolutions.PsychSodoku
             StartTime = DateTime.Now.Ticks;
         }
 
+        public TimeSpan PeekPlayTime() => new TimeSpan((DateTime.Now.Ticks - StartTime));
+
         public TimeSpan GetPlayTime()
         {
             CompleteTime = DateTime.Now.Ticks;

@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using IgnoreSolutions.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace IgnoreSolutions.PsychSodoku
 {
@@ -12,28 +15,23 @@ namespace IgnoreSolutions.PsychSodoku
     /// the events from the PauseGameHandler.
     /// </summary>
     [RequireComponent(typeof(CanvasGroup))]
-    public class PauseMenuScripts : MonoBehaviour
+    public class PauseMenuScripts : IAnimatableCanvasGroup
     {
-        CanvasGroup _ThisCanvasGroup;
-        private bool _AnimationInProgress = false;
+        [Header("Primary Component References")]
+        [SerializeField] Text _PauseMenuInfo;
+        [Header("Other Component References")]
+        [SerializeField] ModifyShaderOffset _SudokuBoard;
+        [SerializeField] MessageBoxCanvas _MessageBox;
+        [SerializeField] SudokuParametersInjest _BoardParameters;
+
+        private string _TemplateText = null;
 
         private void Awake()
         {
-            _ThisCanvasGroup = GetComponent<CanvasGroup>();
-        }
+            if (_PauseMenuInfo != null)
+                _TemplateText = _PauseMenuInfo.text;
 
-        private void Start()
-        {
-            if(_ThisCanvasGroup == null)
-            {
-                Debug.LogError($"[PauseMenuScripts] _ThisCanvasGroup is null.");
-            }
-            else
-            {
-                _ThisCanvasGroup.alpha = 0.0f;
-                _ThisCanvasGroup.blocksRaycasts = false;
-                _ThisCanvasGroup.interactable = false;
-            }
+            _BoardParameters = FindObjectOfType<SudokuParametersInjest>();
         }
 
         public void OnGamePaused(bool wasPaused, bool isCurrentlyPaused)
@@ -41,57 +39,47 @@ namespace IgnoreSolutions.PsychSodoku
             if (isCurrentlyPaused) Debug.Log($"[PauseMenuScripts] Showing pause menu.");
             else Debug.Log($"[PauseMenuScripts] Hiding pause menu.");
 
-            SetVisibleState(isCurrentlyPaused);
+            UpdatePauseMenuDetails();
+            SetCanvasGroupVisiblity(isCurrentlyPaused);
         }
 
-        public void SetVisibleState(bool visibleState)
+        private void UpdatePauseMenuDetails()
         {
-            if (_AnimationInProgress) return;
-
-            StartCoroutine(AnimateFade(visibleState));
-        }
-
-        /// <summary>
-        /// Animates the fading in and out of the Pause Menu based
-        /// on the visibleState variable.
-        ///
-        /// This is dependent on the panel you want to animate having a
-        /// CanvasGroup attached to it as it fades the alpha value in and out.
-        /// The CanvasGroup's .interactable and .blocksRaycasts values are then
-        /// set depending on the visibleState parameter.
-        /// </summary>
-        /// <param name="visibleState">
-        /// Should the pause menu be visible or not?
-        ///
-        /// If true, the alpha value will go from 0f -> 1.0f
-        /// indicating the panel is fading in.
-        ///
-        /// If false, the alpha value will go from 1.0f -> 0f
-        /// indicating the panel is already fading in.
-        /// </param>
-        /// <returns>Coroutine State</returns>
-        IEnumerator AnimateFade(bool visibleState)
-        {
-            _AnimationInProgress = true;
-            for (float f = 0f; f <= 1.0f; f += 1.0f * Time.fixedDeltaTime)
+            if(_PauseMenuInfo != null
+                && _TemplateText != null)
             {
-                float u_f = visibleState ? f : 1.0f - f;
-                _ThisCanvasGroup.alpha = u_f;
-                _ThisCanvasGroup.interactable = visibleState;
-                _ThisCanvasGroup.blocksRaycasts = visibleState;
+                int _currentLevelIndex = -1;
+                if (_BoardParameters != null)
+                    _currentLevelIndex = _BoardParameters.GetLevelIndex();
+                TimeSpan _currentPlayTime = GameTimeManager.p_Instance.PeekPlayTime();
+                PlayDifficulty _currentDifficulty = _SudokuBoard.GetLevelInformation().Item1;
 
-                yield return null;
+                _PauseMenuInfo.text =
+                    string.Format(_TemplateText,
+                        _currentLevelIndex == -1 ? "Unknown." : (_currentLevelIndex + 1).ToString(),
+                        $"{_currentPlayTime.Minutes.ToString("00")}:{_currentPlayTime.Seconds.ToString("00")}",
+                        _currentDifficulty.ToString()
+                    );
             }
+        }
 
-            // Validate the final state since floating point
-            // calculations are always unreliable.
-            _ThisCanvasGroup.alpha = visibleState ? 1.0f : 0.0f;
-            _ThisCanvasGroup.interactable = visibleState;
-            _ThisCanvasGroup.blocksRaycasts = visibleState;
-
-            _AnimationInProgress = false;
-
-            yield return null;
+        public void ShowConfirmationForReturnToMenu()
+        {
+            if(_MessageBox != null && _SudokuBoard != null)
+            {
+                _MessageBox.ShowMessageBox
+                (
+                    "Confirmation",
+                    "Are you sure you want to return to the main menu?\n\nProgress will not be saved.",
+                    (responseCode) =>
+                    {
+                        if(responseCode == 0)
+                        {
+                            _SudokuBoard.ReturnToMainMenu();
+                        }
+                    }
+                );
+            }
         }
     }
 }

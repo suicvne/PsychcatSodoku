@@ -895,6 +895,7 @@ GameObject:
   - component: {fileID: 85207646}
   - component: {fileID: 85207645}
   - component: {fileID: 85207644}
+  - component: {fileID: 85207647}
   m_Layer: 5
   m_Name: MessageBoxBG
   m_TagString: Untagged
@@ -972,6 +973,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 85207642}
   m_CullTransparentMesh: 1
+--- !u!114 &85207647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85207642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 526337dcec37642729798c7a72824891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _HeaderText: 
+  _MessageBodyText: 
+  _HeaderTextComponent: {fileID: 0}
+  _MessageBodyTextComponent: {fileID: 0}
 --- !u!1 &89457074
 GameObject:
   m_ObjectHideFlags: 0
@@ -6559,7 +6576,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1064516809}
   m_OnClick:
     m_PersistentCalls:
@@ -8795,6 +8812,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1420026506}
   - component: {fileID: 1420026505}
+  - component: {fileID: 1420026507}
   m_Layer: 0
   m_Name: PauseGameHandler
   m_TagString: SpecialSceneObjects
@@ -8856,6 +8874,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1420026507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420026504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46b7d4faefb14a4ab6b30c32041e5f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Enable: 1
+  _PauseReEnableDelay: 0.5
 --- !u!1 &1444357972
 GameObject:
   m_ObjectHideFlags: 0
@@ -11855,6 +11887,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b440defeb0424666b77e027bd051763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _SudokuBoard: {fileID: 234419784}
+  _MessageBox: {fileID: 85207647}
 --- !u!1 &1997589085
 GameObject:
   m_ObjectHideFlags: 0
@@ -12637,7 +12671,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2111206761}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1420026507}
+        m_TargetAssemblyTypeName: IgnoreSolutions.PsychSodoku.PauseInput, Assembly-CSharp
+        m_MethodName: CallPause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2111206761
 MonoBehaviour:
   m_ObjectHideFlags: 0
