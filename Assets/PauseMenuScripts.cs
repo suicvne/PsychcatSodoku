@@ -22,6 +22,20 @@ namespace IgnoreSolutions.PsychSodoku
             _ThisCanvasGroup = GetComponent<CanvasGroup>();
         }
 
+        private void Start()
+        {
+            if(_ThisCanvasGroup == null)
+            {
+                Debug.LogError($"[PauseMenuScripts] _ThisCanvasGroup is null.");
+            }
+            else
+            {
+                _ThisCanvasGroup.alpha = 0.0f;
+                _ThisCanvasGroup.blocksRaycasts = false;
+                _ThisCanvasGroup.interactable = false;
+            }
+        }
+
         public void OnGamePaused(bool wasPaused, bool isCurrentlyPaused)
         {
             if (isCurrentlyPaused) Debug.Log($"[PauseMenuScripts] Showing pause menu.");
