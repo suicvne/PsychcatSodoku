@@ -4,7 +4,6 @@ using IgnoreSolutions.PsychSodoku;
 using UnityEngine;
 using UnityEngine.UI;
 using static IgnoreSolutions.PsychSodoku.OrientationCanvasSwap;
-using static ModifyShaderOffset;
 
 public class CardAnimationScript : MonoBehaviour
 {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using IgnoreSolutions.Sodoku;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static ModifyShaderOffset;
 
 namespace IgnoreSolutions.PsychSodoku
 {

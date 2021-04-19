@@ -5,7 +5,6 @@ using System.Linq;
 using IgnoreSolutions.Sodoku;
 using Newtonsoft.Json;
 using UnityEngine;
-using static ModifyShaderOffset;
 
 namespace IgnoreSolutions.PsychSodoku
 {

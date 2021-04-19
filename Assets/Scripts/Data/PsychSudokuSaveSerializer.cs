@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using IgnoreSolutions.PsychSodoku;
 using IgnoreSolutions.Sodoku;
-using static ModifyShaderOffset;
 
 public static class PsychSudokuSaveSerializer
 {

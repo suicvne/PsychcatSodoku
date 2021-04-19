@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using IgnoreSolutions.Sodoku;
 using UnityEngine;
-using static ModifyShaderOffset;
 
 namespace IgnoreSolutions.PsychSodoku
 {
