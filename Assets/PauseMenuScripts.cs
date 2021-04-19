@@ -26,20 +26,25 @@ namespace IgnoreSolutions.PsychSodoku
 
         private string _TemplateText = null;
 
-        private void Awake()
+        public override void Awake()
         {
+            base.Awake();
+
             if (_PauseMenuInfo != null)
                 _TemplateText = _PauseMenuInfo.text;
 
             _BoardParameters = FindObjectOfType<SudokuParametersInjest>();
+
+            _ThisCanvasGroup.alpha = 0f;
+            _ThisCanvasGroup.interactable = false;
+            _ThisCanvasGroup.blocksRaycasts = false;
         }
 
         public void OnGamePaused(bool wasPaused, bool isCurrentlyPaused)
         {
-            if (isCurrentlyPaused) Debug.Log($"[PauseMenuScripts] Showing pause menu.");
+            if (isCurrentlyPaused) UpdatePauseMenuDetails();
             else Debug.Log($"[PauseMenuScripts] Hiding pause menu.");
 
-            UpdatePauseMenuDetails();
             SetCanvasGroupVisiblity(isCurrentlyPaused);
         }
 

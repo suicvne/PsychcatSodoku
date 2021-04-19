@@ -704,9 +704,12 @@ namespace IgnoreSolutions.PsychSodoku
 
         private static bool HasPreviouslyFilledValue(SodukoGriidSpot gridSpot)
         {
+            
+
             if (PsychSaveManager.InstanceNull() == false)
             {
                 var _CurrentSave = PsychSaveManager.p_Instance.GetCurrentSave();
+                if (_CurrentSave._SaveStateInformation._PlayerModifiedGridSpots == null) return false;
 
                 GridSpotInformation? value = _CurrentSave._SaveStateInformation._PlayerModifiedGridSpots
                     .FirstOrDefault(x => x._IndexOnGrid == gridSpot._LevelIndex);

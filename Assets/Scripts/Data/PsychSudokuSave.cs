@@ -69,7 +69,7 @@ namespace IgnoreSolutions.PsychSodoku
                 + $"Last Level Index: {_LastLevelIndex}\n"
                 + $"Last Level Time (seconds): {_LastLevelTime}\n"
                 + $"Last Level Difficulty: {_LastLevelDifficulty}\n"
-                + $"Player Modified Grid Spot Count: {_PlayerModifiedGridSpots.Length}");
+                + $"Player Modified Grid Spot Count: {(_PlayerModifiedGridSpots != null ? _PlayerModifiedGridSpots.Length.ToString() : "0 (null)")}");
         }
 
         public GridSpotInformation? GetSerializedInfoByIndex(int index)

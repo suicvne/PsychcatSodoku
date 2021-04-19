@@ -4,15 +4,29 @@ using UnityEngine;
 
 namespace IgnoreSolutions.UI
 {
+    [RequireComponent(typeof(CanvasGroup))]
     public abstract class IAnimatableCanvasGroup : MonoBehaviour
     {
-        protected internal CanvasGroup _ThisCanvasGroup;
-        protected internal bool _AnimationInProgress = false;
-        protected internal bool _IsVisible = false;
+        [Header("Animatable Canvas Group")]
+        [SerializeField]  internal CanvasGroup _ThisCanvasGroup;
+        [SerializeField]  internal bool _AnimationInProgress = false;
+        [SerializeField]  internal bool _IsVisible = false;
+
+        public virtual void Awake()
+        {
+            _ThisCanvasGroup = GetComponent<CanvasGroup>();
+
+            if (_ThisCanvasGroup != null)
+            {
+                _ThisCanvasGroup.alpha = 0.0f;
+                _ThisCanvasGroup.interactable = false;
+                _ThisCanvasGroup.blocksRaycasts = false;
+            }
+        }
 
         public virtual void Start()
         {
-            if(_ThisCanvasGroup != null)
+            if (_ThisCanvasGroup != null)
             {
                 _ThisCanvasGroup.alpha = 0.0f;
                 _ThisCanvasGroup.interactable = false;
@@ -22,6 +36,7 @@ namespace IgnoreSolutions.UI
 
         public virtual void SetCanvasGroupVisiblity(bool visibility)
         {
+            if (_ThisCanvasGroup == null) return;
             if (_AnimationInProgress) return;
 
             StartCoroutine(AnimateCanvasGroupVisibilityChange(visibility));

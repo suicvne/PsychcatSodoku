@@ -94,12 +94,15 @@ namespace IgnoreSolutions.PsychSodoku
                 ((PsychSaveManager)PsychSaveManager.p_Instance).GetLevelList,
                 GameTimeManager.p_Instance);
 
-            _CurrentSave._SaveStateInformation._IsValidSaveState = true;
+            if(_CurrentSave._SaveStateInformation._PlayerModifiedGridSpots != null
+                && _CurrentSave._SaveStateInformation._PlayerModifiedGridSpots.Length > 0)
+            {
+                _CurrentSave._SaveStateInformation._IsValidSaveState = true;
+                Debug.Log($"[SuspendGameState] Wrote save state!");
+            }
+            
 
             PsychSudokuSave.WriteSave(_CurrentSave);
-
-            Debug.Log($"[SuspendGameState] Wrote save state!");
-
             PsychSudokuSaveSerializer.DebugSave(Path.Combine(PsychSaveManager.ApplicationSavePath, "state.txt"));
         }
 
